@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "description": "A Node-RED node to communicate with Mopidy",
   "scripts": {
-    "postinstall" : "gulp build"
+    "postinstall": "gulp build"
   },
   "repository": {
     "type": "git",
@@ -38,5 +38,6 @@
     "run-sequence": "^1.1.4"
   },
   "devDependencies": {
+    "gulp-eslint": "^1.0.0"
   }
 }

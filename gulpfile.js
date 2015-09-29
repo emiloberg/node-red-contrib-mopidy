@@ -5,6 +5,7 @@ var runSequence		= require('run-sequence');
 var debug			= require('gulp-debug');
 var mergeStream		= require('merge-stream');
 var watch			= require('gulp-watch');
+var eslint 			= require('gulp-eslint');
 
 var options = {
 	destination: './mopidy',
@@ -12,14 +13,17 @@ var options = {
 	nonJSResources: 'src/*.html'
 };
 
-
+gulp.task('lint', function () {
+	return gulp.src(options.es6source)
+		.pipe(eslint())
+		.pipe(eslint.format());
+});
 
 gulp.task('build', function(callback) {
 	runSequence('_build-clean',
 		['_move-resources', '_compile_es'],
 		callback);
 });
-
 
 gulp.task('watch', function() {
 	watch(options.es6source)
@@ -33,7 +37,6 @@ gulp.task('watch', function() {
 		.pipe(debug({title: 'Moving Resource:'}))
 		.pipe(gulp.dest(options.destination));
 });
-
 
 gulp.task('_build-clean', function() {
 	return del([options.destination]);
@@ -53,4 +56,3 @@ gulp.task('_move-resources', function() {
 		.pipe(debug({title: 'Moving Resource:'}))
 		.pipe(gulp.dest(options.destination));
 });
-
