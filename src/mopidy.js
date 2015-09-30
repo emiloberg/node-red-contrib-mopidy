@@ -12,6 +12,54 @@
  * limitations under the License.
  **/
 
+import apiViewModel from './lib/apiViewModel';
+
+var Mopidy = require("mopidy");
+
+var fs = require('fs');
+
+var mopidy = new Mopidy({
+	webSocketUrl: "ws://pi-speaker-one.local:6680/mopidy/ws/",
+	callingConvention: "by-position-or-by-name"
+});
+
+var api;
+
+
+const redmopidy = {
+
+} ;
+
+mopidy.on("state:online", function () {
+
+	console.log('IZ ONLINE');
+
+	mopidy._send({method: "core.describe"})
+		.then(function (data) {
+			//fs.writeFile('mopidy.json', JSON.stringify(data), function (err) {
+			//	if (err) throw err;
+			//	console.log('It\'s saved!');
+			//});
+
+			apiViewModel.add(data);
+
+
+			//console.dir(apiViewModel.getCategories());
+			console.dir(apiViewModel.getMethods());
+			//console.dir(apiViewModel.getMethods({category: 'get_version'}));
+			//console.log(require('util').inspect(apiViewModel.getMethods({category: 'tracklist', method: 'filter'}), { showHidden: true, depth: null, colors: true }));
+
+
+
+	});
+
+
+
+});
+
+
+
+
 module.exports = function(RED) {
     "use strict";
 

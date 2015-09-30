@@ -6,12 +6,19 @@ var debug			= require('gulp-debug');
 var mergeStream		= require('merge-stream');
 var watch			= require('gulp-watch');
 var eslint 			= require('gulp-eslint');
+var mocha 			= require('gulp-mocha');
 
 var options = {
 	destination: './mopidy',
-	es6source: 'src/*.js',
-	nonJSResources: 'src/*.html'
+	es6source: ['src/*.js', 'src/**/*.js'],
+	nonJSResources: 'src/*.html',
+	tests: ['test/*.js', 'test/**/*.js']
 };
+
+gulp.task('test', function () {
+	return gulp.src(options.tests, {read: false})
+		.pipe(mocha({reporter: 'spec'}));
+});
 
 gulp.task('lint', function () {
 	return gulp.src(options.es6source)
