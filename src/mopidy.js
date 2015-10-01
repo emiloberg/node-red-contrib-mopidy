@@ -12,50 +12,32 @@
  * limitations under the License.
  **/
 
-import apiViewModel from './lib/apiViewModel';
+import api from './lib/api';
+var Promise = require('promise');
 
-var Mopidy = require("mopidy");
 
 var fs = require('fs');
 
-var mopidy = new Mopidy({
-	webSocketUrl: "ws://pi-speaker-one.local:6680/mopidy/ws/",
-	callingConvention: "by-position-or-by-name"
-});
-
-var api;
-
-
-const redmopidy = {
-
-} ;
-
-mopidy.on("state:online", function () {
-
-	console.log('IZ ONLINE');
-
-	mopidy._send({method: "core.describe"})
-		.then(function (data) {
-			//fs.writeFile('mopidy.json', JSON.stringify(data), function (err) {
-			//	if (err) throw err;
-			//	console.log('It\'s saved!');
-			//});
-
-			apiViewModel.add(data);
-
-
-			//console.dir(apiViewModel.getCategories());
-			console.dir(apiViewModel.getMethods());
-			//console.dir(apiViewModel.getMethods({category: 'get_version'}));
-			//console.log(require('util').inspect(apiViewModel.getMethods({category: 'tracklist', method: 'filter'}), { showHidden: true, depth: null, colors: true }));
 
 
 
+
+api.mopidy.on("state:online", function () {
+	api.initApi()
+	.then((msg) => {
+		// Set green okay color here
+	})
+	.catch((err) => {
+		// Set red not okay color, and log err msg
 	});
-
-
-
 });
+
+
+//console.dir(api.getCategories());
+// console.dir(api.getMethods());
+//console.dir(api.getMethods({category: 'get_version'}));
+//console.log(require('util').inspect(api.getMethods({category: 'tracklist', method: 'filter'}), { showHidden: true, depth: null, colors: true }));
+
 
 
 

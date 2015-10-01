@@ -4,7 +4,8 @@
   "description": "A Node-RED node to communicate with Mopidy",
   "scripts": {
     "postinstall": "gulp build",
-    "test": "mocha"
+    "test": "./node_modules/.bin/mocha --recursive --grep 'MopidyConnected' --invert",
+    "test-all": "./node_modules/.bin/mocha --recursive"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "gulp-watch": "^4.3.5",
     "merge-stream": "^1.0.0",
     "mopidy": "^0.5.0",
+    "promise": "^7.0.4",
     "run-sequence": "^1.1.4"
   },
   "devDependencies": {
