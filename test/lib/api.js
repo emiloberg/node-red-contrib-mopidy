@@ -56,6 +56,8 @@ describe('API', function(){
 
 	describe('MopidyConnected: When given a connected Mopidy', function(){
 
+		var allMethodsLength = 0;
+
 		before(function() {
 			this.timeout(10000);
 			return api.initApi();
@@ -73,6 +75,7 @@ describe('API', function(){
 
 		it('should get all methods', function() {
 			var methods = api.getMethods();
+			allMethodsLength = methods.length;
 			methods.should.be.an('array');
 			methods.should.have.length.above(50);
 			methods.should.all.have.property('method');
@@ -85,6 +88,7 @@ describe('API', function(){
 			var methods = api.getMethods({ category: 'tracklist' });
 			methods.should.be.an('array');
 			methods.should.have.length.above(10);
+			methods.should.have.length.below(allMethodsLength);
 			methods.should.all.have.property('method');
 			methods.should.all.have.property('category');
 			methods.should.all.have.property('description');
