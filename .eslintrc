@@ -5,7 +5,8 @@
         "node": true,
     	"es6": true
     },
-    "ecmaFeatures": { 
+    "ecmaFeatures": {
+        "modules": true
     },
     "rules": {
         "quotes": [1, "single", "avoid-escape"],
