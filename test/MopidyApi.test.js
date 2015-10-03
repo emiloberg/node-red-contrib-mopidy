@@ -62,7 +62,7 @@ describe('API', function(){
 
 	});
 
-	describe('MopidyConnected: When given a connected Mopidy', function(){
+	describe('MopidyConnected: When given a real Mopidy server, should connect to it and', function(){
 
 		var allMethodsLength = 0;
 

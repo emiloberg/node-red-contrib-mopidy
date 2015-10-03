@@ -7,9 +7,9 @@ const servers = require('../mopidy/lib/models/servers');
 
 var utils = require('../mopidy/lib/utils/utils');
 
-describe('Server', function(){
+describe('Servers', function(){
 
-	describe('When given data', function(){
+	describe('When given server details', function(){
 
 		const SERVER_ONE = {
 			host: 'localhost',
