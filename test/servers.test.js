@@ -51,14 +51,17 @@ describe('Servers', function(){
 
 		it('should check with id that first server exists', function() {
 			const exist = servers.exists({ id: SERVER_ONE_ID });
+			exist.should.equal(true);
 		});
 
 		it('should check with host and port that first server exists', function() {
 			const exist = servers.exists({ host: SERVER_ONE.host, port: SERVER_ONE.port });
+			exist.should.equal(true);
 		});
 
-		it('should check that server does not exists', function() {
+		it('should check that non existing server does not exists', function() {
 			const exist = servers.exists({ id: 'does.not.exist:1234' });
+			exist.should.equal(false);
 		});
 
 		it('should not add a server with wrong data', function() {
