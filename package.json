@@ -3,12 +3,12 @@
   "version": "1.2.0",
   "description": "A Node-RED node to communicate with Mopidy",
   "scripts": {
-    "postinstall": "./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./src",
-    "test": "./node_modules/.bin/mocha --recursive --grep 'MopidyConnected' --invert",
-    "test-all": "./node_modules/.bin/mocha --recursive",
-    "lint": "./node_modules/.bin/eslint ./src",
-    "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./src",
-    "clean-build": "./node_modules/.bin/rimraf mopidy; ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./src"
+    "postinstall": "./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
+    "test": "./node_modules/.bin/mocha --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register",
+    "test-all": "./node_modules/.bin/mocha --recursive --compilers js:babel/register",
+    "lint": "./node_modules/.bin/eslint ./lib",
+    "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
+    "clean-build": "./node_modules/.bin/rimraf mopidy; ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,8 @@
   ],
   "node-red": {
     "nodes": {
-      "file-function": "mopidy/mopidy.js"
+      "mopidy-out": "mopidy/mopidy-out.js",
+      "mopidy-config": "mopidy/mopidy-config.js"
     }
   },
   "author": {
@@ -35,9 +36,12 @@
   "homepage": "https://github.com/emiloberg/node-red-contrib-advanced-mopidy",
   "dependencies": {
     "babel": "^5.8.23",
+    "eyes": "^0.1.8",
     "mopidy": "^0.5.0",
     "promise": "^7.0.4",
-    "rimraf": "^2.4.3"
+    "rimraf": "^2.4.3",
+    "validator": "^4.0.6",
+    "winston": "^1.0.2"
   },
   "devDependencies": {
     "chai": "^3.3.0",

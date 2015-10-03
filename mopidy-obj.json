@@ -1,0 +1,1195 @@
+{ _console: 
+   { [_stdout]: 
+      { _connecting: false,
+        _handle: 
+         { fd: 1,
+           writeQueueSize: 0,
+           owner: [Circular],
+           onread: 
+            { [Function: onread]
+              [length]: 3,
+              [name]: 'onread',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } } },
+        _readableState: 
+         { highWaterMark: 16384,
+           buffer: [ [length]: 0 ],
+           length: 0,
+           pipes: null,
+           pipesCount: 0,
+           flowing: false,
+           ended: false,
+           endEmitted: false,
+           reading: false,
+           calledRead: false,
+           sync: true,
+           needReadable: false,
+           emittedReadable: false,
+           readableListening: false,
+           objectMode: false,
+           defaultEncoding: 'utf8',
+           ranOut: false,
+           awaitDrain: 0,
+           readingMore: false,
+           decoder: null,
+           encoding: null },
+        readable: false,
+        domain: null,
+        _events: 
+         { end: 
+            { [Function: g]
+              [length]: 0,
+              [name]: 'g',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] },
+              listener: 
+               { [Function: onend]
+                 [length]: 0,
+                 [name]: 'onend',
+                 [arguments]: null,
+                 [caller]: null,
+                 [prototype]: { [constructor]: [Circular] } } },
+           finish: 
+            { [Function: onSocketFinish]
+              [length]: 0,
+              [name]: 'onSocketFinish',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           _socketEnd: 
+            { [Function: onSocketEnd]
+              [length]: 0,
+              [name]: 'onSocketEnd',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } } },
+        _maxListeners: 10,
+        _writableState: 
+         { highWaterMark: 16384,
+           objectMode: false,
+           needDrain: false,
+           ending: false,
+           ended: false,
+           finished: false,
+           decodeStrings: false,
+           defaultEncoding: 'utf8',
+           length: 0,
+           writing: false,
+           sync: true,
+           bufferProcessing: false,
+           onwrite: 
+            { [Function]
+              [length]: 1,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           writecb: null,
+           writelen: 0,
+           buffer: [ [length]: 0 ],
+           errorEmitted: false },
+        writable: true,
+        allowHalfOpen: false,
+        onend: null,
+        destroyed: false,
+        bytesRead: 0,
+        _bytesDispatched: 0,
+        _pendingData: null,
+        _pendingEncoding: '',
+        read: null,
+        _type: 'pipe',
+        fd: 1,
+        _isStdio: true,
+        destroySoon: 
+         { [Function]
+           [length]: 1,
+           [name]: '',
+           [arguments]: null,
+           [caller]: null,
+           [prototype]: { [constructor]: [Circular] } },
+        destroy: 
+         { [Function]
+           [length]: 1,
+           [name]: '',
+           [arguments]: null,
+           [caller]: null,
+           [prototype]: { [constructor]: [Circular] } } },
+     [_stderr]: 
+      { _connecting: false,
+        _handle: 
+         { fd: 2,
+           writeQueueSize: 0,
+           owner: [Circular],
+           onread: 
+            { [Function: onread]
+              [length]: 3,
+              [name]: 'onread',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } } },
+        _readableState: 
+         { highWaterMark: 16384,
+           buffer: [ [length]: 0 ],
+           length: 0,
+           pipes: null,
+           pipesCount: 0,
+           flowing: false,
+           ended: false,
+           endEmitted: false,
+           reading: false,
+           calledRead: false,
+           sync: true,
+           needReadable: false,
+           emittedReadable: false,
+           readableListening: false,
+           objectMode: false,
+           defaultEncoding: 'utf8',
+           ranOut: false,
+           awaitDrain: 0,
+           readingMore: false,
+           decoder: null,
+           encoding: null },
+        readable: false,
+        domain: null,
+        _events: 
+         { end: 
+            { [Function: g]
+              [length]: 0,
+              [name]: 'g',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] },
+              listener: 
+               { [Function: onend]
+                 [length]: 0,
+                 [name]: 'onend',
+                 [arguments]: null,
+                 [caller]: null,
+                 [prototype]: { [constructor]: [Circular] } } },
+           finish: 
+            { [Function: onSocketFinish]
+              [length]: 0,
+              [name]: 'onSocketFinish',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           _socketEnd: 
+            { [Function: onSocketEnd]
+              [length]: 0,
+              [name]: 'onSocketEnd',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } } },
+        _maxListeners: 10,
+        _writableState: 
+         { highWaterMark: 16384,
+           objectMode: false,
+           needDrain: false,
+           ending: false,
+           ended: false,
+           finished: false,
+           decodeStrings: false,
+           defaultEncoding: 'utf8',
+           length: 0,
+           writing: false,
+           sync: true,
+           bufferProcessing: false,
+           onwrite: 
+            { [Function]
+              [length]: 1,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           writecb: null,
+           writelen: 0,
+           buffer: [ [length]: 0 ],
+           errorEmitted: false },
+        writable: true,
+        allowHalfOpen: false,
+        onend: null,
+        destroyed: false,
+        bytesRead: 0,
+        _bytesDispatched: 0,
+        _pendingData: null,
+        _pendingEncoding: '',
+        read: null,
+        _type: 'pipe',
+        fd: 2,
+        _isStdio: true,
+        destroySoon: 
+         { [Function]
+           [length]: 1,
+           [name]: '',
+           [arguments]: null,
+           [caller]: null,
+           [prototype]: { [constructor]: [Circular] } },
+        destroy: 
+         { [Function]
+           [length]: 1,
+           [name]: '',
+           [arguments]: null,
+           [caller]: null,
+           [prototype]: { [constructor]: [Circular] } } },
+     [_times]: {},
+     log: 
+      { [Function]
+        [length]: 0,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     info: 
+      { [Function]
+        [length]: 0,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     warn: 
+      { [Function]
+        [length]: 0,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     error: 
+      { [Function]
+        [length]: 0,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     dir: 
+      { [Function]
+        [length]: 1,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     time: 
+      { [Function]
+        [length]: 1,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     timeEnd: 
+      { [Function]
+        [length]: 1,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     trace: 
+      { [Function]
+        [length]: 0,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     assert: 
+      { [Function]
+        [length]: 1,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     Console: 
+      { [Function: Console]
+        [length]: 2,
+        [name]: 'Console',
+        [arguments]: null,
+        [caller]: null,
+        [prototype]: 
+         { [constructor]: [Circular],
+           log: 
+            { [Function]
+              [length]: 0,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           info: 
+            { [Function]
+              [length]: 0,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           warn: 
+            { [Function]
+              [length]: 0,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           error: 
+            { [Function]
+              [length]: 0,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           dir: 
+            { [Function]
+              [length]: 1,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           time: 
+            { [Function]
+              [length]: 1,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           timeEnd: 
+            { [Function]
+              [length]: 1,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           trace: 
+            { [Function]
+              [length]: 0,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           assert: 
+            { [Function]
+              [length]: 1,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } } } } },
+  _settings: 
+   { webSocketUrl: 'ws://pi-speaker-one.local:6680/mopidy/ws/',
+     callingConvention: 'by-position-or-by-name',
+     autoConnect: true,
+     backoffDelayMin: 1000,
+     backoffDelayMax: 64000 },
+  _backoffDelay: 1000,
+  _pendingRequests: {},
+  _webSocket: 
+   { url: 'ws://pi-speaker-one.local:6680/mopidy/ws/',
+     _driver: 
+      { version: 'hybi-13',
+        domain: null,
+        _events: 
+         { message: 
+            [ { [Function]
+                [length]: 1,
+                [name]: '',
+                [arguments]: [Getter/Setter],
+                [caller]: [Getter/Setter],
+                [prototype]: { [constructor]: [Circular] } },
+              { [Function]
+                [length]: 1,
+                [name]: '',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              [length]: 2 ],
+           error: 
+            [ { [Function]
+                [length]: 1,
+                [name]: '',
+                [arguments]: [Getter/Setter],
+                [caller]: [Getter/Setter],
+                [prototype]: { [constructor]: [Circular] } },
+              { [Function]
+                [length]: 0,
+                [name]: '',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              { [Function]
+                [length]: 1,
+                [name]: '',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              [length]: 3 ],
+           close: 
+            [ { [Function]
+                [length]: 0,
+                [name]: '',
+                [arguments]: [Getter/Setter],
+                [caller]: [Getter/Setter],
+                [prototype]: { [constructor]: [Circular] } },
+              { [Function]
+                [length]: 1,
+                [name]: '',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              [length]: 2 ],
+           open: 
+            [ { [Function]
+                [length]: 0,
+                [name]: '',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              { [Function]
+                [length]: 1,
+                [name]: '',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              [length]: 2 ] },
+        _maxListeners: 10,
+        _request: null,
+        _reader: { _queue: [ [length]: 0 ], _queueSize: 0, _offset: 0 },
+        _options: { maxLength: undefined, protocols: undefined, masking: true },
+        _maxLength: 67108863,
+        _headers: 
+         { _sent: 
+            { upgrade: true,
+              'sec-websocket-version': true,
+              host: true,
+              connection: true,
+              'sec-websocket-key': true },
+           _lines: 
+            [ 'Host: pi-speaker-one.local:6680\r\n',
+              'Upgrade: websocket\r\n',
+              'Connection: Upgrade\r\n',
+              'Sec-WebSocket-Key: VJAh8G4uxaE69L3m0TKpQg==\r\n',
+              'Sec-WebSocket-Version: 13\r\n',
+              [length]: 5 ] },
+        __queue: [ [length]: 0 ],
+        readyState: -1,
+        url: 'ws://pi-speaker-one.local:6680/mopidy/ws/',
+        io: 
+         { writable: true,
+           readable: true,
+           _paused: false,
+           _driver: [Circular],
+           _events: 
+            { unpipe: 
+               { [Function: onunpipe]
+                 [length]: 1,
+                 [name]: 'onunpipe',
+                 [arguments]: null,
+                 [caller]: null,
+                 [prototype]: { [constructor]: [Circular] } },
+              drain: 
+               { [Function]
+                 [length]: 0,
+                 [name]: '',
+                 [arguments]: null,
+                 [caller]: null,
+                 [prototype]: { [constructor]: [Circular] } },
+              error: 
+               [ { [Function: onerror]
+                   [length]: 1,
+                   [name]: 'onerror',
+                   [arguments]: null,
+                   [caller]: null,
+                   [prototype]: { [constructor]: [Circular] } },
+                 { [Function: onerror]
+                   [length]: 1,
+                   [name]: 'onerror',
+                   [arguments]: null,
+                   [caller]: null,
+                   [prototype]: { [constructor]: [Circular] } },
+                 [length]: 2 ],
+              close: 
+               [ { [Function: g]
+                   [length]: 0,
+                   [name]: 'g',
+                   [arguments]: null,
+                   [caller]: null,
+                   [prototype]: { [constructor]: [Circular] },
+                   listener: 
+                    { [Function: onclose]
+                      [length]: 0,
+                      [name]: 'onclose',
+                      [arguments]: null,
+                      [caller]: null,
+                      [prototype]: { [constructor]: [Circular] } } },
+                 { [Function: onclose]
+                   [length]: 0,
+                   [name]: 'onclose',
+                   [arguments]: null,
+                   [caller]: null,
+                   [prototype]: { [constructor]: [Circular] } },
+                 { [Function: cleanup]
+                   [length]: 0,
+                   [name]: 'cleanup',
+                   [arguments]: null,
+                   [caller]: null,
+                   [prototype]: { [constructor]: [Circular] } },
+                 [length]: 3 ],
+              finish: 
+               { [Function: g]
+                 [length]: 0,
+                 [name]: 'g',
+                 [arguments]: null,
+                 [caller]: null,
+                 [prototype]: { [constructor]: [Circular] },
+                 listener: 
+                  { [Function: onfinish]
+                    [length]: 0,
+                    [name]: 'onfinish',
+                    [arguments]: null,
+                    [caller]: null,
+                    [prototype]: { [constructor]: [Circular] } } },
+              data: 
+               { [Function: ondata]
+                 [length]: 1,
+                 [name]: 'ondata',
+                 [arguments]: null,
+                 [caller]: null,
+                 [prototype]: { [constructor]: [Circular] } },
+              end: 
+               [ { [Function: onend]
+                   [length]: 0,
+                   [name]: 'onend',
+                   [arguments]: null,
+                   [caller]: null,
+                   [prototype]: { [constructor]: [Circular] } },
+                 { [Function: cleanup]
+                   [length]: 0,
+                   [name]: 'cleanup',
+                   [arguments]: null,
+                   [caller]: null,
+                   [prototype]: { [constructor]: [Circular] } },
+                 [length]: 2 ] } },
+        messages: 
+         { writable: true,
+           readable: true,
+           _paused: false,
+           _driver: [Circular],
+           _events: 
+            { error: 
+               { [Function]
+                 [length]: 0,
+                 [name]: '',
+                 [arguments]: [Getter/Setter],
+                 [caller]: [Getter/Setter],
+                 [prototype]: { [constructor]: [Circular] } },
+              drain: 
+               { [Function]
+                 [length]: 0,
+                 [name]: '',
+                 [arguments]: null,
+                 [caller]: null,
+                 [prototype]: { [constructor]: [Circular] } } } },
+        _extensions: 
+         { _rsv3: null,
+           _rsv2: null,
+           _rsv1: null,
+           _byName: {},
+           _inOrder: [ [length]: 0 ],
+           _sessions: [ [length]: 0 ],
+           _index: {} },
+        _stage: 0,
+        _masking: true,
+        _protocols: [ [length]: 0 ],
+        _requireMasking: undefined,
+        _pingCallbacks: {},
+        _key: 'VJAh8G4uxaE69L3m0TKpQg==',
+        _accept: '9+wjh1IHBSND2TUgRfDDqjgsqzU=',
+        _http: 
+         { _parser: 
+            { onHeaderField: 
+               { [Function]
+                 [length]: 3,
+                 [name]: '',
+                 [arguments]: [Getter/Setter],
+                 [caller]: [Getter/Setter],
+                 [prototype]: { [constructor]: [Circular] } },
+              onHeaderValue: 
+               { [Function]
+                 [length]: 3,
+                 [name]: '',
+                 [arguments]: [Getter/Setter],
+                 [caller]: [Getter/Setter],
+                 [prototype]: { [constructor]: [Circular] } },
+              undefined: 
+               { [Function]
+                 [length]: 6,
+                 [name]: '',
+                 [arguments]: [Getter/Setter],
+                 [caller]: [Getter/Setter],
+                 [prototype]: { [constructor]: [Circular] } },
+              onHeadersComplete: 
+               { [Function]
+                 [length]: 6,
+                 [name]: '',
+                 [arguments]: [Getter/Setter],
+                 [caller]: [Getter/Setter],
+                 [prototype]: { [constructor]: [Circular] } } },
+           _type: 'response',
+           _complete: false,
+           headers: {} },
+        _pathname: '/mopidy/ws/' },
+     _stream: 
+      { _connecting: true,
+        _handle: 
+         { fd: -1,
+           writeQueueSize: 0,
+           owner: [Circular],
+           onread: 
+            { [Function: onread]
+              [length]: 3,
+              [name]: 'onread',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } } },
+        _readableState: 
+         { highWaterMark: 16384,
+           buffer: [ [length]: 0 ],
+           length: 0,
+           pipes: 
+            { writable: true,
+              readable: true,
+              _paused: false,
+              _driver: 
+               { version: 'hybi-13',
+                 domain: null,
+                 _events: 
+                  { message: 
+                     [ { [Function]
+                         [length]: 1,
+                         [name]: '',
+                         [arguments]: [Getter/Setter],
+                         [caller]: [Getter/Setter],
+                         [prototype]: { [constructor]: [Circular] } },
+                       { [Function]
+                         [length]: 1,
+                         [name]: '',
+                         [arguments]: null,
+                         [caller]: null,
+                         [prototype]: { [constructor]: [Circular] } },
+                       [length]: 2 ],
+                    error: 
+                     [ { [Function]
+                         [length]: 1,
+                         [name]: '',
+                         [arguments]: [Getter/Setter],
+                         [caller]: [Getter/Setter],
+                         [prototype]: { [constructor]: [Circular] } },
+                       { [Function]
+                         [length]: 0,
+                         [name]: '',
+                         [arguments]: null,
+                         [caller]: null,
+                         [prototype]: { [constructor]: [Circular] } },
+                       { [Function]
+                         [length]: 1,
+                         [name]: '',
+                         [arguments]: null,
+                         [caller]: null,
+                         [prototype]: { [constructor]: [Circular] } },
+                       [length]: 3 ],
+                    close: 
+                     [ { [Function]
+                         [length]: 0,
+                         [name]: '',
+                         [arguments]: [Getter/Setter],
+                         [caller]: [Getter/Setter],
+                         [prototype]: { [constructor]: [Circular] } },
+                       { [Function]
+                         [length]: 1,
+                         [name]: '',
+                         [arguments]: null,
+                         [caller]: null,
+                         [prototype]: { [constructor]: [Circular] } },
+                       [length]: 2 ],
+                    open: 
+                     [ { [Function]
+                         [length]: 0,
+                         [name]: '',
+                         [arguments]: null,
+                         [caller]: null,
+                         [prototype]: { [constructor]: [Circular] } },
+                       { [Function]
+                         [length]: 1,
+                         [name]: '',
+                         [arguments]: null,
+                         [caller]: null,
+                         [prototype]: { [constructor]: [Circular] } },
+                       [length]: 2 ] },
+                 _maxListeners: 10,
+                 _request: null,
+                 _reader: { _queue: [ [length]: 0 ], _queueSize: 0, _offset: 0 },
+                 _options: { maxLength: undefined, protocols: undefined, masking: true },
+                 _maxLength: 67108863,
+                 _headers: 
+                  { _sent: 
+                     { upgrade: true,
+                       'sec-websocket-version': true,
+                       host: true,
+                       connection: true,
+                       'sec-websocket-key': true },
+                    _lines: 
+                     [ 'Host: pi-speaker-one.local:6680\r\n',
+                       'Upgrade: websocket\r\n',
+                       'Connection: Upgrade\r\n',
+                       'Sec-WebSocket-Key: VJAh8G4uxaE69L3m0TKpQg==\r\n',
+                       'Sec-WebSocket-Version: 13\r\n',
+                       [length]: 5 ] },
+                 __queue: [ [length]: 0 ],
+                 readyState: -1,
+                 url: 'ws://pi-speaker-one.local:6680/mopidy/ws/',
+                 io: [Circular],
+                 messages: 
+                  { writable: true,
+                    readable: true,
+                    _paused: false,
+                    _driver: [Circular],
+                    _events: 
+                     { error: 
+                        { [Function]
+                          [length]: 0,
+                          [name]: '',
+                          [arguments]: [Getter/Setter],
+                          [caller]: [Getter/Setter],
+                          [prototype]: { [constructor]: [Circular] } },
+                       drain: 
+                        { [Function]
+                          [length]: 0,
+                          [name]: '',
+                          [arguments]: null,
+                          [caller]: null,
+                          [prototype]: { [constructor]: [Circular] } } } },
+                 _extensions: 
+                  { _rsv3: null,
+                    _rsv2: null,
+                    _rsv1: null,
+                    _byName: {},
+                    _inOrder: [ [length]: 0 ],
+                    _sessions: [ [length]: 0 ],
+                    _index: {} },
+                 _stage: 0,
+                 _masking: true,
+                 _protocols: [ [length]: 0 ],
+                 _requireMasking: undefined,
+                 _pingCallbacks: {},
+                 _key: 'VJAh8G4uxaE69L3m0TKpQg==',
+                 _accept: '9+wjh1IHBSND2TUgRfDDqjgsqzU=',
+                 _http: 
+                  { _parser: 
+                     { onHeaderField: 
+                        { [Function]
+                          [length]: 3,
+                          [name]: '',
+                          [arguments]: [Getter/Setter],
+                          [caller]: [Getter/Setter],
+                          [prototype]: { [constructor]: [Circular] } },
+                       onHeaderValue: 
+                        { [Function]
+                          [length]: 3,
+                          [name]: '',
+                          [arguments]: [Getter/Setter],
+                          [caller]: [Getter/Setter],
+                          [prototype]: { [constructor]: [Circular] } },
+                       undefined: 
+                        { [Function]
+                          [length]: 6,
+                          [name]: '',
+                          [arguments]: [Getter/Setter],
+                          [caller]: [Getter/Setter],
+                          [prototype]: { [constructor]: [Circular] } },
+                       onHeadersComplete: 
+                        { [Function]
+                          [length]: 6,
+                          [name]: '',
+                          [arguments]: [Getter/Setter],
+                          [caller]: [Getter/Setter],
+                          [prototype]: { [constructor]: [Circular] } } },
+                    _type: 'response',
+                    _complete: false,
+                    headers: {} },
+                 _pathname: '/mopidy/ws/' },
+              _events: 
+               { unpipe: 
+                  { [Function: onunpipe]
+                    [length]: 1,
+                    [name]: 'onunpipe',
+                    [arguments]: null,
+                    [caller]: null,
+                    [prototype]: { [constructor]: [Circular] } },
+                 drain: 
+                  { [Function]
+                    [length]: 0,
+                    [name]: '',
+                    [arguments]: null,
+                    [caller]: null,
+                    [prototype]: { [constructor]: [Circular] } },
+                 error: 
+                  [ { [Function: onerror]
+                      [length]: 1,
+                      [name]: 'onerror',
+                      [arguments]: null,
+                      [caller]: null,
+                      [prototype]: { [constructor]: [Circular] } },
+                    { [Function: onerror]
+                      [length]: 1,
+                      [name]: 'onerror',
+                      [arguments]: null,
+                      [caller]: null,
+                      [prototype]: { [constructor]: [Circular] } },
+                    [length]: 2 ],
+                 close: 
+                  [ { [Function: g]
+                      [length]: 0,
+                      [name]: 'g',
+                      [arguments]: null,
+                      [caller]: null,
+                      [prototype]: { [constructor]: [Circular] },
+                      listener: 
+                       { [Function: onclose]
+                         [length]: 0,
+                         [name]: 'onclose',
+                         [arguments]: null,
+                         [caller]: null,
+                         [prototype]: { [constructor]: [Circular] } } },
+                    { [Function: onclose]
+                      [length]: 0,
+                      [name]: 'onclose',
+                      [arguments]: null,
+                      [caller]: null,
+                      [prototype]: { [constructor]: [Circular] } },
+                    { [Function: cleanup]
+                      [length]: 0,
+                      [name]: 'cleanup',
+                      [arguments]: null,
+                      [caller]: null,
+                      [prototype]: { [constructor]: [Circular] } },
+                    [length]: 3 ],
+                 finish: 
+                  { [Function: g]
+                    [length]: 0,
+                    [name]: 'g',
+                    [arguments]: null,
+                    [caller]: null,
+                    [prototype]: { [constructor]: [Circular] },
+                    listener: 
+                     { [Function: onfinish]
+                       [length]: 0,
+                       [name]: 'onfinish',
+                       [arguments]: null,
+                       [caller]: null,
+                       [prototype]: { [constructor]: [Circular] } } },
+                 data: 
+                  { [Function: ondata]
+                    [length]: 1,
+                    [name]: 'ondata',
+                    [arguments]: null,
+                    [caller]: null,
+                    [prototype]: { [constructor]: [Circular] } },
+                 end: 
+                  [ { [Function: onend]
+                      [length]: 0,
+                      [name]: 'onend',
+                      [arguments]: null,
+                      [caller]: null,
+                      [prototype]: { [constructor]: [Circular] } },
+                    { [Function: cleanup]
+                      [length]: 0,
+                      [name]: 'cleanup',
+                      [arguments]: null,
+                      [caller]: null,
+                      [prototype]: { [constructor]: [Circular] } },
+                    [length]: 2 ] } },
+           pipesCount: 1,
+           flowing: true,
+           ended: false,
+           endEmitted: false,
+           reading: false,
+           calledRead: false,
+           sync: true,
+           needReadable: false,
+           emittedReadable: false,
+           readableListening: false,
+           objectMode: false,
+           defaultEncoding: 'utf8',
+           ranOut: false,
+           awaitDrain: 0,
+           readingMore: false,
+           decoder: null,
+           encoding: null },
+        readable: false,
+        domain: null,
+        _events: 
+         { end: 
+            [ { [Function: g]
+                [length]: 0,
+                [name]: 'g',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] },
+                listener: 
+                 { [Function: onend]
+                   [length]: 0,
+                   [name]: 'onend',
+                   [arguments]: null,
+                   [caller]: null,
+                   [prototype]: { [constructor]: [Circular] } } },
+              { [Function]
+                [length]: 0,
+                [name]: '',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              { [Function: g]
+                [length]: 0,
+                [name]: 'g',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] },
+                listener: 
+                 { [Function: onend]
+                   [length]: 0,
+                   [name]: 'onend',
+                   [arguments]: null,
+                   [caller]: null,
+                   [prototype]: { [constructor]: [Circular] } } },
+              [length]: 3 ],
+           finish: 
+            { [Function: onSocketFinish]
+              [length]: 0,
+              [name]: 'onSocketFinish',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           _socketEnd: 
+            { [Function: onSocketEnd]
+              [length]: 0,
+              [name]: 'onSocketEnd',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           connect: 
+            { [Function: g]
+              [length]: 0,
+              [name]: 'g',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] },
+              listener: 
+               { [Function]
+                 [length]: 0,
+                 [name]: '',
+                 [arguments]: null,
+                 [caller]: null,
+                 [prototype]: { [constructor]: [Circular] } } },
+           close: 
+            [ { [Function]
+                [length]: 0,
+                [name]: '',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              { [Function: cleanup]
+                [length]: 0,
+                [name]: 'cleanup',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              [length]: 2 ],
+           error: 
+            [ { [Function]
+                [length]: 1,
+                [name]: '',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              { [Function: onerror]
+                [length]: 1,
+                [name]: 'onerror',
+                [arguments]: null,
+                [caller]: null,
+                [prototype]: { [constructor]: [Circular] } },
+              [length]: 2 ],
+           readable: 
+            { [Function: pipeOnReadable]
+              [length]: 0,
+              [name]: 'pipeOnReadable',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           drain: 
+            { [Function: ondrain]
+              [length]: 0,
+              [name]: 'ondrain',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } } },
+        _maxListeners: 10,
+        _writableState: 
+         { highWaterMark: 16384,
+           objectMode: false,
+           needDrain: false,
+           ending: false,
+           ended: false,
+           finished: false,
+           decodeStrings: false,
+           defaultEncoding: 'utf8',
+           length: 0,
+           writing: false,
+           sync: true,
+           bufferProcessing: false,
+           onwrite: 
+            { [Function]
+              [length]: 1,
+              [name]: '',
+              [arguments]: null,
+              [caller]: null,
+              [prototype]: { [constructor]: [Circular] } },
+           writecb: null,
+           writelen: 0,
+           buffer: [ [length]: 0 ],
+           errorEmitted: false },
+        writable: true,
+        allowHalfOpen: false,
+        onend: null,
+        destroyed: false,
+        bytesRead: 0,
+        _bytesDispatched: 0,
+        _pendingData: null,
+        _pendingEncoding: '',
+        _idleNext: null,
+        _idlePrev: null,
+        _idleTimeout: -1 },
+     writable: true,
+     readable: true,
+     _ping: undefined,
+     _pingId: 0,
+     readyState: 0,
+     bufferedAmount: 0,
+     protocol: '',
+     version: 'hybi-13',
+     _events: 
+      { error: 
+         { [Function]
+           [length]: 0,
+           [name]: '',
+           [arguments]: null,
+           [caller]: null,
+           [prototype]: { [constructor]: [Circular] } } },
+     onclose: 
+      { [Function]
+        [length]: 1,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     onerror: 
+      { [Function]
+        [length]: 1,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     onopen: 
+      { [Function]
+        [length]: 0,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] },
+     onmessage: 
+      { [Function]
+        [length]: 1,
+        [name]: '',
+        [arguments]: [Getter/Setter],
+        [caller]: [Getter/Setter] } },
+  on: 
+   { [Function]
+     [length]: 3,
+     [name]: '',
+     [arguments]: [Getter/Setter],
+     [caller]: [Getter/Setter],
+     [prototype]: { [constructor]: [Circular] } },
+  off: 
+   { [Function]
+     [length]: 2,
+     [name]: '',
+     [arguments]: [Getter/Setter],
+     [caller]: [Getter/Setter],
+     [prototype]: { [constructor]: [Circular] } },
+  once: 
+   { [Function]
+     [length]: 3,
+     [name]: '',
+     [arguments]: [Getter/Setter],
+     [caller]: [Getter/Setter],
+     [prototype]: { [constructor]: [Circular] } },
+  bind: 
+   { [Function]
+     [length]: 2,
+     [name]: '',
+     [arguments]: [Getter/Setter],
+     [caller]: [Getter/Setter],
+     [prototype]: { [constructor]: [Circular] } },
+  emit: 
+   { [Function]
+     [length]: 1,
+     [name]: '',
+     [arguments]: [Getter/Setter],
+     [caller]: [Getter/Setter],
+     [prototype]: { [constructor]: [Circular] } },
+  errback: 
+   { [Function]
+     [length]: 1,
+     [name]: '',
+     [arguments]: [Getter/Setter],
+     [caller]: [Getter/Setter],
+     [prototype]: { [constructor]: [Circular] } },
+  listeners: 
+   { 'websocket:open': 
+      [ { listener: 
+           { [Function]
+             [length]: 0,
+             [name]: '',
+             [arguments]: null,
+             [caller]: null,
+             [prototype]: { [constructor]: [Circular] } },
+          thisp: undefined },
+        { listener: 
+           { [Function]
+             [length]: 0,
+             [name]: '',
+             [arguments]: null,
+             [caller]: null,
+             [prototype]: { [constructor]: [Circular] } },
+          thisp: undefined },
+        [length]: 2 ],
+     'websocket:close': 
+      [ { listener: 
+           { [Function]
+             [length]: 1,
+             [name]: '',
+             [arguments]: null,
+             [caller]: null,
+             [prototype]: { [constructor]: [Circular] } },
+          thisp: undefined },
+        [length]: 1 ],
+     'websocket:incomingMessage': 
+      [ { listener: 
+           { [Function]
+             [length]: 1,
+             [name]: '',
+             [arguments]: null,
+             [caller]: null,
+             [prototype]: { [constructor]: [Circular] } },
+          thisp: undefined },
+        [length]: 1 ],
+     'websocket:error': 
+      [ { listener: 
+           { [Function]
+             [length]: 1,
+             [name]: '',
+             [arguments]: null,
+             [caller]: null,
+             [prototype]: { [constructor]: [Circular] } },
+          thisp: undefined },
+        [length]: 1 ],
+     'state:offline': 
+      [ { listener: 
+           { [Function]
+             [length]: 0,
+             [name]: '',
+             [arguments]: null,
+             [caller]: null,
+             [prototype]: { [constructor]: [Circular] } },
+          thisp: undefined },
+        [length]: 1 ] } }

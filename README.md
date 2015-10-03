@@ -6,11 +6,17 @@
 
 
 ## Install
-
-    npm install node-red-contrib-advanced-mopidy
+While in development, you need to clone and `npm install` it. Will be on NPM when stable.
     
 
 ## Development
+This is coded in ES2015. To make older node able to understand it, it has to be transpiled to ES5. This is done automagically on installation.
+
+To rebuild it yourself, please see the tasks below.
+
+The source lives in the `./lib` folder and gets transpiled and copied to the `./mopidy` folder. I would rather name it `./src`, however, Node-RED walks the entire folder structure and tries to discover modules in every folder. [A few folder names are exluded](https://github.com/node-red/node-red/blob/master/red/nodes/registry/localfilesystem.js#L91) from this discovery (`lib|icons|node_modules|test|locales`) and `src` isn't one of them.
+
+### Development tasks
 Run tests which __do not__ require a connected Mopidy server by running:
 
 ```
@@ -29,7 +35,7 @@ For linting with eslint, run
 npm run lint
 ```
 
-To auto-run babel and transpile ES2015 to ES5 when files are changed (and copy all non-js files from `/src` to `/mopidy` if they're changed), run:
+To auto-run babel and transpile ES2015 to ES5 when files are changed (and copy all non-js files from `/lib` to `/mopidy` if they're changed), run:
 
 ```
 npm run watch
