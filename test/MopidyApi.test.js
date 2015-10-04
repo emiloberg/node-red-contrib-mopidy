@@ -67,7 +67,7 @@ describe('API', function(){
 		var allMethodsLength = 0;
 
 		const REAL_SERVER_DATA = {
-			host: 'pi-speaker-one.local', // TODO: Fetch fron env var
+			host: 'localhost', // TODO: Fetch fron env var
 			port: 6680
 		};
 		let REAL_SERVER;
