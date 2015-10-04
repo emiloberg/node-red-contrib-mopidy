@@ -6,7 +6,7 @@
     "postinstall": "./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
     "test": "./node_modules/.bin/mocha --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register",
     "test-all": "./node_modules/.bin/mocha --recursive --compilers js:babel/register",
-    "lint": "./node_modules/.bin/eslint ./lib",
+    "lint": "./node_modules/.bin/eslint ./lib/*",
     "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
     "clean-build": "./node_modules/.bin/rimraf mopidy; ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib"
   },
@@ -47,6 +47,7 @@
     "chai": "^3.3.0",
     "chai-things": "^0.2.0",
     "eslint": "^1.5.1",
+    "eslint-plugin-html": "^1.0.4",    
     "mocha": "^2.3.3"
   }
 }
