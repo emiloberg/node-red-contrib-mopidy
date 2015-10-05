@@ -75,7 +75,7 @@ describe('API', function(){
 		before(function(done) {
 			this.timeout(10000);
 			REAL_SERVER = new MopidyApi(REAL_SERVER_DATA);
-			REAL_SERVER.events.on('loaded:loaded', () => {
+			REAL_SERVER.events.on('ready:ready', () => {
 				done()
 			});
 		});

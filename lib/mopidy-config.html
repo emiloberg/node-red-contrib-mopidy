@@ -5,6 +5,10 @@
     RED.nodes.registerType('mopidy-config',{
         category: 'config',
         defaults: {
+            name: {
+                value: '',
+                required: true
+            },
             host: {
                 value: 'localhost',
                 required: true
@@ -22,6 +26,10 @@
 </script>
 
 <script type="text/x-red" data-template-name="mopidy-config">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="icon-bookmark"></i> Name</label>
+        <input type="text" id="node-config-input-name">
+    </div>
     <div class="form-row">
         <label for="node-config-input-host"><i class="icon-bookmark"></i> Host</label>
         <input type="text" id="node-config-input-host">
