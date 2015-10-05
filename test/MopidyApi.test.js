@@ -5,7 +5,7 @@ chai.use(require('chai-things'));
 
 
 
-import MopidyApi from '../mopidy/lib/models/MopidyApi'
+import MopidyApi from '../mopidy/lib/models/MopidyServer'
 
 describe('API', function(){
 
