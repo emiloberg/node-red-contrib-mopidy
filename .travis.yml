@@ -1,6 +1,4 @@
 language: node_js
-env:
- - NRMOPIDY_MOPIDY_ERRORS_IN_CONSOLE=false
 node_js:
   - "4.1"
   - "4.0"
