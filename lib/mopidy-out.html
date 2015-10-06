@@ -7,6 +7,36 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+    <div class="form-row">
+        <label for="mopidy-methods-categories"><i class="fa fa-tag"></i> Category</label>
+        <select id="mopidy-methods-categories"></select>
+    </div>
+    <div class="form-row">
+        <label for="mopidy-methods-methods"><i class="fa fa-tag"></i> Method</label>
+        <select id="mopidy-methods-methods"></select>
+    </div>
+    <!--
+    <div class="form-row">
+        <label for="node-input-param1"><i class="fa fa-tag"></i> Param 1</label>
+        <input type="text" id="node-input-param1" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-input-param2"><i class="fa fa-tag"></i> Param 2</label>
+        <input type="text" id="node-input-param1" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-input-param3"><i class="fa fa-tag"></i> Param 3</label>
+        <input type="text" id="node-input-param1" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-input-param4"><i class="fa fa-tag"></i> Param 4</label>
+        <input type="text" id="node-input-param1" placeholder="">
+    </div>
+    <div class="form-row">
+        <label for="node-input-param5"><i class="fa fa-tag"></i> Param 5</label>
+        <input type="text" id="node-input-param1" placeholder="">
+    </div>
+    -->
 </script>
 
 <script type="text/x-red" data-help-name="mopidy-out">
@@ -32,8 +62,49 @@
         },
 
         oneditprepare: function() {
+            var allMethods = [];
+            var jqMopidyMethodsCategories = $('#mopidy-methods-categories');
+            var jqMopidyMethodsMethods = $('#mopidy-methods-methods');
+
+            function populateMethods() {
+                var selectedCategory = jqMopidyMethodsCategories.val();
+                var htmlMethods = '';
+                allMethods.forEach(function(method) {
+                   if (method.category === selectedCategory) {
+                       htmlMethods += '<option value="' + method.method + '">' + method.method + '</option>';
+                   }
+                });
+                jqMopidyMethodsMethods.html(htmlMethods);
+            }
+            jqMopidyMethodsCategories.change(populateMethods.bind(this));
+
+
+            function populateCategories(methods) {
+                var htmlCategories = '';
+                getUniqueCatgories(methods).forEach(function(category) {
+                    htmlCategories += '<option value="' + category + '">' + category + '</option>';
+                });
+                $('#mopidy-methods-categories').html(htmlCategories);
+                populateMethods();
+            }
+
+            function getUniqueCatgories(methods) {
+                return methods.map(function(method) {
+                    return method.category
+                })
+                .reduce(function(prev, cur) {
+                    if (prev.indexOf(cur) === -1) {
+                        return prev.concat(cur);
+                    } else {
+                        return prev;
+                    }
+                }, [])
+                .sort();
+            }
+
             RED.comms.subscribe('mopidy-methods', function(topic, data) {
-                console.dir(data);
+                allMethods = data;
+                populateCategories(data);
             });
 
             var fetchMethods = debounce(function() {
