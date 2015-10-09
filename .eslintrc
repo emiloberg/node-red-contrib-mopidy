@@ -9,12 +9,12 @@
         "modules": true
     },
     "rules": {
-        "quotes": [1, "single", "avoid-escape"],
+        "quotes": [2, "single", "avoid-escape"],
         "no-use-before-define": 0,
         "no-underscore-dangle": 0,
-        "eol-last": 1,
-        "no-trailing-spaces": 1,
-        "no-unused-vars": 1,
+        "eol-last": 2,
+        "no-trailing-spaces": 2,
+        "no-unused-vars": 2,
         "key-spacing": 0
     },
     "plugins": [
