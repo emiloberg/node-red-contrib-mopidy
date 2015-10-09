@@ -1,32 +1,30 @@
 
 var chai = require("chai");
-var should = chai.should();
+//var should = chai.should();
 chai.use(require('chai-things'));
-
-
 
 import MopidyApi from '../mopidy/lib/models/MopidyServer'
 
-describe('API', function(){
+describe('MopidyAPI', () =>{
 
-	describe('When given a mock API', function(){
+	describe('When given a mock API', () =>{
 
 		const MOCK_SERVER_DATA = {
 			host: 'not-used.local',
 			port: 6680,
-			mockApi: require('./_resources/mopidy.json')
+			mockApi: require('./_resources/mopidy-mock-api.json')
 		};
 		let MOCK_SERVER;
 
-		before(function() {
+		before(() => {
 			MOCK_SERVER = new MopidyApi(MOCK_SERVER_DATA);
 		});
 
-		after(function() {
+		after(() => {
 			MOCK_SERVER._wipeApi();
 		});
 
-		it('should get all categories', function() {
+		it('should get all categories', () => {
 			var categories = MOCK_SERVER.getCategories();
 			categories.should.be.an('array');
 			categories.should.eql([	'tracklist',
@@ -40,7 +38,7 @@ describe('API', function(){
 			]);
 		});
 
-		it('should get all methods', function() {
+		it('should get all methods', () => {
 			var methods = MOCK_SERVER.getMethods();
 			methods.should.be.an('array');
 			methods.should.have.length(68);
@@ -50,7 +48,7 @@ describe('API', function(){
 			methods.should.all.have.property('params');
 		});
 
-		it('should get all methods of specific category', function() {
+		it('should get all methods of specific category', () => {
 			var methods = MOCK_SERVER.getMethods({ category: 'tracklist' });
 			methods.should.be.an('array');
 			methods.should.have.length(26);
@@ -62,7 +60,7 @@ describe('API', function(){
 
 	});
 
-	describe('MopidyConnected: When given a real Mopidy server, should connect to it and', function(){
+	describe('[MopidyConnected] When given a real Mopidy server, should connect to it and', () =>{
 
 		var allMethodsLength = 0;
 
@@ -80,17 +78,17 @@ describe('API', function(){
 			});
 		});
 
-		after(function() {
+		after(() => {
 			REAL_SERVER._wipeApi();
 		});
 
-		it('should get categories', function() {
+		it('should get categories', () => {
 			var categories = REAL_SERVER.getCategories();
 			categories.should.be.an('array');
 			categories.should.include('playlists');
 		});
 
-		it('should get all methods', function() {
+		it('should get all methods', () => {
 			var methods = REAL_SERVER.getMethods();
 			allMethodsLength = methods.length;
 			methods.should.be.an('array');
@@ -101,7 +99,7 @@ describe('API', function(){
 			methods.should.all.have.property('params');
 		});
 
-		it('should get all methods of specific category', function() {
+		it('should get all methods of specific category', () => {
 			var methods = REAL_SERVER.getMethods({ category: 'tracklist' });
 			methods.should.be.an('array');
 			methods.should.have.length.above(10);

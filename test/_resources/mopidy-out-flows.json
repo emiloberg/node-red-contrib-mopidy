@@ -1,0 +1,1 @@
+[{"type":"tab","id":"88d906e1.7726f8","label":"Sheet 1"},{"id":"e3962905.1c69d8","type":"mopidy-config","name":"Test Mopidy","host":"localhost","port":"6680"},{"id":"5599bc67.aa6644","type":"mopidy-out","name":"","server":"e3962905.1c69d8","x":587,"y":276,"z":"88d906e1.7726f8","wires":[[]]}]
