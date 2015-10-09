@@ -8,7 +8,8 @@
     "test-all": "./node_modules/.bin/mocha --recursive --compilers js:babel/register",
     "lint": "./node_modules/.bin/eslint ./lib/*",
     "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
-    "clean-build": "./node_modules/.bin/rimraf mopidy; ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib"
+    "clean-build": "./node_modules/.bin/rimraf mopidy; ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
+    "precommit": "npm run test-all && npm run lint"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
     "eslint": "^1.5.1",
     "eslint-plugin-html": "^1.0.4",
     "express": "^4.13.3",
+    "husky": "^0.10.1",
     "mocha": "^2.3.3",
     "node-red": "^0.11.2"
   }
