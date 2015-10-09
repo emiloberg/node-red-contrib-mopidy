@@ -104,7 +104,7 @@
                 }, [])
                 .sort();
             }
-            
+
             var fetchMethods = debounce(function() {
                 var serverNodeId = $('#node-input-server').val();
                 if (serverNodeId === '_ADD_') { return; }
@@ -116,7 +116,7 @@
                     allMethods = data;
                     populateCategories(data);
                 });
-                
+
                 jqXHR.fail(function(err) {
                     RED.notify('<strong>Mopidy error (err: 1)</strong> Could not get methods (' + err.message + ')' , 'error');
                 });
