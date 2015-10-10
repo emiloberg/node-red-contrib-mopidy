@@ -39,7 +39,7 @@ describe('[MopidyConnected] mopidy-out', () =>{
 			RED.init(server, settings);
 			app.use(settings.httpAdminRoot, RED.httpAdmin);
 			app.use(settings.httpNodeRoot, RED.httpNode);
-			server.listen(8000);
+			server.listen(8001);
 			RED.start();
 
 			setTimeout(() => { // Allow some time for Node-RED to spin up
@@ -58,7 +58,7 @@ describe('[MopidyConnected] mopidy-out', () =>{
 			var statusCode;
 			before(function(done) {
 				request
-					.get('http://local.dev:8000/mopidy/e3962905.1c69d8/methods')
+					.get('http://local.dev:8001/mopidy/e3962905.1c69d8/methods')
 					.end(function(err, res){
 						methods = res.body;
 						statusCode = res.statusCode;
@@ -85,11 +85,11 @@ describe('[MopidyConnected] mopidy-out', () =>{
 			var statusCode;
 			before(function(done) {
 				request
-					.get('http://local.dev:8000/mopidy/does-not-exist/methods')
+					.get('http://local.dev:8001/mopidy/does-not-exist/methods')
 					.end((err, res) =>{
 						methods = res.body;
 						statusCode = res.statusCode;
-						done(err);
+						done();
 					});
 			});
 

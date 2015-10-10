@@ -2,8 +2,10 @@
 var chai = require("chai");
 //var should = chai.should();
 chai.use(require('chai-things'));
+var chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
 
-import MopidyApi from '../mopidy/lib/models/MopidyServer'
+import MopidyServer from '../mopidy/lib/models/MopidyServer'
 
 describe('MopidyAPI', () =>{
 
@@ -17,52 +19,26 @@ describe('MopidyAPI', () =>{
 		let MOCK_SERVER;
 
 		before(() => {
-			MOCK_SERVER = new MopidyApi(MOCK_SERVER_DATA);
+			MOCK_SERVER = new MopidyServer(MOCK_SERVER_DATA);
 		});
 
 		after(() => {
 			MOCK_SERVER._wipeApi();
 		});
 
-		it('should get all categories', () => {
-			var categories = MOCK_SERVER.getCategories();
-			categories.should.be.an('array');
-			categories.should.eql([	'tracklist',
-				'mixer',
-				'playback',
-				'library',
-				'playlists',
-				'history',
-				'get_uri_schemes',
-				'get_version'
-			]);
-		});
-
 		it('should get all methods', () => {
 			var methods = MOCK_SERVER.getMethods();
-			methods.should.be.an('array');
-			methods.should.have.length(68);
-			methods.should.all.have.property('method');
-			methods.should.all.have.property('category');
-			methods.should.all.have.property('description');
-			methods.should.all.have.property('params');
-		});
-
-		it('should get all methods of specific category', () => {
-			var methods = MOCK_SERVER.getMethods({ category: 'tracklist' });
-			methods.should.be.an('array');
-			methods.should.have.length(26);
-			methods.should.all.have.property('method');
-			methods.should.all.have.property('category');
-			methods.should.all.have.property('description');
-			methods.should.all.have.property('params');
+			methods.should.eventually.be.an('array');
+			methods.should.eventually.have.length(68);
+			methods.should.eventually.all.have.property('method');
+			methods.should.eventually.all.have.property('category');
+			methods.should.eventually.all.have.property('description');
+			methods.should.eventually.all.have.property('params');
 		});
 
 	});
 
 	describe('[MopidyConnected] When given a real Mopidy server, should connect to it and', () =>{
-
-		var allMethodsLength = 0;
 
 		const REAL_SERVER_DATA = {
 			host: 'localhost', // TODO: Fetch fron env var
@@ -72,7 +48,7 @@ describe('MopidyAPI', () =>{
 
 		before(function(done) {
 			this.timeout(10000);
-			REAL_SERVER = new MopidyApi(REAL_SERVER_DATA);
+			REAL_SERVER = new MopidyServer(REAL_SERVER_DATA);
 			REAL_SERVER.events.on('ready:ready', () => {
 				done()
 			});
@@ -82,32 +58,39 @@ describe('MopidyAPI', () =>{
 			REAL_SERVER._wipeApi();
 		});
 
-		it('should get categories', () => {
-			var categories = REAL_SERVER.getCategories();
-			categories.should.be.an('array');
-			categories.should.include('playlists');
-		});
-
 		it('should get all methods', () => {
 			var methods = REAL_SERVER.getMethods();
-			allMethodsLength = methods.length;
-			methods.should.be.an('array');
-			methods.should.have.length.above(50);
-			methods.should.all.have.property('method');
-			methods.should.all.have.property('category');
-			methods.should.all.have.property('description');
-			methods.should.all.have.property('params');
+			methods.should.eventually.be.an('array');
+			methods.should.eventually.have.length.above(50);
+			methods.should.eventually.all.have.property('method');
+			methods.should.eventually.all.have.property('category');
+			methods.should.eventually.all.have.property('description');
+			methods.should.eventually.all.have.property('params');
 		});
 
-		it('should get all methods of specific category', () => {
-			var methods = REAL_SERVER.getMethods({ category: 'tracklist' });
-			methods.should.be.an('array');
-			methods.should.have.length.above(10);
-			methods.should.have.length.below(allMethodsLength);
-			methods.should.all.have.property('method');
-			methods.should.all.have.property('category');
-			methods.should.all.have.property('description');
-			methods.should.all.have.property('params');
+	});
+
+
+	describe('[TakesTime] When given a non existing Mopidy server', () =>{
+
+		const NON_EXISTING_SERVER_DATA = {
+			host: 'localhost',
+			port: 51234
+		};
+		let NON_EXISTING_SERVER;
+
+		before(function() {
+			NON_EXISTING_SERVER = new MopidyServer(NON_EXISTING_SERVER_DATA);
+		});
+
+		after(() => {
+			NON_EXISTING_SERVER._wipeApi();
+		});
+
+		it('getMethods should be rejected after some time', function() {
+			this.timeout(6000);
+			var methods = NON_EXISTING_SERVER.getMethods();
+			return methods.should.be.rejected;
 		});
 
 	});
