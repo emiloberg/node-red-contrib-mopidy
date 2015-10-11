@@ -98,7 +98,7 @@ describe('[MopidyConnected] mopidy-out', () =>{
 				methods.should.have.property('message', 'Could not find server node');
 			});
 
-		});		
+		});
 
 
 	});

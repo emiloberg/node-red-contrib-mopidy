@@ -23,7 +23,7 @@ describe('MopidyAPI', () =>{
 		});
 
 		after(() => {
-			MOCK_SERVER._wipeApi();
+			MOCK_SERVER.close();
 		});
 
 		it('should get all methods', () => {
@@ -55,7 +55,7 @@ describe('MopidyAPI', () =>{
 		});
 
 		after(() => {
-			REAL_SERVER._wipeApi();
+			REAL_SERVER.close();
 		});
 
 		it('should get all methods', () => {
@@ -84,7 +84,7 @@ describe('MopidyAPI', () =>{
 		});
 
 		after(() => {
-			NON_EXISTING_SERVER._wipeApi();
+			NON_EXISTING_SERVER.close();
 		});
 
 		it('getMethods should be rejected after some time', function() {
