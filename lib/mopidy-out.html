@@ -1,18 +1,18 @@
 <script type="text/x-red" data-template-name="mopidy-out">
     <div class="form-row">
-        <label for="node-input-server"><i class="fa fa-tag"></i> Server</label>
-        <input type="text" id="node-input-server">
-    </div>
-    <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="mopidy-methods-categories"><i class="fa fa-tag"></i> Category</label>
+        <label for="node-input-server"><i class="fa fa-bookmark"></i> Server</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="mopidy-methods-categories"><i class="fa fa-list"></i> Category</label>
         <select id="mopidy-methods-categories"></select>
     </div>
     <div class="form-row">
-        <label for="mopidy-methods-methods"><i class="fa fa-tag"></i> Method</label>
+        <label for="mopidy-methods-methods"><i class="fa fa-list"></i> Method</label>
         <select id="mopidy-methods-methods"></select>
     </div>
 
@@ -54,12 +54,27 @@
             var jqMopidyMethodsCategories = $('#mopidy-methods-categories');
             var jqMopidyMethodsMethods = $('#mopidy-methods-methods');
             var jqNodeInputMethod = $('#node-input-method');
+            var jqNodeInputParams = $('#node-input-params');
 
             var defaultSelectedMethod = this.method || '';
             var defaultSelectedCategory = '';
             if (defaultSelectedMethod.indexOf('.') > 0) {
                 defaultSelectedCategory = defaultSelectedMethod.split('.')[1];
             }
+            var defaultParams = this.params || '{}';
+            defaultParams = JSON.parse(defaultParams);
+
+            function setHiddenParams() {
+                var methodsObj = {};
+                $('.js-mopidy-param').each(function () {
+                    var jqThis = $(this);
+                    methodsObj[jqThis.data('paramname')] = jqThis.val();
+                });
+                jqNodeInputParams.val(JSON.stringify(methodsObj));
+            }
+            $('#dialog-form').on('change', '.js-mopidy-param', function() {
+                setHiddenParams();
+            });
 
             function setHiddenMethod() {
                 jqNodeInputMethod.val($(jqMopidyMethodsMethods).val());
@@ -67,13 +82,21 @@
 
             function displayParams() {
                 var curSelectedMethod = $(jqMopidyMethodsMethods).val();
+                $('.js-mopidy-added').remove();
                 allMethods.some(function(method) {
                     if (method.method !== curSelectedMethod) {
                         return false;
                     }
-                    $('.js-mopidy-added').remove();
                     var jqDialogForm = $('#dialog-form');
                     method.params.forEach(function (param, index) {
+                        var friendlyDefault = '';
+                        if ('friendlyDefault' in param) {
+                            friendlyDefault = param.friendlyDefault;
+                        }
+                        var prevValue = '';
+                        if (param.name in defaultParams) {
+                            prevValue = defaultParams[param.name];
+                        }
                         jqParam = $('#mopidy-param-placeholder').clone();
                         jqParam
                             .attr('id', '')
@@ -81,14 +104,19 @@
                             .attr('style', '');
                         jqParam.find('label')
                             .attr('for', 'mopidy-method-param-' + index)
-                            .html('<i class="fa fa-tag"></i> ' + param.name);
+                            .html('<i class="fa fa-bullseye"></i> ' + param.name);
                         jqParam.find('input')
                             .attr('id', 'mopidy-method-param-' + index)
-                            .attr('placeholder', param.default);
+                            .attr('placeholder', friendlyDefault)
+                            .addClass('js-mopidy-param')
+                            .val(prevValue)
+                            .data('paramname', param.name);
                         jqDialogForm.append(jqParam);
                     });
                     jqDialogForm.append('<pre id="mopidy-method-description" class="js-mopidy-added" style="max-height: 100px; overflow: auto;">' + method.description + '</pre>');
-                })
+                    defaultParams = {};
+                });
+                setHiddenParams();
             }
             jqMopidyMethodsMethods.change(displayParams.bind(this));
             jqMopidyMethodsMethods.change(setHiddenMethod.bind(this));
@@ -147,14 +175,14 @@
                 var jqXHR = $.ajax('/mopidy/' + serverNodeId + '/methods', {
                     type: 'GET'
                 });
-
                 jqXHR.done(function(data) {
                     allMethods = data;
                     populateCategories(data);
                 });
-
                 jqXHR.fail(function(err) {
                     RED.notify('<strong>Mopidy error (err: 1)</strong> Could not get methods (' + err.message + ')' , 'error');
+                    allMethods = [];
+                    populateCategories([]);
                 });
             }, 100);
             $('#node-input-server').change(fetchMethods.bind(this));
