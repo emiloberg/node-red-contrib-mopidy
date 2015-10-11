@@ -95,7 +95,7 @@ describe('[MopidyConnected] mopidy-out', () =>{
 
 			it('should get error', () => {
 				statusCode.should.eql(404);
-				methods.should.have.property('message', 'Could not find server node');
+				methods.should.have.property('message', 'Could not connect to Mopidy. If new connection - deploy configuration before continuing');
 			});
 
 		});

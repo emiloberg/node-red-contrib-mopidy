@@ -7,14 +7,16 @@
         <label for="node-input-server"><i class="fa fa-bookmark"></i> Server</label>
         <input type="text" id="node-input-server">
     </div>
-    <div class="form-row">
+    <div class="form-row jq-mopidy-show-when-loaded" style="display: none;">
         <label for="mopidy-methods-categories"><i class="fa fa-list"></i> Category</label>
         <select id="mopidy-methods-categories"></select>
     </div>
-    <div class="form-row">
+    <div class="form-row jq-mopidy-show-when-loaded" style="display: none;">
         <label for="mopidy-methods-methods"><i class="fa fa-list"></i> Method</label>
         <select id="mopidy-methods-methods"></select>
     </div>
+
+    <div class="js-mopidy-waiting" style="display: none; text-align: center;"><i class="fa fa-spinner fa-pulse fa-5x"></i><br><br>Connecting to Mopidy server</div>
 
     <div id="mopidy-param-placeholder" class="form-row" style="display: none;">
         <label for="mopidy-param-placeholder-id"><i class="fa fa-tag"></i> Placeholder</label>
@@ -144,6 +146,7 @@
             function populateCategories(methods) {
                 var htmlCategories = '';
                 getUniqueCatgories(methods).forEach(function(category) {
+                    if (category === 'getVersion' || category === 'getUriSchemes') { return; } // Hide non useful categories
                     var selected = '';
                     if (category === defaultSelectedCategory) {
                         selected = ' selected';
@@ -170,19 +173,39 @@
             }
 
             var fetchMethods = debounce(function() {
+                // TODO: Add spinner when waiting for connect
+                allMethods = [];
+                populateCategories([]);
+
                 var serverNodeId = $('#node-input-server').val();
-                if (serverNodeId === '_ADD_') { return; }
+                if (serverNodeId === '_ADD_') {
+                    return;
+                }
+
+                $('.js-mopidy-waiting').show();
+                $('.jq-mopidy-show-when-loaded').hide();
+
                 var jqXHR = $.ajax('/mopidy/' + serverNodeId + '/methods', {
                     type: 'GET'
                 });
+
+                jqXHR.always(function() {
+                    $('.js-mopidy-waiting').hide();
+                });
+
                 jqXHR.done(function(data) {
                     allMethods = data;
                     populateCategories(data);
+                    $('.jq-mopidy-show-when-loaded').show();
                 });
+
+                // TODO: Add html error message here (and not just the RED.notify)
                 jqXHR.fail(function(err) {
-                    RED.notify('<strong>Mopidy error (err: 1)</strong> Could not get methods (' + err.message + ')' , 'error');
-                    allMethods = [];
-                    populateCategories([]);
+                    if (err.responseJSON.message) {
+                        RED.notify(err.responseJSON.message, 'error');
+                    } else {
+                        RED.notify('Could not connect to Mopidy. Unknown error!', 'error');
+                    }
                 });
             }, 100);
             $('#node-input-server').change(fetchMethods.bind(this));

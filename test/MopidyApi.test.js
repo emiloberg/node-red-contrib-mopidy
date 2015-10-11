@@ -6,6 +6,7 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 
 import MopidyServer from '../mopidy/lib/models/MopidyServer'
+import * as utils from '../mopidy/lib/utils/utils';
 
 describe('MopidyAPI', () =>{
 
@@ -16,6 +17,7 @@ describe('MopidyAPI', () =>{
 			port: 6680,
 			mockApi: require('./_resources/mopidy-mock-api.json')
 		};
+		MOCK_SERVER_DATA.serverId = utils.serverPropsToName({ host: MOCK_SERVER_DATA.host, id: MOCK_SERVER_DATA.id });
 		let MOCK_SERVER;
 
 		before(() => {
@@ -44,6 +46,7 @@ describe('MopidyAPI', () =>{
 			host: 'localhost', // TODO: Fetch fron env var
 			port: 6680
 		};
+		REAL_SERVER_DATA.serverId = utils.serverPropsToName({ host: REAL_SERVER_DATA.host, id: REAL_SERVER_DATA.id });
 		let REAL_SERVER;
 
 		before(function(done) {
@@ -77,6 +80,7 @@ describe('MopidyAPI', () =>{
 			host: 'localhost',
 			port: 51234
 		};
+		NON_EXISTING_SERVER_DATA.serverId = utils.serverPropsToName({ host: NON_EXISTING_SERVER_DATA.host, id: NON_EXISTING_SERVER_DATA.id });
 		let NON_EXISTING_SERVER;
 
 		before(function() {

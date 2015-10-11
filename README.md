@@ -16,6 +16,9 @@ To rebuild it yourself, please see the tasks below.
 
 The source lives in the `./lib` folder and gets transpiled and copied to the `./mopidy` folder. I would rather name it `./src`, however, Node-RED walks the entire folder structure and tries to discover modules in every folder. [A few folder names are exluded](https://github.com/node-red/node-red/blob/master/red/nodes/registry/localfilesystem.js#L91) from this discovery (`lib|icons|node_modules|test|locales`) and `src` isn't one of them.
 
+### Pre commit
+There's a pre-commit hook in place which will run tests and lint check (`npm test` and `npm runt lint`) on ommit. Failed tests or lints will prevent commit.
+
 ### Development tasks
 Run tests which __do not__ require a connected Mopidy server by running:
 
