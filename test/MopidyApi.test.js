@@ -1,12 +1,12 @@
-
+var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
 var chai = require('chai');
 //var should = chai.should();
 chai.use(require('chai-things'));
 var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-import MopidyServer from '../mopidy/lib/models/MopidyServer'
-import * as utils from '../mopidy/lib/utils/utils';
+const MopidyServer = require('../' + testTypeSlug + '/lib/models/MopidyServer');
+const utils = require('../' + testTypeSlug + '/lib/utils/utils');
 
 describe('MopidyAPI', () =>{
 

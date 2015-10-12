@@ -10,7 +10,8 @@
     "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
     "clean-build": "./node_modules/.bin/rimraf mopidy; ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
     "precommit": "npm run test-all && npm run lint",
-    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register"
+    "coverage": "TEST_TYPE=coverage ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register",
+    "coverage-view": "npm run coverage && open ./coverage/lcov-report/index.html"
   },
   "repository": {
     "type": "git",

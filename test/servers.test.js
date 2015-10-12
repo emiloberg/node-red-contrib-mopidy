@@ -1,9 +1,11 @@
+var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
 const chai = require('chai');
 const should = chai.should();
 chai.use(require('chai-things'));
 
-const servers = require('../mopidy/lib/models/servers');
-var utils = require('../mopidy/lib/utils/utils');
+
+const servers = require('../' + testTypeSlug + '/lib/models/servers');
+var utils = require('../' + testTypeSlug + '/lib/utils/utils');
 
 describe('Servers', () =>{
 
