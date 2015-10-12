@@ -1,5 +1,5 @@
 
-const chai = require("chai");
+const chai = require('chai');
 //const should = chai.should();
 chai.use(require('chai-things'));
 var http = require('http');
@@ -13,7 +13,7 @@ describe('[MopidyConnected] mopidy-out', () =>{
 	describe('routes', () =>{
 
 		var server;
-		
+
 		before(function(done) {
 
 			this.timeout((5*1000));
@@ -47,7 +47,7 @@ describe('[MopidyConnected] mopidy-out', () =>{
 			}, 1000);
 
 		});
-		
+
 		after(() => {
 			server.close();
 		});

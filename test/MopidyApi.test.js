@@ -1,8 +1,8 @@
 
-var chai = require("chai");
+var chai = require('chai');
 //var should = chai.should();
 chai.use(require('chai-things'));
-var chaiAsPromised = require("chai-as-promised");
+var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
 import MopidyServer from '../mopidy/lib/models/MopidyServer'
