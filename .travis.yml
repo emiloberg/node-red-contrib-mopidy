@@ -5,3 +5,10 @@ node_js:
   - "0.12"
   - "0.11"
   - "0.10"
+after_script:
+  - npm run coverage
+  - codeclimate-test-reporter < ./coverage/lcov.info
+addons:
+  code_climate:
+    repo_token:
+      secure: "la7OqMFSuom5BzxP6BBlfTys1T+qchhTKNKBxj1ilBAv5NXuDE0VS3vKE/ufAQSR8T1mtZA9gmv9AfIaP14DBEhm2waxnQau0LoxuWvM2iIGYkXzveXRhFopLdyLB7y/co9TfF+59QHpeGR2zQUcR7LMJ2hsah87TicgkQKFgfp88bEePuQZYBShQOmTsqbCQusMCb1gMi66gscYtWHpECGt94V8FRm4+c1f8K6wVvYe59FqMnUb92s6ab8o25cl217xTYvOoJ0jZ5/evFBlkdjlVDwngzejt9bMLGVbId3RqIFBmjjS64R54/t+ZtwtDw7UKyUv352TupuULfg5vDYNJAKmKCO07OSi7jBNL/4R8TqEm85QA8SpRfKzHp7aa3JIIGPLKS3MloNsqRDfv4e8uMBqaCfzSsKAojI/PG0pmtcSnTf+9OSzCfxy0mJ+AzDKEzOtt9KLyrsJaqvcFTNKKjPy3zCBO1M8VA6/peB8Pu/HJFdBOBcjMkbrFkk0wJNfdg1YPwuB+s6psMHVl6g3mvQRvT0uY/AZNYxLSG+6bcQfVIJ79Z3Jci7QxrSi353/T/Ci0VKfAa0BaPU7DNGUqgA7kkKJH8nFeF6BHKKVTO9u7DKkzALBvwRFAfKYgobpeyifodNVCu6q2fdy6AB+sjFKURc/rp5CFVj2sgg="

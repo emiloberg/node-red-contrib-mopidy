@@ -3,6 +3,7 @@
 **Work in progress**
 
 [![Build Status](https://travis-ci.org/emiloberg/node-red-contrib-advanced-mopidy.svg?branch=master)](https://travis-ci.org/emiloberg/node-red-contrib-advanced-mopidy)
+[![Dependency Status](https://gemnasium.com/emiloberg/node-red-contrib-advanced-mopidy.svg)](https://gemnasium.com/emiloberg/node-red-contrib-advanced-mopidy)
 
 
 ## Install

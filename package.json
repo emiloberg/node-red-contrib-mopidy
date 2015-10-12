@@ -9,7 +9,8 @@
     "lint": "./node_modules/.bin/eslint ./lib/* ./test/*",
     "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
     "clean-build": "./node_modules/.bin/rimraf mopidy; ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
-    "precommit": "npm run test-all && npm run lint"
+    "precommit": "npm run test-all && npm run lint",
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register"
   },
   "repository": {
     "type": "git",
@@ -48,10 +49,12 @@
     "chai": "^3.3.0",
     "chai-as-promised": "^5.1.0",
     "chai-things": "^0.2.0",
+    "codeclimate-test-reporter": "^0.1.1",
     "eslint": "^1.5.1",
     "eslint-plugin-html": "^1.0.4",
     "express": "^4.13.3",
     "husky": "^0.10.1",
+    "istanbul": "^0.3.22",
     "mocha": "^2.3.3",
     "node-red": "^0.11.2",
     "superagent": "^1.4.0"
