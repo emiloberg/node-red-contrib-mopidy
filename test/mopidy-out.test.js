@@ -1,6 +1,7 @@
 
 const chai = require('chai');
 //const should = chai.should();
+chai.should();
 chai.use(require('chai-things'));
 var http = require('http');
 var request = require('superagent');

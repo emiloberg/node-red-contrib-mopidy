@@ -1,5 +1,7 @@
 var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
+//var testTypeSlug = 'lib';
 var chai = require('chai');
+chai.should();
 //var should = chai.should();
 chai.use(require('chai-things'));
 var chaiAsPromised = require('chai-as-promised');
@@ -28,14 +30,14 @@ describe('MopidyAPI', () =>{
 			MOCK_SERVER.close();
 		});
 
-		it('should get all methods', () => {
-			var methods = MOCK_SERVER.getMethods();
-			methods.should.eventually.be.an('array');
-			methods.should.eventually.have.length(68);
-			methods.should.eventually.all.have.property('method');
-			methods.should.eventually.all.have.property('category');
-			methods.should.eventually.all.have.property('description');
-			methods.should.eventually.all.have.property('params');
+		it('should get all methods', function() {
+			return MOCK_SERVER.getMethods()
+				.should.eventually.be.an('array')
+				.and.eventually.have.length(68)
+				.and.eventually.all.have.property('method')
+				.and.eventually.all.have.property('category')
+				.and.eventually.all.have.property('description')
+				.and.eventually.all.have.property('params');
 		});
 
 	});
@@ -62,13 +64,13 @@ describe('MopidyAPI', () =>{
 		});
 
 		it('should get all methods', () => {
-			var methods = REAL_SERVER.getMethods();
-			methods.should.eventually.be.an('array');
-			methods.should.eventually.have.length.above(50);
-			methods.should.eventually.all.have.property('method');
-			methods.should.eventually.all.have.property('category');
-			methods.should.eventually.all.have.property('description');
-			methods.should.eventually.all.have.property('params');
+			return REAL_SERVER.getMethods()
+				.should.eventually.be.an('array')
+				.and.eventually.have.length.above(50)
+				.and.eventually.all.have.property('method')
+				.and.eventually.all.have.property('category')
+				.and.eventually.all.have.property('description')
+				.and.eventually.all.have.property('params');
 		});
 
 	});
@@ -93,8 +95,7 @@ describe('MopidyAPI', () =>{
 
 		it('getMethods should be rejected after some time', function() {
 			this.timeout(6000);
-			var methods = NON_EXISTING_SERVER.getMethods();
-			return methods.should.be.rejected;
+			return NON_EXISTING_SERVER.getMethods().should.eventually.be.rejected;
 		});
 
 	});
