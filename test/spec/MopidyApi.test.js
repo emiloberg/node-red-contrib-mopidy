@@ -7,8 +7,8 @@ chai.use(require('chai-things'));
 var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-const MopidyServer = require('../' + testTypeSlug + '/lib/models/MopidyServer');
-const utils = require('../' + testTypeSlug + '/lib/utils/utils');
+const MopidyServer = require('../../' + testTypeSlug + '/lib/models/MopidyServer');
+const utils = require('../../' + testTypeSlug + '/lib/utils/utils');
 
 describe('MopidyAPI', () =>{
 
@@ -17,7 +17,7 @@ describe('MopidyAPI', () =>{
 		const MOCK_SERVER_DATA = {
 			host: 'not-used.local',
 			port: 6680,
-			mockApi: require('./_resources/mopidy-mock-api.json')
+			mockApi: require('../_resources/mopidy-mock-api.json')
 		};
 		MOCK_SERVER_DATA.serverId = utils.serverPropsToName({ host: MOCK_SERVER_DATA.host, id: MOCK_SERVER_DATA.id });
 		let MOCK_SERVER;
@@ -76,7 +76,7 @@ describe('MopidyAPI', () =>{
 	});
 
 
-	xdescribe('[TakesTime] When given a non existing Mopidy server', () =>{
+	describe('[TakesTime] When given a non existing Mopidy server', () =>{
 
 		const NON_EXISTING_SERVER_DATA = {
 			host: 'localhost',
