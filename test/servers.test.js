@@ -1,5 +1,5 @@
-var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
-//var testTypeSlug = 'lib';
+//var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
+var testTypeSlug = 'lib';
 const chai = require('chai');
 const should = chai.should();
 chai.use(require('chai-things'));

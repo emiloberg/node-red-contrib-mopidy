@@ -9,7 +9,7 @@ var path = require('path');
 var express = require('express');
 var RED = require('node-red');
 
-describe('[MopidyConnected] mopidy-out', () =>{
+xdescribe('[MopidyConnected] mopidy-out', () =>{
 
 	describe('routes', () =>{
 
@@ -53,7 +53,7 @@ describe('[MopidyConnected] mopidy-out', () =>{
 			server.close();
 		});
 
-		describe('When GET mopidy/{node-id}/methods', () =>{
+		xdescribe('When GET mopidy/{node-id}/methods', () =>{
 
 			var methods;
 			var statusCode;

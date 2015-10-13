@@ -1,5 +1,5 @@
-var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
-//var testTypeSlug = 'lib';
+//var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
+var testTypeSlug = 'lib';
 var chai = require('chai');
 chai.should();
 //var should = chai.should();
@@ -76,7 +76,7 @@ describe('MopidyAPI', () =>{
 	});
 
 
-	describe('[TakesTime] When given a non existing Mopidy server', () =>{
+	xdescribe('[TakesTime] When given a non existing Mopidy server', () =>{
 
 		const NON_EXISTING_SERVER_DATA = {
 			host: 'localhost',
