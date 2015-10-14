@@ -63,6 +63,7 @@
     "istanbul": "^0.3.22",
     "mocha": "^2.3.3",
     "node-red": "^0.11.2",
+    "rewire": "^2.3.4",
     "should": "^7.1.0",
     "sinon": "^1.17.1",
     "superagent": "^1.4.0",

@@ -6,6 +6,7 @@ chai.should();
 chai.use(require('chai-things'));
 var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
+const sinon = require('sinon');
 
 const MopidyServer = require('../../' + testTypeSlug + '/lib/models/MopidyServer');
 const utils = require('../../' + testTypeSlug + '/lib/utils/utils');
@@ -76,7 +77,7 @@ describe('MopidyAPI', () =>{
 	});
 
 
-	describe('[TakesTime] When given a non existing Mopidy server', () =>{
+	describe.only('When given a non existing Mopidy server', () =>{
 
 		const NON_EXISTING_SERVER_DATA = {
 			host: 'localhost',
@@ -94,8 +95,11 @@ describe('MopidyAPI', () =>{
 		});
 
 		it('getMethods should be rejected after some time', function() {
-			this.timeout(6000);
-			return NON_EXISTING_SERVER.getMethods().should.eventually.be.rejected;
+			var clock = sinon.useFakeTimers();
+			var res = NON_EXISTING_SERVER.getMethods();
+			clock.tick(5000);
+			clock.restore();
+			return res.should.eventually.be.rejected;
 		});
 
 	});
