@@ -10,8 +10,16 @@
     "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
     "clean-build": "./node_modules/.bin/rimraf mopidy; ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
     "precommit": "npm run test-all && npm run lint",
-    "coverage": "TEST_TYPE=coverage ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register",
-    "coverage-view": "npm run coverage && open ./coverage/lcov-report/index.html"
+    "test": "./node_modules/.bin/mocha --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register test/spec",
+    "test-all": "./node_modules/.bin/mocha --recursive --compilers js:babel/register test/spec",
+    "coverage": "npm run coverage-clean && ./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers babel:babel/register --grep 'MopidyConnected' --invert test/spec",
+    "coverage-view": "npm run coverage && npm run coverage-open",
+    "coverage-all": "npm run coverage-clean & ./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers babel:babel/register test/spec",
+    "coverage-all-view": "npm run coverage-all && npm run coverage-open",
+    "coverage-clean": "./node_modules/.bin/rimraf coverage",
+    "coverage-open": "open ./coverage/lcov-report/index.html",
+    "plato": "./node_modules/.bin/rimraf plato-report && ./node_modules/.bin/rimraf plato-build && ./node_modules/.bin/babel --optional runtime lib/ --out-dir plato-build && ./node_modules/.bin/plato -r -e .eslintrc -d plato-report plato-build && ./node_modules/.bin/rimraf plato-build",
+    "plato-view": "npm run plato && open ./plato-report/index.html"
   },
   "repository": {
     "type": "git",
@@ -58,6 +66,12 @@
     "istanbul": "^0.3.22",
     "mocha": "^2.3.3",
     "node-red": "^0.11.2",
-    "superagent": "^1.4.0"
+    "plato": "^1.5.0",
+    "rewire": "^2.3.4",
+    "should": "^7.1.0",
+    "sinon": "^1.17.1",
+    "superagent": "^1.4.0",
+    "supertest": "^1.1.0",
+    "when": "^3.7.3"
   }
 }
