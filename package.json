@@ -16,7 +16,7 @@
     "coverage-all-view": "npm run coverage-all && npm run coverage-open",
     "coverage-clean": "./node_modules/.bin/rimraf coverage",
     "coverage-open": "open ./coverage/lcov-report/index.html",
-    "plato": "./node_modules/.bin/rimraf plato-report && ./node_modules/.bin/rimraf plato-build && ./node_modules/.bin/babel --optional runtime lib/ --out-dir plato-build && ./node_modules/.bin/plato -r -e .eslintrc -d plato-report plato-build && ./node_modules/.bin/rimraf plato-build",
+    "plato": "./node_modules/.bin/rimraf plato-report && ./node_modules/.bin/rimraf plato-build && ./node_modules/.bin/babel --optional runtime lib/ --out-dir plato-build && ./node_modules/.bin/plato -r -e .eslintrc-es5 -d plato-report plato-build && ./node_modules/.bin/rimraf plato-build",
     "plato-view": "npm run plato && open ./plato-report/index.html"
   },
   "repository": {
