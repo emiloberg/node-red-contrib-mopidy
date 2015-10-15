@@ -69,7 +69,6 @@
     "rewire": "^2.3.4",
     "should": "^7.1.0",
     "sinon": "^1.17.1",
-    "superagent": "^1.4.0",
     "supertest": "^1.1.0",
     "when": "^3.7.3"
   }
