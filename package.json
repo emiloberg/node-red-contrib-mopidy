@@ -15,7 +15,9 @@
     "coverage-all": "npm run coverage-clean & ./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers babel:babel/register test/spec",
     "coverage-all-view": "npm run coverage-all && npm run coverage-open",
     "coverage-clean": "./node_modules/.bin/rimraf coverage",
-    "coverage-open": "open ./coverage/lcov-report/index.html"
+    "coverage-open": "open ./coverage/lcov-report/index.html",
+    "plato": "./node_modules/.bin/rimraf plato-report && ./node_modules/.bin/rimraf plato-build && ./node_modules/.bin/babel --optional runtime lib/ --out-dir plato-build && ./node_modules/.bin/plato -r -e .eslintrc -d plato-report plato-build && ./node_modules/.bin/rimraf plato-build",
+    "plato-view": "npm run plato && open ./plato-report/index.html"
   },
   "repository": {
     "type": "git",
@@ -63,6 +65,7 @@
     "istanbul": "^0.3.22",
     "mocha": "^2.3.3",
     "node-red": "^0.11.2",
+    "plato": "^1.5.0",
     "rewire": "^2.3.4",
     "should": "^7.1.0",
     "sinon": "^1.17.1",
