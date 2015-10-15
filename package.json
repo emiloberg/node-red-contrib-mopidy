@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "npm run build",
     "build": "./node_modules/.bin/rimraf mopidy && ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
-    "lint": "./node_modules/.bin/eslint ./lib/* ./test/*",
+    "lint": "./node_modules/.bin/eslint ./lib/* ./test/spec/*",
     "precommit": "npm run test-all && npm run lint",
     "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
     "test": "./node_modules/.bin/mocha --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register test/spec",
