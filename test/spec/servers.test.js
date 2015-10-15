@@ -10,7 +10,7 @@ var utils = require('../../' + testTypeSlug + '/lib/utils/utils');
 
 describe('Servers', () =>{
 
-	describe('When given server details', () =>{
+	describe('Given server details', () =>{
 
 		const SERVER_ONE = {
 			host: 'localhost',
