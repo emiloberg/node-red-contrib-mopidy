@@ -1,16 +1,16 @@
-var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
-//var testTypeSlug = 'lib';
+//var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
+var testTypeSlug = 'lib';
 const chai = require('chai');
 const should = chai.should();
 chai.use(require('chai-things'));
 
 
-const servers = require('../' + testTypeSlug + '/lib/models/servers');
-var utils = require('../' + testTypeSlug + '/lib/utils/utils');
+const servers = require('../../' + testTypeSlug + '/lib/models/servers');
+var utils = require('../../' + testTypeSlug + '/lib/utils/utils');
 
 describe('Servers', () =>{
 
-	describe('When given server details', () =>{
+	describe('Given server details', () =>{
 
 		const SERVER_ONE = {
 			host: 'localhost',

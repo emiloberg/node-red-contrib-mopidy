@@ -3,13 +3,11 @@
   "version": "1.2.0",
   "description": "A Node-RED node to communicate with Mopidy",
   "scripts": {
-    "postinstall": "./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
-    "test": "./node_modules/.bin/mocha --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register",
-    "test-all": "./node_modules/.bin/mocha --recursive --compilers js:babel/register",
-    "lint": "./node_modules/.bin/eslint ./lib/* ./test/*",
-    "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
-    "clean-build": "./node_modules/.bin/rimraf mopidy; ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
+    "postinstall": "npm run build",
+    "build": "./node_modules/.bin/rimraf mopidy && ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
+    "lint": "./node_modules/.bin/eslint ./lib/* ./test/spec/*",
     "precommit": "npm run test-all && npm run lint",
+    "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
     "test": "./node_modules/.bin/mocha --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register test/spec",
     "test-all": "./node_modules/.bin/mocha --recursive --compilers js:babel/register test/spec",
     "coverage": "npm run coverage-clean && ./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers babel:babel/register --grep 'MopidyConnected' --invert test/spec",
@@ -63,6 +61,7 @@
     "eslint-plugin-html": "^1.0.4",
     "express": "^4.13.3",
     "husky": "^0.10.1",
+    "isparta": "^3.1.0",
     "istanbul": "^0.3.22",
     "mocha": "^2.3.3",
     "node-red": "^0.11.2",
@@ -70,7 +69,6 @@
     "rewire": "^2.3.4",
     "should": "^7.1.0",
     "sinon": "^1.17.1",
-    "superagent": "^1.4.0",
     "supertest": "^1.1.0",
     "when": "^3.7.3"
   }
