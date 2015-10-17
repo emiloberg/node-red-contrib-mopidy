@@ -3,9 +3,10 @@ chai.should();
 //const should = chai.should();
 chai.use(require('chai-things'));
 
-import {serverPropsToName, snakeToCamel} from '../../lib/lib/utils/utils';
+import {serverPropsToName, snakeToCamel, uuid} from '../../lib/lib/utils/utils';
 
 describe('utils', () =>{
+
 	describe('serverPropsToName', () =>{
 		describe('Given host and port', () =>{
 			it('should return a correct id', () => {
@@ -14,6 +15,7 @@ describe('utils', () =>{
 			});
 		});
 	});
+
 	describe('snakeToCamel', () =>{
 		describe('Given a snake_cased_string', () =>{
 			it('should return a camelCasedString', () => {
@@ -22,6 +24,19 @@ describe('utils', () =>{
 			});
 		});
 	});
+
+	describe('uuid', () =>{
+		describe('When called', () =>{
+			it('should return a UUID', () => {
+				let currentUuid = uuid();
+				currentUuid.should.be.a('string');
+				currentUuid.should.have.length(36);
+				currentUuid.should.not.equal(uuid());
+				currentUuid.should.not.equal(uuid());
+			});
+		});
+	});
+
 });
 
 
