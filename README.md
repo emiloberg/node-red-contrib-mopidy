@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/emiloberg/node-red-contrib-advanced-mopidy.svg?branch=master)](https://travis-ci.org/emiloberg/node-red-contrib-advanced-mopidy)
 [![Dependency Status](https://gemnasium.com/emiloberg/node-red-contrib-advanced-mopidy.svg)](https://gemnasium.com/emiloberg/node-red-contrib-advanced-mopidy)
 [![Test Coverage](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy/badges/coverage.svg)](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy/coverage)
+[![Code Climate](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy/badges/gpa.svg)](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy)
 
 ## Install
 While in development, you need to clone and `npm install` it. Will be on NPM when stable.
