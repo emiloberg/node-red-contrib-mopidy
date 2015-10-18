@@ -31,26 +31,17 @@ describe('mopidy-out', () => {
 		helper.unload();
 	});
 
-	const FLOW = [
-		{
-			'host': 'localhost',
-			'id': 'mop-config',
-			'name': 'nonexist',
-			'port': '6680',
-			'type': 'mopidy-config'
-		},
-		{
-			'id': 'mop-out',
-			'method': '',
-			'name': 'myname',
-			'params': '{}',
-			'server': 'mop-config',
-			'type': 'mopidy-out'
-		}
-	];
+	describe('Given node is loaded', () => {
 
-	describe('Given data', () => {
-		it('should be loaded', function(done) {
+		const FLOW = [
+			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
+			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
+				'method': '',
+				'params': '{}'
+			}
+		];
+
+		it('should be registered', function(done) {
 			helper.load(NODES, FLOW, function() {
 				var currentNode = helper.getNode('mop-out');
 				currentNode.should.have.property('name', 'myname');
@@ -69,27 +60,17 @@ describe('mopidy-out', () => {
 		});
 	});
 
-	describe('Given a pre-configured mopidy-out node', () => {
-		it('should invoke the mopidy method when called', function(done) {
-			const FLOW_CONFIGURED_MOP_OUT = [
-				{
-					'host': 'localhost',
-					'id': 'mop-config',
-					'name': 'nonexist',
-					'port': '6680',
-					'type': 'mopidy-config'
-				},
-				{
-					'id': 'mop-out',
-					'method': 'core.tracklist.shuffle',
-					'name': 'myname',
-					'params': '{"start":"","end":""}',
-					'server': 'mop-config',
-					'type': 'mopidy-out'
-				}
-			];
+	describe('Given a mopidy-out node configured with method and params', () => {
+		const FLOW = [
+			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
+			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
+				'method': 'core.tracklist.shuffle',
+				'params': '{"start":"","end":""}'
+			}
+		];
 
-			helper.load(NODES, FLOW_CONFIGURED_MOP_OUT, function() {
+		it('should invoke the mopidy method when called', function(done) {
+			helper.load(NODES, FLOW, function() {
 				var currentNode = helper.getNode('mop-out');
 				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
 				var spySend = sinon.spy(currentNode, 'send');
@@ -97,17 +78,165 @@ describe('mopidy-out', () => {
 				currentNode.invokeMethod();
 
 				setTimeout(function(){
-					stubInvokeMethod.should.have.been.calledWith({ method: 'core.tracklist.shuffle', params: { end: '', start: '' } });
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.shuffle', params: { end: '', start: '' } });
 					spySend.should.have.callCount(1);
 					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
 
 					spySend.reset();
 					stubInvokeMethod.restore();
-
 					done();
 				}, 0);
 			});
 		});
+
+		it('should invoke the mopidy method when called with a non-existing method, and return with error', function(done) {
+			helper.load(NODES, FLOW, function() {
+				var currentNode = helper.getNode('mop-out');
+				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.reject('error value') });
+				var spySend = sinon.spy(currentNode, 'send');
+
+				currentNode.invokeMethod();
+
+				setTimeout(function(){
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.shuffle', params: { end: '', start: '' } });
+					spySend.should.have.callCount(1);
+					spySend.should.have.been.calledWithExactly({ status: 0, err: 'error value' });
+
+					spySend.reset();
+					stubInvokeMethod.restore();
+					done();
+				}, 0);
+			});
+		});
+
 	});
+
+
+	describe('Given a mopidy-out node configured with method', () => {
+		const FLOW = [
+			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
+			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
+				'method': 'core.tracklist.add',
+				'params': ''
+			}
+		];
+
+		it('should merge with params from message and invoke the mopidy method when called', function(done) {
+			helper.load(NODES, FLOW, function() {
+				var currentNode = helper.getNode('mop-out');
+				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				var spySend = sinon.spy(currentNode, 'send');
+
+				currentNode.invokeMethod({ params: { uri: 'http://http-live.sr.se/p1-mp3-128' }});
+
+				setTimeout(function(){
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.add', params: { uri: 'http://http-live.sr.se/p1-mp3-128' } });
+					spySend.should.have.callCount(1);
+					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+
+					spySend.reset();
+					stubInvokeMethod.restore();
+					done();
+				}, 0);
+			});
+		});
+
+	});
+
+
+	describe('Given a mopidy-out node configured with params', () => {
+		const FLOW = [
+			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
+			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
+				'method': '',
+				'params': '{"volume": 50}'
+			}
+		];
+
+		it('should merge with method from message and invoke the mopidy method when called', function(done) {
+			helper.load(NODES, FLOW, function() {
+				var currentNode = helper.getNode('mop-out');
+				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				var spySend = sinon.spy(currentNode, 'send');
+
+				currentNode.invokeMethod({ method: 'core.mixer.setVolume'});
+
+				setTimeout(function(){
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.mixer.setVolume', params: { volume: 50 } });
+					spySend.should.have.callCount(1);
+					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+
+					spySend.reset();
+					stubInvokeMethod.restore();
+					done();
+				}, 0);
+			});
+		});
+
+	});
+
+	describe('Given a mopidy-out node not configured with method or params', () => {
+		const FLOW = [
+			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
+			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
+				'method': '',
+				'params': ''
+			}
+		];
+
+		it('should get method and params from message and invoke the mopidy method when called', function(done) {
+			helper.load(NODES, FLOW, function() {
+				var currentNode = helper.getNode('mop-out');
+				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				var spySend = sinon.spy(currentNode, 'send');
+
+				currentNode.invokeMethod({ method: 'core.tracklist.slice', params: { start: 1, end: 2 }});
+
+				setTimeout(function(){
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.slice', params: { start: 1, end: 2 }});
+					spySend.should.have.callCount(1);
+					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+
+					spySend.reset();
+					stubInvokeMethod.restore();
+					done();
+				}, 0);
+			});
+		});
+
+	});
+
+
+	describe('Given a mopidy-out node configured with method or params and incoming message with method and params', () => {
+		const FLOW = [
+			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
+			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
+				'method': 'core.mixer.setMute',
+				'params': '{"mute": true}'
+			}
+		];
+
+		it('should use method and params from message and invoke the mopidy method when called', function(done) {
+			helper.load(NODES, FLOW, function() {
+				var currentNode = helper.getNode('mop-out');
+				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				var spySend = sinon.spy(currentNode, 'send');
+
+				currentNode.invokeMethod({ method: 'core.playlist.save', params: { playlist: 'myplaylist' }});
+
+				setTimeout(function(){
+					stubInvokeMethod.should.have.been.calledWith(sinon.match({ method: 'core.playlist.save', params: { playlist: 'myplaylist' }}));
+					spySend.should.have.callCount(1);
+					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+
+					spySend.reset();
+					stubInvokeMethod.restore();
+					done();
+				}, 0);
+			});
+		});
+
+	});
+
 
 });

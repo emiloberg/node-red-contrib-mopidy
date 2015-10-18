@@ -47,6 +47,7 @@
     "babel": "^5.8.23",
     "eyes": "^0.1.8",
     "mopidy": "^0.5.0",
+    "object-assign": "^4.0.1",
     "promise": "^7.0.4",
     "rimraf": "^2.4.3",
     "validator": "^4.0.6",
