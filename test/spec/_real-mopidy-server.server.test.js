@@ -1,8 +1,7 @@
-var chai = require('chai');
+const chai = require('chai');
 chai.should();
-//var should = chai.should();
 chai.use(require('chai-things'));
-var chaiAsPromised = require('chai-as-promised');
+const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
 const MOPIDY_SERVER = require('../../lib/lib/models/MopidyServer');

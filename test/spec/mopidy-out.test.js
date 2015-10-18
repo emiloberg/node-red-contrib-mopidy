@@ -4,8 +4,7 @@ chai.should();
 chai.use(require('chai-things'));
 
 const sinon = require('sinon');
-
-var sinonChai = require('sinon-chai');
+const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
 const Promise = require('promise');
@@ -43,7 +42,7 @@ describe('mopidy-out', () => {
 
 		it('should be registered', function(done) {
 			helper.load(NODES, FLOW, function() {
-				var currentNode = helper.getNode('mop-out');
+				const currentNode = helper.getNode('mop-out');
 				currentNode.should.have.property('name', 'myname');
 				currentNode.should.have.property('type', 'mopidy-out');
 				done();
@@ -52,7 +51,7 @@ describe('mopidy-out', () => {
 
 		it('should be populated with data from config node', function(done) {
 			helper.load(NODES, FLOW, function() {
-				var currentNode = helper.getNode('mop-out');
+				const currentNode = helper.getNode('mop-out');
 				currentNode.should.have.deep.property('mopidyServer.host', 'localhost');
 				currentNode.should.have.deep.property('mopidyServer.port', '6680');
 				done();
@@ -71,9 +70,9 @@ describe('mopidy-out', () => {
 
 		it('should invoke the mopidy method when called', function(done) {
 			helper.load(NODES, FLOW, function() {
-				var currentNode = helper.getNode('mop-out');
-				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
-				var spySend = sinon.spy(currentNode, 'send');
+				let currentNode = helper.getNode('mop-out');
+				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				const spySend = sinon.spy(currentNode, 'send');
 
 				currentNode.invokeMethod();
 
@@ -91,9 +90,9 @@ describe('mopidy-out', () => {
 
 		it('should invoke the mopidy method when called with a non-existing method, and return with error', function(done) {
 			helper.load(NODES, FLOW, function() {
-				var currentNode = helper.getNode('mop-out');
-				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.reject('error value') });
-				var spySend = sinon.spy(currentNode, 'send');
+				let currentNode = helper.getNode('mop-out');
+				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.reject('error value') });
+				const spySend = sinon.spy(currentNode, 'send');
 
 				currentNode.invokeMethod();
 
@@ -123,9 +122,9 @@ describe('mopidy-out', () => {
 
 		it('should merge with params from message and invoke the mopidy method when called', function(done) {
 			helper.load(NODES, FLOW, function() {
-				var currentNode = helper.getNode('mop-out');
-				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
-				var spySend = sinon.spy(currentNode, 'send');
+				let currentNode = helper.getNode('mop-out');
+				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				const spySend = sinon.spy(currentNode, 'send');
 
 				currentNode.invokeMethod({ params: { uri: 'http://http-live.sr.se/p1-mp3-128' }});
 
@@ -155,9 +154,9 @@ describe('mopidy-out', () => {
 
 		it('should merge with method from message and invoke the mopidy method when called', function(done) {
 			helper.load(NODES, FLOW, function() {
-				var currentNode = helper.getNode('mop-out');
-				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
-				var spySend = sinon.spy(currentNode, 'send');
+				let currentNode = helper.getNode('mop-out');
+				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				const spySend = sinon.spy(currentNode, 'send');
 
 				currentNode.invokeMethod({ method: 'core.mixer.setVolume'});
 
@@ -186,9 +185,9 @@ describe('mopidy-out', () => {
 
 		it('should get method and params from message and invoke the mopidy method when called', function(done) {
 			helper.load(NODES, FLOW, function() {
-				var currentNode = helper.getNode('mop-out');
-				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
-				var spySend = sinon.spy(currentNode, 'send');
+				let currentNode = helper.getNode('mop-out');
+				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				const spySend = sinon.spy(currentNode, 'send');
 
 				currentNode.invokeMethod({ method: 'core.tracklist.slice', params: { start: 1, end: 2 }});
 
@@ -218,9 +217,9 @@ describe('mopidy-out', () => {
 
 		it('should use method and params from message and invoke the mopidy method when called', function(done) {
 			helper.load(NODES, FLOW, function() {
-				var currentNode = helper.getNode('mop-out');
-				var stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
-				var spySend = sinon.spy(currentNode, 'send');
+				let currentNode = helper.getNode('mop-out');
+				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				const spySend = sinon.spy(currentNode, 'send');
 
 				currentNode.invokeMethod({ method: 'core.playlist.save', params: { playlist: 'myplaylist' }});
 

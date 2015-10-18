@@ -1,12 +1,11 @@
 //var testTypeSlug = process.env.TEST_TYPE === 'coverage' ? 'lib' : 'mopidy';
-var testTypeSlug = 'lib';
 const chai = require('chai');
 const should = chai.should();
 chai.use(require('chai-things'));
 
 
-const servers = require('../../' + testTypeSlug + '/lib/models/servers');
-var utils = require('../../' + testTypeSlug + '/lib/utils/utils');
+const servers = require('../../lib/lib/models/servers');
+const utils = require('../../lib/lib/utils/utils');
 
 describe('Servers', () =>{
 
@@ -106,12 +105,12 @@ describe('Servers', () =>{
 
 
 		it('should remove the first server based on host+port', () => {
-			var ret = servers.remove({ host: SERVER_ONE.host, port: SERVER_ONE.port });
+			const ret = servers.remove({ host: SERVER_ONE.host, port: SERVER_ONE.port });
 			ret.should.eql(true);
 		});
 
 		it('should remove the second server based on id', () => {
-			var ret = servers.remove({ id: SERVER_TWO_RETURNED_ID });
+			const ret = servers.remove({ id: SERVER_TWO_RETURNED_ID });
 			ret.should.eql(true);
 		});
 

@@ -1,8 +1,7 @@
-var chai = require('chai');
+const chai = require('chai');
 chai.should();
-//var should = chai.should();
 chai.use(require('chai-things'));
-var chaiAsPromised = require('chai-as-promised');
+const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 const sinon = require('sinon');
 const rewire = require('rewire');
@@ -86,8 +85,8 @@ describe('MopidyAPI', () =>{
 		});
 
 		it('should rejected after 5000 ms when trying to get methods', function() {
-			var clock = sinon.useFakeTimers();
-			var res = NON_EXISTING_SERVER.getMethods();
+			const clock = sinon.useFakeTimers();
+			const res = NON_EXISTING_SERVER.getMethods();
 			clock.tick(5000);
 			clock.restore();
 			return res.should.eventually.be.rejected;

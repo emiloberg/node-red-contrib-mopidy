@@ -3,9 +3,9 @@ chai.should();
 //const should = chai.should();
 chai.use(require('chai-things'));
 
-var helper = require('../helper.js');
+const helper = require('../helper.js');
 
-var MOPIDY_CONFIG_NODE = require('../../lib/mopidy-config.js');
+const MOPIDY_CONFIG_NODE = require('../../lib/mopidy-config.js');
 
 describe('mopidy-config', () => {
 
@@ -22,20 +22,20 @@ describe('mopidy-config', () => {
 		helper.unload();
 	});
 
-	var FLOW = [
-		{
-			'host': 'localhost',
-			'id': 'mop-config',
-			'name': 'nonexist',
-			'port': '6680',
-			'type': 'mopidy-config'
-		}
-	];
-
 	describe('Given data', () => {
 		it('should be loaded', function(done) {
+			const FLOW = [
+				{
+					'host': 'localhost',
+					'id': 'mop-config',
+					'name': 'nonexist',
+					'port': '6680',
+					'type': 'mopidy-config'
+				}
+			];
+
 			helper.load(MOPIDY_CONFIG_NODE, FLOW, function() {
-				var currentNode = helper.getNode('mop-config');
+				const currentNode = helper.getNode('mop-config');
 				currentNode.should.have.property('name', 'nonexist');
 				currentNode.should.have.property('host', 'localhost');
 				currentNode.should.have.property('port', '6680');
