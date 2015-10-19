@@ -3,7 +3,11 @@ chai.should();
 chai.use(require('chai-things'));
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
+
 const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
+chai.use(sinonChai);
+
 const rewire = require('rewire');
 const when = require('when');
 
@@ -14,6 +18,20 @@ const MOPIDY_SERVER = require('../../lib/lib/models/MopidyServer');
 
 describe('MopidyAPI', () =>{
 
+	describe('Given module loaded', () => {
+		it('should execute function by name', function () {
+			var spy              = sinon.spy();
+			const nestedFunction = {
+				some: {
+					where: {
+						deep: spy
+					}
+				}
+			};
+			MOPIDY_SERVER._executeFunctionByName('some.where.deep', nestedFunction);
+			spy.should.have.callCount(1);
+		});
+	});
 
 	describe('Given a mock Mopidy server, should connect to it and', () =>{
 
@@ -63,6 +81,7 @@ describe('MopidyAPI', () =>{
 				.and.eventually.all.have.property('description')
 				.and.eventually.all.have.property('params');
 		});
+
 	});
 
 
