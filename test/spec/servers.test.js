@@ -32,8 +32,15 @@ describe('Servers', () =>{
 			name: ''
 		};
 
+		const SERVER_THREE = {
+			host: 'localhost',
+			port: 6681,
+			name: 'Local Server',
+			addWithUniqueId: true
+		};
+
 		before(() => {
-			servers.removeAllServers();
+			servers.removeAll();
 		});
 
 
@@ -118,6 +125,35 @@ describe('Servers', () =>{
 			const listOfServers = servers.getAll();
 			listOfServers.should.be.an('array');
 			listOfServers.should.have.length(0);
+		});
+
+		it('should remove all servers', () => {
+			servers.add(SERVER_ONE);
+			servers.add(SERVER_TWO);
+			servers.getAll().should.have.length(2);
+
+			servers.removeAll();
+			servers.getAll().should.have.length(0);
+		});
+
+		it('should not remove non-existing server', () => {
+			servers.add(SERVER_ONE);
+			servers.add(SERVER_TWO);
+			servers.getAll().should.have.length(2);
+
+			servers.remove({ id: 'non-existing-id' }).should.eql(false);
+			servers.getAll().should.have.length(2);
+		});
+
+		it('should add server with unique id', () => {
+			const server = servers.add(SERVER_THREE);
+			SERVER_TWO_RETURNED_ID = server.id;
+			server.should.be.an('object');
+			server.should.have.property('host', SERVER_THREE.host);
+			server.should.have.property('port', SERVER_THREE.port);
+			server.should.have.property('name', SERVER_THREE.name);
+			server.id.should.be.a('string');
+			server.id.should.have.length(36);
 		});
 
 	});

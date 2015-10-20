@@ -33,16 +33,12 @@ describe('MopidyAPI', () =>{
 		});
 	});
 
-	describe('Given a mock Mopidy server, should connect to it and', () =>{
+	describe('Given a MopidyServer connected to server 1', () =>{
 
 		let REWIRED_SERVER;
 		const REWIRED_MOPIDY_SERVER = rewire('../../lib/lib/models/MopidyServer');
 		const MOCK_API = require('../_resources/mopidy-mock-api.json');
-		const FAKE_SERVER_DATA = {
-			host: 'fake.server',
-			port: 1234,
-			serverId: 'sampleId2'
-		};
+		const FAKE_SERVER_DATA = { host: 'fake.server', port: 1234, serverId: 'sampleId2' };
 
 		before(function() {
 			const mockedMopidy = function() {
@@ -84,6 +80,97 @@ describe('MopidyAPI', () =>{
 
 	});
 
+
+	describe('Given a MopidyServer connected to server 2', () =>{
+
+		let REWIRED_SERVER;
+		const REWIRED_MOPIDY_SERVER = rewire('../../lib/lib/models/MopidyServer');
+		const MOCK_API = require('../_resources/mopidy-mock-api.json');
+		const FAKE_SERVER_DATA = { host: 'fake.server', port: 1234, serverId: 'sampleId2' };
+		const spy = sinon.spy();
+
+		before(function() {
+			const mockedMopidy = function() {
+				return {
+					_send: function(params) {
+						params.should.have.property('method', 'core.describe');
+						return when.resolve(MOCK_API);
+					},
+					on: function(eventName, cb) {
+						if (eventName === 'state:online') {
+							cb();
+						}
+
+					},
+					_webSocket: {
+						readyState: 1
+					},
+					close: function(){},
+					off: function(){}
+				}
+			};
+			REWIRED_MOPIDY_SERVER.__set__('Mopidy', mockedMopidy);
+			REWIRED_MOPIDY_SERVER._executeFunctionByName = spy;
+			REWIRED_SERVER = new REWIRED_MOPIDY_SERVER(FAKE_SERVER_DATA);
+		});
+
+		after(() => {
+			REWIRED_SERVER.close();
+		});
+
+		it('should invoke method', () => {
+			REWIRED_SERVER.invokeMethod({
+				method: 'core.tracklist.add',
+				params: {
+					uri: 'http://http-live.sr.se/p1-mp3-128'
+				}
+			});
+
+			spy.should.have.callCount(1);
+			spy.args[0][0].should.eql('tracklist.add');
+			spy.args[0][2].should.eql({ uri: 'http://http-live.sr.se/p1-mp3-128' });
+
+			spy.reset();
+
+			REWIRED_SERVER.invokeMethod({
+				method: 'core.history.getLength'
+			});
+
+			spy.should.have.callCount(1);
+			spy.args[0][0].should.eql('history.getLength');
+			spy.args[0][2].should.eql({});
+
+		});
+
+	});
+
+
+	describe('Given a MopidyServer not connected to server', () =>{
+
+		let REWIRED_SERVER;
+		const REWIRED_MOPIDY_SERVER = rewire('../../lib/lib/models/MopidyServer');
+		const MOCK_API = require('../_resources/mopidy-mock-api.json');
+		const FAKE_SERVER_DATA = { host: 'fake.server', port: 1234, serverId: 'sampleId2' };
+
+		before(function() {
+			const mockedMopidy = function() {
+				return {
+					_send: function(params) {
+						params.should.have.property('method', 'core.describe');
+						return when.resolve(MOCK_API);
+					},
+					on: function() {}
+				}
+			};
+			REWIRED_MOPIDY_SERVER.__set__('Mopidy', mockedMopidy);
+			REWIRED_SERVER = new REWIRED_MOPIDY_SERVER(FAKE_SERVER_DATA);
+		});
+
+		it('should return readyState false', () => {
+			REWIRED_SERVER.readyState.should.eql(false);
+		});
+
+	});
 
 	describe('Given a non existing Mopidy server', () =>{
 
