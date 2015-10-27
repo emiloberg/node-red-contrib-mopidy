@@ -36,37 +36,6 @@ describe('mopidy-out', () => {
 		helper.unload();
 	});
 
-
-	describe('Given node got message from previous node', () => {
-
-		const FLOW = [
-			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
-			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
-				'method': '',
-				'params': '{}'
-			}
-		];
-
-		it('should invoke mopidy method', function(done) {
-			helper.load(NODES, FLOW, function() {
-				const currentNode = helper.getNode('mop-out');
-				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
-				const spySend = sinon.spy(currentNode, 'send');
-
-				currentNode.emit('input', {});
-				setTimeout(function() {
-					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
-					// TODO: Continue work here, make better tests
-					done();
-				}, 0);
-
-				spySend.reset();
-				stubInvokeMethod.restore();
-			});
-		});
-	});
-
 	describe('Given node is loaded', () => {
 
 		const FLOW = [
@@ -92,6 +61,23 @@ describe('mopidy-out', () => {
 				currentNode.should.have.deep.property('mopidyServer.host', 'localhost');
 				currentNode.should.have.deep.property('mopidyServer.port', '6680');
 				done();
+			});
+		});
+
+		it('should listen to input', function(done) {
+			helper.load(NODES, FLOW, function() {
+				const currentNode = helper.getNode('mop-out');
+				const stubInvokeMethod = sinon.stub(currentNode, 'invokeMethod', function() {});
+
+				currentNode.emit('input', { something: 'else' });
+				setTimeout(function() {
+					stubInvokeMethod.should.have.callCount(1);
+					stubInvokeMethod.should.have.been.calledWithExactly({ something: 'else' });
+					// TODO: Continue work here, make better tests
+					done();
+				}, 0);
+
+				stubInvokeMethod.restore();
 			});
 		});
 
