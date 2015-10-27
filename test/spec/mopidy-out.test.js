@@ -8,11 +8,17 @@ const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
 const Promise = require('promise');
+//const rewire = require('rewire');
 
 const helper = require('../helper.js');
+//const proxyquire =  require('proxyquire');
+
 const MOPIDY_OUT_NODE = require('../../lib/mopidy-out.js');
 const MOPIDY_CONFIG_NODE = require('../../lib/mopidy-config.js');
 const NODES = [MOPIDY_OUT_NODE, MOPIDY_CONFIG_NODE];
+
+
+
 
 describe('mopidy-out', () => {
 
@@ -28,6 +34,37 @@ describe('mopidy-out', () => {
 
 	afterEach(function() {
 		helper.unload();
+	});
+
+
+	describe('Given node got message from previous node', () => {
+
+		const FLOW = [
+			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
+			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
+				'method': '',
+				'params': '{}'
+			}
+		];
+
+		it('should invoke mopidy method', function(done) {
+			helper.load(NODES, FLOW, function() {
+				const currentNode = helper.getNode('mop-out');
+				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				const spySend = sinon.spy(currentNode, 'send');
+
+				currentNode.emit('input', {});
+				setTimeout(function() {
+					spySend.should.have.callCount(1);
+					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+					// TODO: Continue work here, make better tests
+					done();
+				}, 0);
+
+				spySend.reset();
+				stubInvokeMethod.restore();
+			});
+		});
 	});
 
 	describe('Given node is loaded', () => {
@@ -57,6 +94,7 @@ describe('mopidy-out', () => {
 				done();
 			});
 		});
+
 	});
 
 	describe('Given a mopidy-out node configured with method and params', () => {
