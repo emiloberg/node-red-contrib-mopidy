@@ -17,6 +17,7 @@ const MOPIDY_OUT_NODE = require('../../lib/mopidy-out.js');
 const MOPIDY_CONFIG_NODE = require('../../lib/mopidy-config.js');
 const NODES = [MOPIDY_OUT_NODE, MOPIDY_CONFIG_NODE];
 
+
 describe('mopidy-out', () => {
 
 	before(function(done) {
@@ -34,43 +35,7 @@ describe('mopidy-out', () => {
 	});
 
 
-	describe('Given node is loaded 1', () => {
-
-		const FLOW = [
-			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
-			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
-				'method': '',
-				'params': '{}'
-			}
-		];
-
-		it('should respond to http request for methods when server node is not available', function(done) {
-			helper.load(NODES, FLOW, function() {
-				const currentNode = helper.getNode('mop-out');
-				const spyJson = sinon.spy();
-				const stubGetNode = sinon.stub(currentNode.RED.nodes, 'getNode', function() { return undefined; });
-				const mockaedReq = { params: { nodeId: '12345' } };
-				const mockedRes = { status: function() { return { json: spyJson } } };
-				const spyStatus = sinon.spy(mockedRes, 'status');
-
-				currentNode.routeMethods(mockaedReq, mockedRes);
-
-				stubGetNode.should.have.callCount(1);
-				stubGetNode.should.have.been.calledWithExactly('12345');
-				spyStatus.should.have.callCount(1);
-				spyStatus.should.have.been.calledWithExactly(404);
-				spyJson.should.have.callCount(1);
-				spyJson.should.have.been.calledWithExactly({ message: 'Could not connect to Mopidy. If new connection - deploy configuration before continuing' });
-
-				stubGetNode.restore();
-
-				done();
-			});
-		});
-
-	});
-
-	describe('Given node is loaded 2', () => {
+	describe('Given node is loaded', () => {
 
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
@@ -112,6 +77,120 @@ describe('mopidy-out', () => {
 				}, 0);
 
 				stubInvokeMethod.restore();
+			});
+		});
+
+		it('should respond to http request for methods when server node is not available', function(done) {
+			helper.load(NODES, FLOW, function() {
+				const currentNode = helper.getNode('mop-out');
+				const spyJson = sinon.spy();
+				const stubGetNode = sinon.stub(currentNode.RED.nodes, 'getNode', function() { return undefined; });
+				const mockaedReq = { params: { nodeId: '12345' } };
+				const mockedRes = { status: function() { return { json: spyJson } } };
+				const spyStatus = sinon.spy(mockedRes, 'status');
+
+				currentNode.routeMethods(mockaedReq, mockedRes);
+
+				stubGetNode.should.have.callCount(1);
+				stubGetNode.should.have.been.calledWithExactly('12345');
+				spyStatus.should.have.callCount(1);
+				spyStatus.should.have.been.calledWithExactly(404);
+				spyJson.should.have.callCount(1);
+				spyJson.should.have.been.calledWithExactly({ message: 'Could not connect to Mopidy. If new connection - deploy configuration before continuing' });
+
+				stubGetNode.restore();
+				spyJson.reset();
+				spyStatus.reset();
+
+				done();
+			});
+		});
+
+		it('should respond to http request for methods when server node is available', function(done) {
+			helper.load(NODES, FLOW, function() {
+				let currentNode = helper.getNode('mop-out');
+				const spyJson = sinon.spy();
+				const mockGetNode = function() { return { name: 'testServer1', host: '123.123.123.1', port: '11111' } };
+				const stubGetNode = sinon.stub(currentNode.RED.nodes, 'getNode', mockGetNode);
+				const mockedReq = { params: { nodeId: '12345' } };
+				const mockedRes = { status: function() { return { json: spyJson } } };
+				const spyStatus = sinon.spy(mockedRes, 'status');
+				const spyRemove = sinon.spy();
+				currentNode.servers = {
+					add: function() {
+						return {
+							getMethods: function () {
+								return new Promise.resolve(['a', 'list', 'of', 'methods']);
+							},
+							id: 'thisServerId'
+						}
+					},
+					remove: spyRemove
+				};
+
+				currentNode.routeMethods(mockedReq, mockedRes);
+
+				setTimeout(function() {
+					stubGetNode.should.have.callCount(1);
+					stubGetNode.should.have.been.calledWithExactly('12345');
+					spyStatus.should.have.callCount(1);
+					spyStatus.should.have.been.calledWithExactly(200);
+					spyJson.should.have.callCount(1);
+					spyJson.should.have.been.calledWithExactly(['a', 'list', 'of', 'methods']);
+					spyRemove.should.have.callCount(1);
+					spyRemove.should.have.been.calledWithExactly({ id: 'thisServerId' });
+
+					stubGetNode.restore();
+					spyJson.reset();
+					spyStatus.reset();
+					spyRemove.reset();
+
+					done();
+				}, 0);
+
+			});
+		});
+
+
+		it('should respond to http request for methods when server node is available but gives error', function(done) {
+			helper.load(NODES, FLOW, function() {
+				let currentNode = helper.getNode('mop-out');
+				const spyJson = sinon.spy();
+				const mockGetNode = function() { return { name: 'testServer2', host: '123.123.123.2', port: '11112' } };
+				const stubGetNode = sinon.stub(currentNode.RED.nodes, 'getNode', mockGetNode);
+				const mockedReq = { params: { nodeId: '12345' } };
+				const mockedRes = { status: function() { return { json: spyJson } } };
+				const spyStatus = sinon.spy(mockedRes, 'status');
+				const spyRemove = sinon.spy();
+				currentNode.servers = {
+					add: function() {
+						return {
+							getMethods: function () {
+								return new Promise.reject({ message: 'Something went wrong' });
+							},
+							id: 'thisServerId2'
+						}
+					},
+					remove: spyRemove
+				};
+
+				currentNode.routeMethods(mockedReq, mockedRes);
+
+				setTimeout(function() {
+					stubGetNode.should.have.callCount(1);
+					stubGetNode.should.have.been.calledWithExactly('12345');
+					spyStatus.should.have.callCount(1);
+					spyStatus.should.have.been.calledWithExactly(500);
+					spyJson.should.have.callCount(1);
+					spyJson.should.have.been.calledWithExactly({ message: 'Something went wrong' });
+					spyRemove.should.have.callCount(1);
+					spyRemove.should.have.been.calledWithExactly({ id: 'thisServerId2' });
+
+					stubGetNode.restore();
+
+					done();
+				}, 0);
+
 			});
 		});
 
