@@ -34,6 +34,35 @@ describe('mopidy-out', () => {
 		helper.unload();
 	});
 
+	describe('Given http call', () => {
+
+		const FLOW = [
+			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
+			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
+				'method': '',
+				'params': '{}'
+			}
+		];
+
+		it('should respond to http request on /mopidy/12345/methods', function (done) {
+			helper.load(NODES, FLOW, function () {
+				const currentNode      = helper.getNode('mop-out');
+				const stubRouteMethods = sinon.stub(currentNode, 'routeMethods', function (req, res) {
+					res.end();
+				});
+
+				helper.request()
+					.get('/mopidy/12345/methods')
+					.expect(200)
+					.end(function (err) {
+						stubRouteMethods.should.have.callCount(1);
+						stubRouteMethods.restore();
+						done(err)
+					});
+			});
+		});
+
+	});
 
 	describe('Given node is loaded', () => {
 
