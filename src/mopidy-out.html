@@ -125,7 +125,7 @@
 
             function populateMethods() {
                 var selectedCategory = jqMopidyMethodsCategories.val();
-                var htmlMethods = '';
+                var htmlMethods = '<option value=""></option>';
                 allMethods.forEach(function(method) {
                    if (method.category === selectedCategory) {
                        var selected = '';
@@ -144,7 +144,7 @@
 
 
             function populateCategories(methods) {
-                var htmlCategories = '';
+                var htmlCategories = '<option value=""></option>';
                 getUniqueCatgories(methods).forEach(function(category) {
                     if (category === 'getVersion' || category === 'getUriSchemes') { return; } // Hide non useful categories
                     var selected = '';
