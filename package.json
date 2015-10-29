@@ -10,7 +10,7 @@
     "watch": "babel --copy-files --watch --out-dir ./mopidy ./src",
     "test": "mocha --grep 'MopidyConnected' --invert test/spec",
     "test-all": "mocha test/spec",
-    "coverage": "npm run coverage-clean && babel-node isparta cover _mocha -- --grep 'MopidyConnected' --invert test/spec",
+    "coverage": "npm run coverage-clean && babel-node ./node_modules/.bin/isparta cover _mocha -- --grep 'MopidyConnected' --invert test/spec",
     "coverage-view": "npm run coverage && npm run coverage-open",
     "coverage-clean": "rimraf coverage",
     "coverage-open": "open ./coverage/lcov-report/index.html"
