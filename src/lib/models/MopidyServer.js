@@ -21,11 +21,7 @@ export default class MopidyServer {
 			}
 		});
 
-
-		this._mopidy.on('websocket:error', () => {
-			//console.log('Got websocket error');
-			// TODO, send this info to the front end, eg when trying to configure a new out node
-		});
+		//this._mopidy.on('websocket:error', (err) => {});
 
 		this._mopidy.on('state:online', () => {
 			this._mopidy._send({method: 'core.describe'})
@@ -38,6 +34,7 @@ export default class MopidyServer {
 	}
 
 	invokeMethod({ method, params = {} }) {
+
 		if (this.methodExist(method) === false) {
 			return Promise.reject(`Method '${method}' does not exist`);
 		}

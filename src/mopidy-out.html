@@ -173,7 +173,6 @@
             }
 
             var fetchMethods = debounce(function() {
-                // TODO: Add spinner when waiting for connect
                 allMethods = [];
                 populateCategories([]);
 
@@ -199,7 +198,7 @@
                     $('.jq-mopidy-show-when-loaded').show();
                 });
 
-                // TODO: Add html error message here (and not just the RED.notify)
+
                 jqXHR.fail(function(err) {
                     if (err.responseJSON.message) {
                         RED.notify(err.responseJSON.message, 'error');

@@ -13,7 +13,7 @@ describe('[MopidyConnected] Real Mopidy server', () =>{
 		describe('Given a real Mopidy server, should connect to it and', () =>{
 
 			const REAL_SERVER_DATA = {
-				host: process.env.MOPIDY_TEST_HOST || 'localhost', // TODO: Fetch fron env var
+				host: process.env.MOPIDY_TEST_HOST || 'localhost',
 				port: process.env.MOPIDY_TEST_PORT || 6680,
 				serverId: 'sampleId3'
 			};
