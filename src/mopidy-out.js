@@ -14,7 +14,9 @@ module.exports = function(RED) {
         this.serverNode = this.RED.nodes.getNode(n.server);
         this.params = n.params;
         this.method = n.method;
-        this.mopidyServer = {};
+        this.mopidyServer = {
+            readyState: false
+        };
 
         if (this.serverNode) {
             this.mopidyServer = this.servers.add({
@@ -45,7 +47,10 @@ module.exports = function(RED) {
 
         this.invokeMethod = (incomingMsg = {}) => {
 
-            // todo guard against calling without connected mopidy
+            if (this.mopidyServer.readyState !== true) {
+                this.send({ error: { message: "The Mopidy Server isn't available" } });
+                return;
+            }
 
             if (typeof incomingMsg !== 'object') {
                 this.send({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });

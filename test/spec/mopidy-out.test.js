@@ -258,6 +258,7 @@ describe('mopidy-out', () => {
 				let currentNode = helper.getNode('mop-out');
 				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.reject('error value') });
 				const spySend = sinon.spy(currentNode, 'send');
+				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
 				currentNode.invokeMethod();
 
@@ -268,6 +269,7 @@ describe('mopidy-out', () => {
 
 					spySend.reset();
 					stubInvokeMethod.restore();
+					stubReadyState.restore();
 					done();
 				}, 0);
 			});
@@ -290,6 +292,7 @@ describe('mopidy-out', () => {
 				let currentNode = helper.getNode('mop-out');
 				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
 				const spySend = sinon.spy(currentNode, 'send');
+				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
 				currentNode.invokeMethod({ params: { uri: 'http://http-live.sr.se/p1-mp3-128' }});
 
@@ -301,6 +304,7 @@ describe('mopidy-out', () => {
 
 					spySend.reset();
 					stubInvokeMethod.restore();
+					stubReadyState.restore();
 					done();
 				}, 0);
 			});
@@ -323,6 +327,7 @@ describe('mopidy-out', () => {
 				let currentNode = helper.getNode('mop-out');
 				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
 				const spySend = sinon.spy(currentNode, 'send');
+				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
 				currentNode.invokeMethod({ method: 'core.mixer.setVolume'});
 
@@ -333,6 +338,29 @@ describe('mopidy-out', () => {
 
 					spySend.reset();
 					stubInvokeMethod.restore();
+					stubReadyState.restore();
+					done();
+				}, 0);
+			});
+		});
+
+		it("should return an error if Mopidy isn't available", function(done) {
+			helper.load(NODES, FLOW, function() {
+				let currentNode = helper.getNode('mop-out');
+				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
+				const spySend = sinon.spy(currentNode, 'send');
+				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return false }});
+
+				currentNode.invokeMethod({ method: 'core.mixer.setVolume'});
+
+				setTimeout(function(){
+					stubInvokeMethod.should.have.callCount(0);
+					spySend.should.have.callCount(1);
+					spySend.should.have.been.calledWithExactly({ error: { message: "The Mopidy Server isn't available" } });
+
+					spySend.reset();
+					stubInvokeMethod.restore();
+					stubReadyState.restore();
 					done();
 				}, 0);
 			});
@@ -354,6 +382,7 @@ describe('mopidy-out', () => {
 				let currentNode = helper.getNode('mop-out');
 				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
 				const spySend = sinon.spy(currentNode, 'send');
+				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
 				currentNode.invokeMethod({ method: 'core.tracklist.slice', params: { start: 1, end: 2 }});
 
@@ -364,6 +393,7 @@ describe('mopidy-out', () => {
 
 					spySend.reset();
 					stubInvokeMethod.restore();
+					stubReadyState.restore();
 					done();
 				}, 0);
 			});
@@ -386,6 +416,7 @@ describe('mopidy-out', () => {
 				let currentNode = helper.getNode('mop-out');
 				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
 				const spySend = sinon.spy(currentNode, 'send');
+				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
 				currentNode.invokeMethod({ method: 'core.playlist.save', params: { playlist: 'myplaylist' }});
 
@@ -396,6 +427,7 @@ describe('mopidy-out', () => {
 
 					spySend.reset();
 					stubInvokeMethod.restore();
+					stubReadyState.restore();
 					done();
 				}, 0);
 			});
@@ -416,11 +448,13 @@ describe('mopidy-out', () => {
 		let currentNode;
 		let stubInvokeMethod;
 		let spySend;
+		let stubReadyState;
 
 		beforeEach(function(done) {
 			helper.load(NODES, FLOW, function() {
 				currentNode = helper.getNode('mop-out');
 				stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() {});
+				stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 				spySend = sinon.spy(currentNode, 'send');
 				done();
 			});
@@ -429,6 +463,7 @@ describe('mopidy-out', () => {
 		afterEach(function() {
 			spySend.reset();
 			stubInvokeMethod.restore();
+			stubReadyState.restore();
 			helper.unload();
 		});
 
@@ -475,7 +510,6 @@ describe('mopidy-out', () => {
 				done();
 			}, 0);
 		});
-
 
 	});
 
