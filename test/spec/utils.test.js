@@ -1,10 +1,10 @@
 const chai = require('chai');
-chai.should();
+const should = chai.should();
 //const should = chai.should();
 chai.use(require('chai-things'));
 
 
-import {serverPropsToName, snakeToCamel, uuid} from '../../src/lib/utils/utils';
+import {serverPropsToName, snakeToCamel, uuid, convertToInt} from '../../src/lib/utils/utils';
 
 describe('utils', () =>{
 
@@ -34,6 +34,27 @@ describe('utils', () =>{
 				currentUuid.should.have.length(36);
 				currentUuid.should.not.equal(uuid());
 				currentUuid.should.not.equal(uuid());
+			});
+		});
+	});
+
+	describe('convertToInt', () =>{
+		describe('When called', () =>{
+			it('should return int if possible, else should return what is sent in', () => {
+				convertToInt(42).should.equal(42);
+				convertToInt('42').should.equal(42);
+				convertToInt(4e2).should.equal(400);
+				convertToInt('4e2').should.equal(4);
+				convertToInt(' 1 ').should.equal(1);
+				convertToInt('').should.equal('');
+				convertToInt('  ').should.equal('  ');
+				convertToInt(42.1).should.equal(42.1);
+				convertToInt('1a').should.equal('1a');
+				convertToInt('4e2a').should.equal('4e2a');
+				convertToInt({ my: 'object' }).should.deep.equal({ my: 'object' });
+				should.equal(convertToInt(null), null);
+				should.equal(convertToInt(undefined), undefined);
+				should.equal(isNaN(convertToInt(NaN)), true);
 			});
 		});
 	});

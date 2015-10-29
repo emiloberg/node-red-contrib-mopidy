@@ -3,7 +3,7 @@ var Mopidy = require('mopidy');
 import {EventEmitter} from 'events';
 //import {inspect, saveFile} from '../utils/debug';
 import log from '../utils/log';
-import {snakeToCamel} from '../utils/utils';
+import {snakeToCamel, convertToInt} from '../utils/utils';
 
 export default class MopidyServer {
 	constructor({ host, port, name, serverId }) {
@@ -48,9 +48,10 @@ export default class MopidyServer {
 		var newParams = {};
 		Object.keys(params).forEach((key) => {
 			if (params[key] !== '') {
-				newParams[key] = params[key];
+				newParams[key] = convertToInt(params[key]);
 			}
 		});
+
 		return MopidyServer._executeFunctionByName(method, this._mopidy, newParams);
 	}
 
@@ -73,7 +74,10 @@ export default class MopidyServer {
 		}
 		return context[func].apply(this, args);
 	}
-	
+
+	methodExist(method) {
+		return this._MOPIDY_API[method] !== undefined;
+	}
 
 	set mopidyApi(api) {
 		var newApi = {};
