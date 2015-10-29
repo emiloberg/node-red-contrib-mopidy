@@ -44,26 +44,45 @@ module.exports = function(RED) {
         //}, 1000);
 
         this.invokeMethod = (incomingMsg = {}) => {
+
             // todo guard against calling without connected mopidy
 
-            // todo merge with incoming msg
+            if (typeof incomingMsg !== 'object') {
+                this.send({ error: "If you send data to a Mopidy node, that data must an 'object'" });
+                return;
+            }
+
+            if (incomingMsg.hasOwnProperty('error')) {
+                this.send({ error: "Stopped. Incoming data has the property 'error'" });
+                return;
+            }
+
+            if (incomingMsg.hasOwnProperty('method')) {
+                if (typeof incomingMsg.method !== 'string') {
+                    this.send({ error: "'method' must be a 'string'" });
+                    return;
+                }
+            }
+
+            if (incomingMsg.hasOwnProperty('params')) {
+                if (typeof incomingMsg.params !== 'object') {
+                    this.send({ error: "'params' must be an 'object'" });
+                    return;
+                }
+            }
+
             let method = incomingMsg.method || this.method;
             let params = this.params || '{}';
             params = JSON.parse(params);
             let incomingParams = incomingMsg.params || {};
-
-            // todo: check that incomingMsg is an object. Test.
-
             objectAssign(params, incomingParams);
-
-            //Todo: check that method exists. Add tests for it.
 
             this.mopidyServer.invokeMethod({ method, params})
                 .then((ret) => {
-                    this.send({ status: 1, mopidy: ret });
+                    this.send({ status: 1, mopidy: ret }); // Todo: remove status and add 'err' if something went wrong
                 })
                 .catch((err) => {
-                    this.send({ status: 0, err: err });
+                    this.send({ status: 0, err: err }); // Todo: remove status and add 'err' if something went wrong
                     // todo, add error logging
                 });
         };
@@ -73,7 +92,6 @@ module.exports = function(RED) {
         });
 
         this.routeMethods = (req, res) => {
-            // todo, add https://www.npmjs.com/package/connect-timeout
             let tempServerNode = this.RED.nodes.getNode(req.params.nodeId);
 
             if (tempServerNode === undefined) {

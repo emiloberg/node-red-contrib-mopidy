@@ -295,6 +295,7 @@ describe('mopidy-out', () => {
 				currentNode.invokeMethod({ params: { uri: 'http://http-live.sr.se/p1-mp3-128' }});
 
 				setTimeout(function(){
+					stubInvokeMethod.should.have.callCount(1);
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.add', params: { uri: 'http://http-live.sr.se/p1-mp3-128' } });
 					spySend.should.have.callCount(1);
 					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
@@ -400,6 +401,82 @@ describe('mopidy-out', () => {
 				}, 0);
 			});
 		});
+
+	});
+
+
+	describe('Given a mopidy-out node and incoming message with method and/or params', () => {
+		const FLOW = [
+			{ host: 'localhost', id: 'mop-config', name: 'nonexist', port: '6680', type: 'mopidy-config' },
+			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
+				'method': 'core.mixer.setMute',
+				'params': '{"mute": true}'
+			}
+		];
+
+		let currentNode;
+		let stubInvokeMethod;
+		let spySend;
+
+		beforeEach(function(done) {
+			helper.load(NODES, FLOW, function() {
+				currentNode = helper.getNode('mop-out');
+				stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() {});
+				spySend = sinon.spy(currentNode, 'send');
+				done();
+			});
+		});
+
+		afterEach(function() {
+			spySend.reset();
+			stubInvokeMethod.restore();
+			helper.unload();
+		});
+
+		it('should send an error when incoming msg is a string', function(done) {
+			const incomingMsg = 'A string and not an object';
+			currentNode.invokeMethod(incomingMsg);
+			setTimeout(function(){
+				stubInvokeMethod.should.have.callCount(0);
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ error: "If you send data to a Mopidy node, that data must an 'object'" });
+				done();
+			}, 0);
+		});
+
+		it("should send an error when incoming msg contains the property 'error'", function(done) {
+			const incomingMsg = { error: 'Has an error from previous node' };
+			currentNode.invokeMethod(incomingMsg);
+			setTimeout(function(){
+				stubInvokeMethod.should.have.callCount(0);
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ error: "Stopped. Incoming data has the property 'error'" });
+				done();
+			}, 0);
+		});
+
+		it("should send an error when incoming msg's method isn't a string", function(done) {
+			const incomingMsg = { method: { an: 'object' } };
+			currentNode.invokeMethod(incomingMsg);
+			setTimeout(function(){
+				stubInvokeMethod.should.have.callCount(0);
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ error: "'method' must be a 'string'" });
+				done();
+			}, 0);
+		});
+
+		it("should send an error when incoming msg's params isn't an object", function(done) {
+			const incomingMsg = { params: 'A string and not an object' };
+			currentNode.invokeMethod(incomingMsg);
+			setTimeout(function(){
+				stubInvokeMethod.should.have.callCount(0);
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ error: "'params' must be an 'object'" });
+				done();
+			}, 0);
+		});
+
 
 	});
 
