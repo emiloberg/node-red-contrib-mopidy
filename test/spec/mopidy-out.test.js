@@ -238,6 +238,7 @@ describe('mopidy-out', () => {
 				let currentNode = helper.getNode('mop-out');
 				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
 				const spySend = sinon.spy(currentNode, 'send');
+				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
 				currentNode.invokeMethod();
 
@@ -248,6 +249,7 @@ describe('mopidy-out', () => {
 
 					spySend.reset();
 					stubInvokeMethod.restore();
+					stubReadyState.restore();
 					done();
 				}, 0);
 			});
