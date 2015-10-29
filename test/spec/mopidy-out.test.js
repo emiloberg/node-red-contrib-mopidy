@@ -101,7 +101,6 @@ describe('mopidy-out', () => {
 				setTimeout(function() {
 					stubInvokeMethod.should.have.callCount(1);
 					stubInvokeMethod.should.have.been.calledWithExactly({ something: 'else' });
-					// TODO: Continue work here, make better tests
 					done();
 				}, 0);
 
@@ -245,7 +244,7 @@ describe('mopidy-out', () => {
 				setTimeout(function(){
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.shuffle', params: { end: '', start: '' } });
 					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+					spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
 
 					spySend.reset();
 					stubInvokeMethod.restore();
@@ -265,7 +264,7 @@ describe('mopidy-out', () => {
 				setTimeout(function(){
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.shuffle', params: { end: '', start: '' } });
 					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ status: 0, err: 'error value' });
+					spySend.should.have.been.calledWithExactly({ error: 'error value' });
 
 					spySend.reset();
 					stubInvokeMethod.restore();
@@ -298,7 +297,7 @@ describe('mopidy-out', () => {
 					stubInvokeMethod.should.have.callCount(1);
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.add', params: { uri: 'http://http-live.sr.se/p1-mp3-128' } });
 					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+					spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
 
 					spySend.reset();
 					stubInvokeMethod.restore();
@@ -330,7 +329,7 @@ describe('mopidy-out', () => {
 				setTimeout(function(){
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.mixer.setVolume', params: { volume: 50 } });
 					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+					spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
 
 					spySend.reset();
 					stubInvokeMethod.restore();
@@ -361,7 +360,7 @@ describe('mopidy-out', () => {
 				setTimeout(function(){
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.slice', params: { start: 1, end: 2 }});
 					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+					spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
 
 					spySend.reset();
 					stubInvokeMethod.restore();
@@ -393,7 +392,7 @@ describe('mopidy-out', () => {
 				setTimeout(function(){
 					stubInvokeMethod.should.have.been.calledWith(sinon.match({ method: 'core.playlist.save', params: { playlist: 'myplaylist' }}));
 					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ status: 1, mopidy: 'return value' });
+					spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
 
 					spySend.reset();
 					stubInvokeMethod.restore();

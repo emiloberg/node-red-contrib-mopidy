@@ -79,10 +79,10 @@ module.exports = function(RED) {
 
             this.mopidyServer.invokeMethod({ method, params})
                 .then((ret) => {
-                    this.send({ status: 1, mopidy: ret }); // Todo: remove status and add 'err' if something went wrong
+                    this.send({ mopidy: ret });
                 })
                 .catch((err) => {
-                    this.send({ status: 0, err: err }); // Todo: remove status and add 'err' if something went wrong
+                    this.send({ error: err });
                     // todo, add error logging
                 });
         };
