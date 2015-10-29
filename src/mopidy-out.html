@@ -58,6 +58,19 @@
             var jqNodeInputMethod = $('#node-input-method');
             var jqNodeInputParams = $('#node-input-params');
 
+
+            /**
+             * Move the dialog up a bit. As we're dynamically adding stuff
+             * to the dialog, Node-RED can't really figure out how to
+             * center the dialog. Here we're saying that the average
+             * dialog is 550px high.
+             */
+            var top = ($(window).height() - 550) / 2;
+            top = top <= 10 ? 10 : top;
+            setTimeout(function() {
+                jqMopidyMethodsMethods.parents('.ui-dialog').first().css('top', top);
+            }, 0);
+
             var defaultSelectedMethod = this.method || '';
             var defaultSelectedCategory = '';
             if (defaultSelectedMethod.indexOf('.') > 0) {
