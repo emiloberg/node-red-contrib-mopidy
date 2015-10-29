@@ -4,20 +4,16 @@
   "description": "A Node-RED node to communicate with Mopidy",
   "scripts": {
     "postinstall": "npm run build",
-    "build": "./node_modules/.bin/rimraf mopidy && ./node_modules/.bin/babel --stage 1 --copy-files --out-dir ./mopidy ./lib",
-    "lint": "./node_modules/.bin/eslint ./lib/* ./test/spec/*",
+    "build": "rimraf mopidy && babel --copy-files --out-dir ./mopidy ./lib",
+    "lint": "eslint ./lib/* ./test/spec/*",
     "precommit": "npm run test-all && npm run lint",
-    "watch": "./node_modules/.bin/babel --stage 1 --copy-files --watch --out-dir ./mopidy ./lib",
-    "test": "./node_modules/.bin/mocha --recursive --grep 'MopidyConnected' --invert --compilers js:babel/register test/spec",
-    "test-all": "./node_modules/.bin/mocha --recursive --compilers js:babel/register test/spec",
-    "coverage": "npm run coverage-clean && ./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers babel:babel/register --grep 'MopidyConnected' --invert test/spec",
+    "watch": "babel --copy-files --watch --out-dir ./mopidy ./lib",
+    "test": "mocha --grep 'MopidyConnected' --invert test/spec",
+    "test-all": "mocha test/spec",
+    "coverage": "npm run coverage-clean && babel-node isparta cover _mocha -- --grep 'MopidyConnected' --invert test/spec",
     "coverage-view": "npm run coverage && npm run coverage-open",
-    "coverage-all": "npm run coverage-clean & ./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --recursive --compilers babel:babel/register test/spec",
-    "coverage-all-view": "npm run coverage-all && npm run coverage-open",
-    "coverage-clean": "./node_modules/.bin/rimraf coverage",
-    "coverage-open": "open ./coverage/lcov-report/index.html",
-    "plato": "./node_modules/.bin/rimraf plato-report && ./node_modules/.bin/rimraf plato-build && ./node_modules/.bin/babel --optional runtime lib/ --out-dir plato-build && ./node_modules/.bin/plato -r -e .eslintrc-es5 -d plato-report plato-build && ./node_modules/.bin/rimraf plato-build",
-    "plato-view": "npm run plato && open ./plato-report/index.html"
+    "coverage-clean": "rimraf coverage",
+    "coverage-open": "open ./coverage/lcov-report/index.html"
   },
   "repository": {
     "type": "git",
@@ -27,7 +23,11 @@
     "node-red",
     "node-red-contrib",
     "contrib",
-    "ping"
+    "mopidy",
+    "audio",
+    "home automation",
+    "iot",
+    "internet of things"
   ],
   "node-red": {
     "nodes": {
@@ -46,7 +46,6 @@
   "dependencies": {
     "babel": "^5.8.23",
     "eyes": "^0.1.8",
-    "mopidy": "^0.5.0",
     "object-assign": "^4.0.1",
     "promise": "^7.0.4",
     "rimraf": "^2.4.3",
@@ -65,8 +64,8 @@
     "isparta": "^3.1.0",
     "istanbul": "^0.3.22",
     "mocha": "^2.3.3",
+    "mopidy": "^0.5.0",
     "node-red": "^0.11.2",
-    "plato": "^1.5.0",
     "rewire": "^2.3.4",
     "should": "^7.1.0",
     "sinon": "^1.17.1",
