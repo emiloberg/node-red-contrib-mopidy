@@ -15,8 +15,7 @@ const when = require('when');
 const MOPIDY_SERVER = require('../../src/lib/models/MopidyServer');
 
 
-
-describe('MopidyAPI', () =>{
+describe('MopidyServer', () =>{
 
 	describe('Given module loaded', () => {
 		it('should execute function by name', function () {
@@ -196,6 +195,59 @@ describe('MopidyAPI', () =>{
 			clock.tick(5000);
 			clock.restore();
 			return res.should.eventually.be.rejected;
+		});
+
+	});
+
+
+	describe('Given a Mopidy server which connects after a getMethod call is made', () =>{
+
+		let REWIRED_SERVER;
+		const REWIRED_MOPIDY_SERVER = rewire('../../src/lib/models/MopidyServer');
+		const MOCK_API = require('../_resources/mopidy-mock-api.json');
+		const FAKE_SERVER_DATA = { host: 'fake.server', port: 1234, serverId: 'sampleId2' };
+
+		before(function() {
+			const mockedMopidy = function() {
+				return {
+					_send: function(params) {
+						params.should.have.property('method', 'core.describe');
+						return when.resolve(MOCK_API);
+					},
+					on: function(eventName, cb) {
+						if (eventName === 'state:online') {
+							cb();
+						}
+
+					},
+					_webSocket: {
+						readyState: 0
+					},
+					close: function(){},
+					off: function(){}
+				}
+			};
+			REWIRED_MOPIDY_SERVER.__set__('Mopidy', mockedMopidy);
+			REWIRED_SERVER = new REWIRED_MOPIDY_SERVER(FAKE_SERVER_DATA);
+		});
+
+		after(() => {
+			REWIRED_SERVER.close();
+		});
+
+		it("should return all methods when Mopidy server emits that it's ready", () => {
+
+			setTimeout(() => {
+				REWIRED_SERVER.events.emit('ready:ready');
+			}, 0);
+
+			return REWIRED_SERVER.getMethods()
+				.should.eventually.be.an('array')
+				.and.eventually.have.length.above(50)
+				.and.eventually.all.have.property('method')
+				.and.eventually.all.have.property('category')
+				.and.eventually.all.have.property('description')
+				.and.eventually.all.have.property('params');
 		});
 
 	});
