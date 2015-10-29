@@ -32,9 +32,6 @@ export default class MopidyServer {
 			.then(data => {
 				this.mopidyApi = data;
 				this.events.emit('ready:ready');
-			})
-			.catch(err => {
-				throw new Error('Error when getting core.descibe from Mopidy Server ' + err);
 			});
 		});
 
