@@ -264,7 +264,7 @@ describe('mopidy-out', () => {
 				setTimeout(function(){
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.shuffle', params: { end: '', start: '' } });
 					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ error: 'error value' });
+					spySend.should.have.been.calledWithExactly({ error: { message: 'error value' } });
 
 					spySend.reset();
 					stubInvokeMethod.restore();
@@ -438,7 +438,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: "If you send data to a Mopidy node, that data must an 'object'" });
+				spySend.should.have.been.calledWithExactly({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
 				done();
 			}, 0);
 		});
@@ -449,7 +449,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: "Stopped. Incoming data has the property 'error'" });
+				spySend.should.have.been.calledWithExactly({ error: { message: "Stopped. Incoming data has the property 'error'" } });
 				done();
 			}, 0);
 		});
@@ -460,7 +460,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: "'method' must be a 'string'" });
+				spySend.should.have.been.calledWithExactly({ error: { message: "'method' must be a 'string'" } });
 				done();
 			}, 0);
 		});
@@ -471,7 +471,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: "'params' must be an 'object'" });
+				spySend.should.have.been.calledWithExactly({ error: { message: "'params' must be an 'object'" } });
 				done();
 			}, 0);
 		});

@@ -48,25 +48,25 @@ module.exports = function(RED) {
             // todo guard against calling without connected mopidy
 
             if (typeof incomingMsg !== 'object') {
-                this.send({ error: "If you send data to a Mopidy node, that data must an 'object'" });
+                this.send({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
                 return;
             }
 
             if (incomingMsg.hasOwnProperty('error')) {
-                this.send({ error: "Stopped. Incoming data has the property 'error'" });
+                this.send({ error: { message: "Stopped. Incoming data has the property 'error'" } });
                 return;
             }
 
             if (incomingMsg.hasOwnProperty('method')) {
                 if (typeof incomingMsg.method !== 'string') {
-                    this.send({ error: "'method' must be a 'string'" });
+                    this.send({ error: { message: "'method' must be a 'string'" } });
                     return;
                 }
             }
 
             if (incomingMsg.hasOwnProperty('params')) {
                 if (typeof incomingMsg.params !== 'object') {
-                    this.send({ error: "'params' must be an 'object'" });
+                    this.send({ error: { message: "'params' must be an 'object'" } });
                     return;
                 }
             }
@@ -82,7 +82,7 @@ module.exports = function(RED) {
                     this.send({ mopidy: ret });
                 })
                 .catch((err) => {
-                    this.send({ error: err });
+                    this.send({ error: { message: err } });
                     // todo, add error logging
                 });
         };
