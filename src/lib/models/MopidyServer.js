@@ -38,8 +38,9 @@ export default class MopidyServer {
 	}
 
 	invokeMethod({ method, params = {} }) {
-
-		// Todo: add, tests. Don't forget to test non-existing method.
+		if (this.methodExist(method) === false) {
+			return Promise.reject(`Method '${method}' does not exist`);
+		}
 
 		// Remove 'core' from method namespace.
 		method = method.slice(method.indexOf('.') + 1);

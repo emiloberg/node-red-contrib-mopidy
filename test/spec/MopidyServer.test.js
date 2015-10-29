@@ -117,7 +117,7 @@ describe('MopidyServer', () =>{
 			REWIRED_SERVER.close();
 		});
 
-		it('should invoke method', () => {
+		it('should invoke method core.tracklist.add', () => {
 			REWIRED_SERVER.invokeMethod({
 				method: 'core.tracklist.add',
 				params: {
@@ -127,10 +127,12 @@ describe('MopidyServer', () =>{
 
 			spy.should.have.callCount(1);
 			spy.args[0][0].should.eql('tracklist.add');
-			spy.args[0][2].should.eql({ uri: 'http://http-live.sr.se/p1-mp3-128' });
+			spy.args[0][2].should.eql({uri: 'http://http-live.sr.se/p1-mp3-128'});
 
 			spy.reset();
+		});
 
+		it('should invoke method core.history.getLength', () => {
 			REWIRED_SERVER.invokeMethod({
 				method: 'core.history.getLength'
 			});
@@ -139,6 +141,20 @@ describe('MopidyServer', () =>{
 			spy.args[0][0].should.eql('history.getLength');
 			spy.args[0][2].should.eql({});
 
+			spy.reset();
+		});
+
+
+		it('should not invoke a method which does not exist', () => {
+			return REWIRED_SERVER.invokeMethod({
+				method: 'core.not.exist'
+			}).should.eventually.be.rejectedWith("Method 'core.not.exist' does not exist");
+		});
+
+		it('should not invoke a method if an empty method is supplied', () => {
+			return REWIRED_SERVER.invokeMethod({
+				method: ''
+			}).should.eventually.be.rejectedWith("Method '' does not exist");
 		});
 
 	});
