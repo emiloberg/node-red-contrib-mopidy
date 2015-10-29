@@ -12,7 +12,7 @@ const rewire = require('rewire');
 const when = require('when');
 
 
-const MOPIDY_SERVER = require('../../lib/lib/models/MopidyServer');
+const MOPIDY_SERVER = require('../../src/lib/models/MopidyServer');
 
 
 
@@ -36,7 +36,7 @@ describe('MopidyAPI', () =>{
 	describe('Given a MopidyServer connected to server 1', () =>{
 
 		let REWIRED_SERVER;
-		const REWIRED_MOPIDY_SERVER = rewire('../../lib/lib/models/MopidyServer');
+		const REWIRED_MOPIDY_SERVER = rewire('../../src/lib/models/MopidyServer');
 		const MOCK_API = require('../_resources/mopidy-mock-api.json');
 		const FAKE_SERVER_DATA = { host: 'fake.server', port: 1234, serverId: 'sampleId2' };
 
@@ -84,7 +84,7 @@ describe('MopidyAPI', () =>{
 	describe('Given a MopidyServer connected to server 2', () =>{
 
 		let REWIRED_SERVER;
-		const REWIRED_MOPIDY_SERVER = rewire('../../lib/lib/models/MopidyServer');
+		const REWIRED_MOPIDY_SERVER = rewire('../../src/lib/models/MopidyServer');
 		const MOCK_API = require('../_resources/mopidy-mock-api.json');
 		const FAKE_SERVER_DATA = { host: 'fake.server', port: 1234, serverId: 'sampleId2' };
 		const spy = sinon.spy();
@@ -148,7 +148,7 @@ describe('MopidyAPI', () =>{
 	describe('Given a MopidyServer not connected to server', () =>{
 
 		let REWIRED_SERVER;
-		const REWIRED_MOPIDY_SERVER = rewire('../../lib/lib/models/MopidyServer');
+		const REWIRED_MOPIDY_SERVER = rewire('../../src/lib/models/MopidyServer');
 		const MOCK_API = require('../_resources/mopidy-mock-api.json');
 		const FAKE_SERVER_DATA = { host: 'fake.server', port: 1234, serverId: 'sampleId2' };
 

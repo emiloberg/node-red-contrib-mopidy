@@ -4,8 +4,8 @@ const should = chai.should();
 chai.use(require('chai-things'));
 
 
-const servers = require('../../lib/lib/models/servers');
-const utils = require('../../lib/lib/utils/utils');
+const servers = require('../../src/lib/models/servers');
+const utils = require('../../src/lib/utils/utils');
 
 describe('Servers', () =>{
 

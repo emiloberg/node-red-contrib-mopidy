@@ -3,7 +3,7 @@ chai.should();
 chai.use(require('chai-things'));
 
 const rewire = require('rewire');
-const REWIRED_LOG = rewire('../../lib/lib/utils/log');
+const REWIRED_LOG = rewire('../../src/lib/utils/log');
 
 const createLogFolder = REWIRED_LOG.__get__('createLogFolder');
 

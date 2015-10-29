@@ -4,10 +4,10 @@
   "description": "A Node-RED node to communicate with Mopidy",
   "scripts": {
     "postinstall": "npm run build",
-    "build": "rimraf mopidy && babel --copy-files --out-dir ./mopidy ./lib",
-    "lint": "eslint ./lib/* ./test/spec/*",
+    "build": "rimraf mopidy && babel --copy-files --out-dir ./mopidy ./src",
+    "lint": "eslint ./src/* ./test/spec/*",
     "precommit": "npm run test-all && npm run lint",
-    "watch": "babel --copy-files --watch --out-dir ./mopidy ./lib",
+    "watch": "babel --copy-files --watch --out-dir ./mopidy ./src",
     "test": "mocha --grep 'MopidyConnected' --invert test/spec",
     "test-all": "mocha test/spec",
     "coverage": "npm run coverage-clean && babel-node isparta cover _mocha -- --grep 'MopidyConnected' --invert test/spec",

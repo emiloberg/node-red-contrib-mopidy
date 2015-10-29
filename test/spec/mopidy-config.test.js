@@ -5,7 +5,7 @@ chai.use(require('chai-things'));
 
 const helper = require('../helper.js');
 
-const MOPIDY_CONFIG_NODE = require('../../lib/mopidy-config.js');
+const MOPIDY_CONFIG_NODE = require('../../src/mopidy-config.js');
 
 describe('mopidy-config', () => {
 

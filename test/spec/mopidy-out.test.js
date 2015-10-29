@@ -13,8 +13,8 @@ const Promise = require('promise');
 const helper = require('../helper.js');
 //const proxyquire =  require('proxyquire');
 
-const MOPIDY_OUT_NODE = require('../../lib/mopidy-out.js');
-const MOPIDY_CONFIG_NODE = require('../../lib/mopidy-config.js');
+const MOPIDY_OUT_NODE = require('../../src/mopidy-out.js');
+const MOPIDY_CONFIG_NODE = require('../../src/mopidy-config.js');
 const NODES = [MOPIDY_OUT_NODE, MOPIDY_CONFIG_NODE];
 
 

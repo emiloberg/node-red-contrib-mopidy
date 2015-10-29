@@ -4,7 +4,7 @@ chai.use(require('chai-things'));
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-const MOPIDY_SERVER = require('../../lib/lib/models/MopidyServer');
+const MOPIDY_SERVER = require('../../src/lib/models/MopidyServer');
 
 describe('[MopidyConnected] Real Mopidy server', () =>{
 

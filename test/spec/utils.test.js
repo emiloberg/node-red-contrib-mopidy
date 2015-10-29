@@ -4,7 +4,7 @@ chai.should();
 chai.use(require('chai-things'));
 
 
-import {serverPropsToName, snakeToCamel, uuid} from '../../lib/lib/utils/utils';
+import {serverPropsToName, snakeToCamel, uuid} from '../../src/lib/utils/utils';
 
 describe('utils', () =>{
 

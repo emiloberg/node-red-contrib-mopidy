@@ -6,6 +6,8 @@
 [![Dependency Status](https://gemnasium.com/emiloberg/node-red-contrib-advanced-mopidy.svg)](https://gemnasium.com/emiloberg/node-red-contrib-advanced-mopidy)
 [![Test Coverage](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy/badges/coverage.svg)](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy/coverage)
 [![Code Climate](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy/badges/gpa.svg)](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/emiloberg/node-red-contrib-advanced-mopidy.svg)](http://isitmaintained.com/project/emiloberg/node-red-contrib-advanced-mopidy "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/emiloberg/node-red-contrib-advanced-mopidy.svg)](http://isitmaintained.com/project/emiloberg/node-red-contrib-advanced-mopidy "Percentage of issues still open")
 
 ## Install
 While in development, you need to clone and `npm install` it. Will be on NPM when stable.
@@ -16,7 +18,7 @@ This is coded in ES2015. To make older node able to understand it, it has to be 
 
 To rebuild it yourself, please see the tasks below.
 
-The source lives in the `./lib` folder and gets transpiled and copied to the `./mopidy` folder. I would rather name it `./src`, however, Node-RED walks the entire folder structure and tries to discover modules in every folder. [A few folder names are exluded](https://github.com/node-red/node-red/blob/master/red/nodes/registry/localfilesystem.js#L91) from this discovery (`lib|icons|node_modules|test|locales`) and `src` isn't one of them.
+The source lives in the `./src` folder and gets transpiled and copied to the `./mopidy` folder.
 
 ### Pre commit
 There's a pre-commit hook in place which will run tests and lint check (`npm test` and `npm runt lint`) on ommit. Failed tests or lints will prevent commit.
@@ -40,7 +42,7 @@ For linting with eslint, run
 npm run lint
 ```
 
-To auto-run babel and transpile ES2015 to ES5 when files are changed (and copy all non-js files from `/lib` to `/mopidy` if they're changed), run:
+To auto-run babel and transpile ES2015 to ES5 when files are changed (and copy all non-js files from `/src` to `/mopidy` if they're changed), run:
 
 ```
 npm run watch

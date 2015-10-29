@@ -3,8 +3,8 @@ var babel = require('babel');
 module.exports = function (wallaby) {
 	return {
 		files: [
-			'lib/*.js',
-			'lib/**/*.js',
+			'src/*.js',
+			'src/**/*.js',
 			'test/_resources/*',
 			'test/*.js',
 			'node_modules/node-red/*.js',
@@ -21,8 +21,8 @@ module.exports = function (wallaby) {
 		testFramework: 'mocha',
 		debug: false,
 		compilers: {
-			'lib/*.js': wallaby.compilers.babel({ babel: babel, stage: 1 }),
-			'lib/**/*.js': wallaby.compilers.babel({ babel: babel, stage: 1 }),
+			'src/*.js': wallaby.compilers.babel({ babel: babel, stage: 1 }),
+			'src/**/*.js': wallaby.compilers.babel({ babel: babel, stage: 1 }),
 			'test/spec/*.js': wallaby.compilers.babel({ babel: babel, stage: 1 })
 		},
 		env: {
