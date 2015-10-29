@@ -30,7 +30,7 @@ Run tests which __do not__ require a connected Mopidy server by running:
 npm test
 ```
 
-Run tests which __do__ require a connected Mopidy server by running:
+Run integration tests which __do__ require a connected Mopidy server. By default it looks for a Mopidy Server running on `localhost:6680`. This can be changed by setting the envionment variables `MOPIDY_TEST_HOST` and `MOPIDY_TEST_PORT`.
 
 ```
 npm run test-all
