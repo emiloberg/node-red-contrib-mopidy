@@ -9,7 +9,7 @@ const configDefaults = {
 };
 
 const config = {
-	setup: function({ settings }) {
+	setup: function({ settings = {} } = {}) {
 		CONFIG = deepmerge(configDefaults, settings);
 	},
 	

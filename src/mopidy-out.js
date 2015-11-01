@@ -1,6 +1,7 @@
 import servers from './lib/models/servers';
 import config from './lib/utils/config';
 var objectAssign = require('object-assign');
+var objectPath = require("object-path");
 
 module.exports = function(RED) {
     'use strict';
@@ -19,7 +20,7 @@ module.exports = function(RED) {
             readyState: false
         };
 
-        config.setup({ settings: RED.settings.functionGlobalContext });
+        config.setup({ settings: objectPath.get(RED, 'settings.functionGlobalContext') });
 
         if (this.serverNode) {
             this.mopidyServer = this.servers.add({
