@@ -26,10 +26,9 @@ const servers = {
 
 		if (
 			!isInt(port, { min: 1, max: 65535 }) ||
-			!isLength(host, 1, 100) ||
-			!isLength(name, 1, 100)
+			!isLength(host, 1, 100)
 		) {
-			throw new Error('Not valid name/host/port');
+			throw new Error('Not valid host/port'); // Todo, should Return error instead (and print to front end)
 		}
 
 		let serverId = addWithUniqueId ? uuid() : serverPropsToName({ host, port });
@@ -63,6 +62,14 @@ const servers = {
 			return SERVERS.hasOwnProperty(id);
 		} else if (host && port) {
 			return SERVERS.hasOwnProperty(serverPropsToName({ host, port }));
+		}
+	},
+
+	getId: function({ host, port }) {
+		if (servers.exists({ host, port })) {
+			return serverPropsToName({ host, port });
+		} else {
+			return null;
 		}
 	},
 

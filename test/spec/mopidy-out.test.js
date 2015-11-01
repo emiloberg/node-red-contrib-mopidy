@@ -124,7 +124,7 @@ describe('mopidy-out', () => {
 				spyStatus.should.have.callCount(1);
 				spyStatus.should.have.been.calledWithExactly(404);
 				spyJson.should.have.callCount(1);
-				spyJson.should.have.been.calledWithExactly({ message: 'Could not connect to Mopidy. If new connection - deploy configuration before continuing' });
+				spyJson.should.have.been.calledWithExactly({ message: 'Could not connect to Mopidy. If new connection - press deploy before continuing' });
 
 				stubGetNode.restore();
 				spyJson.reset();
