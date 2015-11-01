@@ -6,7 +6,6 @@ node_js:
   - "0.11"
   - "0.10"
 after_script:
-  - npm run test
   - npm run coverage
   - codeclimate-test-reporter < ./coverage/lcov.info
 addons:

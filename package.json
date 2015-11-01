@@ -48,6 +48,7 @@
     "deepmerge": "^0.2.10",
     "eyes": "^0.1.8",
     "object-assign": "^4.0.1",
+    "object-path": "^0.9.2",
     "promise": "^7.0.4",
     "rimraf": "^2.4.3",
     "validator": "^4.0.6",
