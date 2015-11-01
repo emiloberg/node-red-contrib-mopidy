@@ -2,6 +2,7 @@ import servers from './lib/models/servers';
 import config from './lib/utils/config';
 var objectAssign = require('object-assign');
 var objectPath = require('object-path');
+import {isURL, isInt, isLength} from 'validator';
 
 module.exports = function(RED) {
     'use strict';
@@ -91,7 +92,20 @@ module.exports = function(RED) {
             if (incomingMsg.hasOwnProperty('host')) { host = incomingMsg.host; }
             if (incomingMsg.hasOwnProperty('port')) { port = incomingMsg.port; }
 
-            // Todo, check host/port are valid
+            if(!isURL(host, { require_tld: false, require_valid_protocol: false })) {
+                this.send({ error: { message: `'${host}' is not a host` } });
+                return;
+            }
+
+            if(!isInt(port, { min: 1, max: 65535 })) {
+                this.send({ error: { message: `'${port}' is not a valid port number` } });
+                return;
+            }
+
+            if(!isLength(method, 1, 100)) {
+                this.send({ error: { message: "No 'method' is supplied" } });
+                return;
+            }
 
             const curServerId = this.servers.getId({ host, port });
             let openNewServerConnection = true;
@@ -138,7 +152,6 @@ module.exports = function(RED) {
                 }, (config.fetch('mopidyConnectTimeout') * 1000));
 
                 curServer.events.once('ready:ready', listener);
-
             }
         };
 

@@ -91,6 +91,16 @@ describe('Servers', () =>{
 			server.should.have.property('mopidy');
 		});
 
+		it('should get id of an existing server', () => {
+			const serverId = servers.getId({ host: SERVER_ONE.host, port: SERVER_ONE.port });
+			serverId.should.equal(SERVER_ONE_ID);
+		});
+
+		it('should not get id non-existing server', () => {
+			const serverId = servers.getId({ host: 'does.not.exist', port: '1234' });
+			should.equal(serverId, null);
+		});
+
 		it('should not add an already existing server', () => {
 			servers.add(SERVER_ONE);
 			const listOfServers = servers.getAll();

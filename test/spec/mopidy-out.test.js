@@ -346,10 +346,6 @@ describe('mopidy-out', () => {
 			});
 		});
 
-		xit("should spawn a new Mopidy connection if one isn't available", function() {
-
-		});
-
 	});
 
 	describe('Given a mopidy-out node not configured with method or params', () => {
@@ -491,6 +487,428 @@ describe('mopidy-out', () => {
 				stubInvokeMethod.should.have.callCount(0);
 				spySend.should.have.callCount(1);
 				spySend.should.have.been.calledWithExactly({ error: { message: "'params' must be an 'object'" } });
+				done();
+			}, 0);
+		});
+
+	});
+
+
+	describe('Given a mopidy-out node with no configured server, but configured method/param and incoming message with host/port', () => {
+		const FLOW = [
+			{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out',
+				'method': 'core.mixer.setMute',
+				'params': '{"mute": true}'
+			}
+		];
+
+		let currentNode;
+		let spySend;
+		let stubServersGetId;
+		let stubServersGet;
+		let spyInvokeMethod;
+
+		beforeEach(function(done) {
+			helper.load(NODES, FLOW, function() {
+				currentNode = helper.getNode('mop-out');
+				spyInvokeMethod = sinon.spy();
+				stubServersGetId = sinon.stub(currentNode.servers, 'getId', function() { return 'sample-id' });
+				stubServersGet = sinon.stub(currentNode.servers, 'get', function() {
+					return {
+						readyState: true,
+						invokeMethod: function({method, params}) {
+							spyInvokeMethod({method, params});
+							return new Promise.resolve('return value');
+						}
+					};
+				});
+				spySend = sinon.spy(currentNode, 'send');
+				done();
+			});
+		});
+
+		afterEach(function() {
+			spySend.reset();
+			spyInvokeMethod.reset();
+			stubServersGetId.restore();
+			stubServersGet.restore();
+			helper.unload();
+		});
+
+		it('Should connect to the already existing server connection with the host/port specified in message', function(done) {
+			const incomingMsg = { host: '127.0.0.5', port: 1234 };
+			currentNode.invokeMethod(incomingMsg);
+			setTimeout(function(){
+				spyInvokeMethod.should.have.callCount(1);
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.mixer.setMute', params: { mute: true } });
+				stubServersGetId.should.have.been.calledWithExactly({ host: '127.0.0.5', port: 1234 });
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
+				done();
+			}, 0);
+		});
+
+		it('Should connect to the already existing server connection with the host/port specified in message and use params/method from message', function(done) {
+			const incomingMsg = { host: '127.0.0.5', port: 1234, method: 'core.test.method', params: { one: 'param' } };
+			currentNode.invokeMethod(incomingMsg);
+			setTimeout(function(){
+				spyInvokeMethod.should.have.callCount(1);
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.test.method', params: { mute: true, one: 'param' } });
+				stubServersGetId.should.have.been.calledWithExactly({ host: '127.0.0.5', port: 1234 });
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
+				done();
+			}, 0);
+		});
+
+	});
+
+
+	describe('Given a mopidy-out node with no configured server but incoming message 1', () => {
+		const FLOW = [{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out' }];
+
+		let currentNode;
+		let spySend;
+		let stubServersGetId;
+		let stubServersGet;
+		let spyInvokeMethod;
+
+		beforeEach(function(done) {
+			helper.load(NODES, FLOW, function() {
+				currentNode = helper.getNode('mop-out');
+				spyInvokeMethod = sinon.spy();
+				stubServersGetId = sinon.stub(currentNode.servers, 'getId', function() { return 'sample-id' });
+				stubServersGet = sinon.stub(currentNode.servers, 'get', function() {
+					return {
+						readyState: true,
+						invokeMethod: function({method, params}) {
+							spyInvokeMethod({method, params});
+							return new Promise.resolve('return value');
+						}
+					};
+				});
+				spySend = sinon.spy(currentNode, 'send');
+				done();
+			});
+		});
+
+		afterEach(function() {
+			spySend.reset();
+			spyInvokeMethod.reset();
+			stubServersGetId.restore();
+			stubServersGet.restore();
+			helper.unload();
+		});
+
+		it('it should send an error if no host is supplied in incoming message', function(done) {
+			const incomingMsg = {};
+			currentNode.invokeMethod(incomingMsg);
+			setTimeout(function(){
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ error: { message: "'' is not a host" } });
+				done();
+			}, 0);
+		});
+
+		it('it should send an error if no valid port is supplied in incoming message', function(done) {
+			const incomingMsg = { host: 'a.valid.host', port: 100000};
+			currentNode.invokeMethod(incomingMsg);
+			setTimeout(function(){
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ error: { message: "'100000' is not a valid port number" } });
+				done();
+			}, 0);
+		});
+
+		it('it should send an error if no method is supplied in incoming message', function(done) {
+			const incomingMsg = { host: 'a.valid.host', port: 12345 };
+			currentNode.invokeMethod(incomingMsg);
+			setTimeout(function(){
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ error: { message: "No 'method' is supplied" } });
+				done();
+			}, 0);
+		});
+
+	});
+
+
+
+	describe('Given a mopidy-out node with no configured server but incoming message 2', () => {
+		const FLOW = [{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out' }];
+
+		let currentNode;
+		let spySend;
+		let stubServersGetId;
+		let stubServersGet;
+		let spyInvokeMethod;
+		let stubServersAdd;
+		let spyRemoveListener;
+		let stubServersRemove;
+
+		beforeEach(function(done) {
+			helper.load(NODES, FLOW, function() {
+				currentNode = helper.getNode('mop-out');
+				spyInvokeMethod = sinon.spy();
+				spyRemoveListener = sinon.spy();
+				stubServersRemove = sinon.stub(currentNode.servers, 'remove', function() { return null });
+				stubServersGetId = sinon.stub(currentNode.servers, 'getId', function() { return null });
+				stubServersGet = sinon.stub(currentNode.servers, 'get', function() {
+					return {
+						readyState: true,
+						add: function() {
+							return {
+								invokeMethod: function ({method, params}) {
+									spyInvokeMethod({method, params});
+									return new Promise.resolve('return value');
+								}
+							}
+						}
+					};
+				});
+				stubServersAdd = sinon.stub(currentNode.servers, 'add', function() {
+					return {
+						events: {
+							once: function(){},
+							removeListener: spyRemoveListener
+						}
+					};
+				});
+
+
+				spySend = sinon.spy(currentNode, 'send');
+				done();
+			});
+		});
+
+		afterEach(function() {
+			spySend.reset();
+			spyInvokeMethod.reset();
+			stubServersGetId.restore();
+			stubServersGet.restore();
+			stubServersAdd.restore();
+			spyRemoveListener.reset();
+			stubServersRemove.restore();
+			helper.unload();
+		});
+
+		it("Should send an error message if a server connection can't be established within 5 seconds", function(done) {
+			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'core.a.method' };
+			const clock = sinon.useFakeTimers();
+			currentNode.invokeMethod(incomingMsg);
+			clock.tick(5000);
+			clock.restore();
+			spySend.should.have.callCount(1);
+			stubServersAdd.should.have.callCount(1);
+			spySend.should.have.been.calledWithExactly({ error: { message: 'Could not connect to server within 5 seconds' } });
+			stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
+			spyRemoveListener.should.have.callCount(1);
+			spyRemoveListener.should.have.been.calledWith('ready:ready');
+			stubServersRemove.should.have.callCount(1);
+			done();
+		});
+
+	});
+
+
+
+	describe('Given a mopidy-out node with no configured server but incoming message 3', () => {
+		const FLOW = [{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out' }];
+
+		let currentNode;
+		let spySend;
+		let stubServersGetId;
+		let spyInvokeMethod;
+		let stubServersAdd;
+		let spyRemoveListener;
+		let stubServersRemove;
+
+		beforeEach(function(done) {
+			helper.load(NODES, FLOW, function() {
+				currentNode = helper.getNode('mop-out');
+				spyInvokeMethod = sinon.spy();
+				spyRemoveListener = sinon.spy();
+				stubServersRemove = sinon.stub(currentNode.servers, 'remove', function() { return null });
+				stubServersGetId = sinon.stub(currentNode.servers, 'getId', function() { return null });
+				stubServersAdd = sinon.stub(currentNode.servers, 'add', function() {
+					return {
+						events: {
+							once: function(topic, cb){ cb(); },
+							removeListener: spyRemoveListener
+						},
+						invokeMethod: function ({method, params}) {
+							spyInvokeMethod({method, params});
+							return new Promise.resolve('return value');
+						}
+					};
+				});
+
+				spySend = sinon.stub(currentNode, 'send', function() {});
+				done();
+			});
+		});
+
+		afterEach(function() {
+			spySend.reset();
+			spyInvokeMethod.reset();
+			stubServersGetId.restore();
+			stubServersAdd.restore();
+			spyRemoveListener.reset();
+			stubServersRemove.restore();
+			helper.unload();
+		});
+
+
+		it('Should spawn a new server connection with the host/port specified in message', function(done) {
+			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'core.a.method' };
+			currentNode.invokeMethod(incomingMsg);
+
+			setTimeout(() => {
+				spyInvokeMethod.should.have.callCount(1);
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.a.method', params: {} });
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
+				stubServersAdd.should.have.callCount(1);
+				stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
+				stubServersRemove.should.have.callCount(1);
+				done();
+			}, 0);
+		});
+
+	});
+
+
+	describe('Given a mopidy-out node with no configured server but incoming message 4', () => {
+		const FLOW = [{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out' }];
+
+		let currentNode;
+		let spySend;
+		let stubServersGetId;
+		let spyInvokeMethod;
+		let stubServersAdd;
+		let stubServersGet;
+		let stubServersRemove;
+
+		beforeEach(function(done) {
+			helper.load(NODES, FLOW, function() {
+				currentNode = helper.getNode('mop-out');
+				spyInvokeMethod = sinon.spy();
+				stubServersRemove = sinon.stub(currentNode.servers, 'remove', function() { return null });
+				stubServersGetId = sinon.stub(currentNode.servers, 'getId', function() { return 'sample-id' });
+				stubServersGet = sinon.stub(currentNode.servers, 'get', function() {
+					return {
+						readyState: false
+					};
+				});
+				stubServersAdd = sinon.stub(currentNode.servers, 'add', function() {
+					return {
+						events: {
+							once: function(topic, cb){ cb(); }
+						},
+						invokeMethod: function ({method, params}) {
+							spyInvokeMethod({method, params});
+							return new Promise.resolve('return value');
+						}
+					};
+				});
+
+				spySend = sinon.stub(currentNode, 'send', function() {});
+				done();
+			});
+		});
+
+		afterEach(function() {
+			spySend.reset();
+			spyInvokeMethod.reset();
+			stubServersGetId.restore();
+			stubServersAdd.restore();
+			stubServersGet.restore();
+			stubServersRemove.restore();
+			helper.unload();
+		});
+
+
+		it("Should spawn a new server if an server exists but doesn't have good readyState", function(done) {
+			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'core.a.method', params: { test: 'param' } };
+			currentNode.invokeMethod(incomingMsg);
+
+			setTimeout(() => {
+				spyInvokeMethod.should.have.callCount(1);
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.a.method', params: { test: 'param' } });
+				stubServersGet.should.have.callCount(1);
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
+				stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
+				stubServersRemove.should.have.callCount(1);
+				done();
+			}, 0);
+		});
+
+	});
+
+
+	describe('Given a mopidy-out node with no configured server but incoming message 5', () => {
+		const FLOW = [{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out' }];
+
+		let currentNode;
+		let spySend;
+		let stubServersGetId;
+		let spyInvokeMethod;
+		let stubServersAdd;
+		let stubServersGet;
+		let stubServersRemove;
+
+		beforeEach(function(done) {
+			helper.load(NODES, FLOW, function() {
+				currentNode = helper.getNode('mop-out');
+				spyInvokeMethod = sinon.spy();
+				stubServersRemove = sinon.stub(currentNode.servers, 'remove', function() { return null });
+				stubServersGetId = sinon.stub(currentNode.servers, 'getId', function() { return 'sample-id' });
+				stubServersGet = sinon.stub(currentNode.servers, 'get', function() {
+					return {
+						readyState: false
+					};
+				});
+				stubServersAdd = sinon.stub(currentNode.servers, 'add', function() {
+					return {
+						events: {
+							once: function(topic, cb){ cb(); }
+						},
+						invokeMethod: function ({method, params}) {
+							spyInvokeMethod({method, params});
+							return new Promise.reject('an error');
+						}
+					};
+				});
+
+				spySend = sinon.stub(currentNode, 'send', function() {});
+				done();
+			});
+		});
+
+		afterEach(function() {
+			spySend.reset();
+			spyInvokeMethod.reset();
+			stubServersGetId.restore();
+			stubServersAdd.restore();
+			stubServersGet.restore();
+			stubServersRemove.restore();
+			helper.unload();
+		});
+
+
+		it("Should spawn a new server if an server exists but doesn't have good readyState, and catch an error from Mopidy", function(done) {
+			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'core.a.method', params: { test: 'param' } };
+			currentNode.invokeMethod(incomingMsg);
+
+			setTimeout(() => {
+				spyInvokeMethod.should.have.callCount(1);
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.a.method', params: { test: 'param' } });
+				stubServersGet.should.have.callCount(1);
+				spySend.should.have.callCount(1);
+				spySend.should.have.been.calledWithExactly({ error: { message: 'an error' } });
+				stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
+				stubServersRemove.should.have.callCount(1);
 				done();
 			}, 0);
 		});
