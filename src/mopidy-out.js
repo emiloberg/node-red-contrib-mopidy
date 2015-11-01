@@ -1,7 +1,7 @@
 import servers from './lib/models/servers';
 import config from './lib/utils/config';
 var objectAssign = require('object-assign');
-var objectPath = require("object-path");
+var objectPath = require('object-path');
 
 module.exports = function(RED) {
     'use strict';
@@ -24,7 +24,6 @@ module.exports = function(RED) {
 
         if (this.serverNode) {
             this.mopidyServer = this.servers.add({
-                name: this.serverNode.name,
                 host: this.serverNode.host,
                 port: this.serverNode.port
             });
@@ -116,7 +115,6 @@ module.exports = function(RED) {
             // No server conneciton exists
             if (openNewServerConnection) {
                 const curServer = this.servers.add({
-                    name: 'unused',
                     host,
                     port,
                     addWithUniqueId: true
@@ -160,7 +158,6 @@ module.exports = function(RED) {
             }
 
             let mopidyServer = this.servers.add({
-                name: tempServerNode.name,
                 host: tempServerNode.host,
                 port: tempServerNode.port,
                 addWithUniqueId: true

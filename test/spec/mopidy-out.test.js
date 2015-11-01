@@ -346,26 +346,8 @@ describe('mopidy-out', () => {
 			});
 		});
 
-		it("should return an error if Mopidy isn't available", function(done) {
-			helper.load(NODES, FLOW, function() {
-				let currentNode = helper.getNode('mop-out');
-				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.resolve('return value') });
-				const spySend = sinon.spy(currentNode, 'send');
-				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return false }});
+		xit("should spawn a new Mopidy connection if one isn't available", function() {
 
-				currentNode.invokeMethod({ method: 'core.mixer.setVolume'});
-
-				setTimeout(function(){
-					stubInvokeMethod.should.have.callCount(0);
-					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ error: { message: "The Mopidy Server isn't available" } });
-
-					spySend.reset();
-					stubInvokeMethod.restore();
-					stubReadyState.restore();
-					done();
-				}, 0);
-			});
 		});
 
 	});

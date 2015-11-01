@@ -12,9 +12,9 @@ const config = {
 	setup: function({ settings = {} } = {}) {
 		CONFIG = deepmerge(configDefaults, settings);
 	},
-	
+
 	fetch: function(setting) {
-		return CONFIG[setting];	
+		return CONFIG[setting];
 	}
 };
 

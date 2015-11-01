@@ -13,29 +13,25 @@ describe('Servers', () =>{
 
 		const SERVER_ONE = {
 			host: 'localhost',
-			port: 6681,
-			name: 'Local Server'
+			port: 6681
 		};
 		let SERVER_ONE_ID = utils.serverPropsToName({ host: SERVER_ONE.host, port: SERVER_ONE.port });
 
 		const SERVER_TWO = {
 			host: '192.168.1.125',
-			port: 6681,
-			name: 'Pi Server'
+			port: 6681
 		};
 		let SERVER_TWO_ID = utils.serverPropsToName({ host: SERVER_TWO.host, port: SERVER_TWO.port });
 		let SERVER_TWO_RETURNED_ID = '';
 
 		const SERVER_FAULTY = {
 			host: '192.168.1.125',
-			port: 6681,
-			name: ''
+			port: 0
 		};
 
 		const SERVER_THREE = {
 			host: 'localhost',
 			port: 6681,
-			name: 'Local Server',
 			addWithUniqueId: true
 		};
 
@@ -53,7 +49,6 @@ describe('Servers', () =>{
 			server.should.be.an('object');
 			server.should.have.property('host', SERVER_ONE.host);
 			server.should.have.property('port', SERVER_ONE.port);
-			server.should.have.property('name', SERVER_ONE.name);
 			server.should.have.property('id', SERVER_ONE_ID);
 			server.should.have.property('mopidy');
 		});
@@ -83,7 +78,6 @@ describe('Servers', () =>{
 			server.should.be.an('object');
 			server.should.have.property('host', SERVER_TWO.host);
 			server.should.have.property('port', SERVER_TWO.port);
-			server.should.have.property('name', SERVER_TWO.name);
 			server.should.have.property('id', SERVER_TWO_ID);
 			server.should.have.property('mopidy');
 		});
@@ -93,7 +87,6 @@ describe('Servers', () =>{
 			server.should.be.an('object');
 			server.should.have.property('host', SERVER_TWO.host);
 			server.should.have.property('port', SERVER_TWO.port);
-			server.should.have.property('name', SERVER_TWO.name);
 			server.should.have.property('id', SERVER_TWO_ID);
 			server.should.have.property('mopidy');
 		});
@@ -105,7 +98,6 @@ describe('Servers', () =>{
 			listOfServers.should.have.length(2);
 			listOfServers.should.all.have.property('host');
 			listOfServers.should.all.have.property('port');
-			listOfServers.should.all.have.property('name');
 			listOfServers.should.all.have.property('id');
 			listOfServers.should.all.have.property('mopidy');
 		});
@@ -151,7 +143,6 @@ describe('Servers', () =>{
 			server.should.be.an('object');
 			server.should.have.property('host', SERVER_THREE.host);
 			server.should.have.property('port', SERVER_THREE.port);
-			server.should.have.property('name', SERVER_THREE.name);
 			server.id.should.be.a('string');
 			server.id.should.have.length(36);
 		});

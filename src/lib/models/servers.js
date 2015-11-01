@@ -16,13 +16,12 @@ var SERVERS = {};
 const servers = {
 	/**
 	 *
-	 * @param name
 	 * @param host
 	 * @param port
 	 * @param {boolean} addWithUniqueId Will add a server even though a server with same host/port exists.
 	 * @returns {*}
 	 */
-	add: function({ name, host, port, addWithUniqueId = false }) {
+	add: function({ host, port, addWithUniqueId = false }) {
 
 		if (
 			!isInt(port, { min: 1, max: 65535 }) ||
@@ -35,7 +34,7 @@ const servers = {
 		if(servers.exists({ id: serverId })) {
 			return SERVERS[serverId]
 		} else {
-			SERVERS[serverId] = new MopidyServer({ host, port, name, serverId });
+			SERVERS[serverId] = new MopidyServer({ host, port, serverId });
 			return SERVERS[serverId];
 		}
 	},
