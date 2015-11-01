@@ -16,27 +16,25 @@ var SERVERS = {};
 const servers = {
 	/**
 	 *
-	 * @param name
 	 * @param host
 	 * @param port
 	 * @param {boolean} addWithUniqueId Will add a server even though a server with same host/port exists.
 	 * @returns {*}
 	 */
-	add: function({ name, host, port, addWithUniqueId = false }) {
+	add: function({ host, port, addWithUniqueId = false }) {
 
 		if (
 			!isInt(port, { min: 1, max: 65535 }) ||
-			!isLength(host, 1, 100) ||
-			!isLength(name, 1, 100)
+			!isLength(host, 1, 100)
 		) {
-			throw new Error('Not valid name/host/port');
+			throw new Error('Not valid host/port'); // Todo, should Return error instead (and print to front end)
 		}
 
 		let serverId = addWithUniqueId ? uuid() : serverPropsToName({ host, port });
 		if(servers.exists({ id: serverId })) {
 			return SERVERS[serverId]
 		} else {
-			SERVERS[serverId] = new MopidyServer({ host, port, name, serverId });
+			SERVERS[serverId] = new MopidyServer({ host, port, serverId });
 			return SERVERS[serverId];
 		}
 	},
@@ -63,6 +61,14 @@ const servers = {
 			return SERVERS.hasOwnProperty(id);
 		} else if (host && port) {
 			return SERVERS.hasOwnProperty(serverPropsToName({ host, port }));
+		}
+	},
+
+	getId: function({ host, port }) {
+		if (servers.exists({ host, port })) {
+			return serverPropsToName({ host, port });
+		} else {
+			return null;
 		}
 	},
 

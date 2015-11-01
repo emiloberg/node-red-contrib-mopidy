@@ -1,5 +1,8 @@
 import servers from './lib/models/servers';
+import config from './lib/utils/config';
 var objectAssign = require('object-assign');
+var objectPath = require('object-path');
+import {isURL, isInt, isLength} from 'validator';
 
 module.exports = function(RED) {
     'use strict';
@@ -18,9 +21,10 @@ module.exports = function(RED) {
             readyState: false
         };
 
+        config.setup({ settings: objectPath.get(RED, 'settings.functionGlobalContext') });
+
         if (this.serverNode) {
             this.mopidyServer = this.servers.add({
-                name: this.serverNode.name,
                 host: this.serverNode.host,
                 port: this.serverNode.port
             });
@@ -47,11 +51,6 @@ module.exports = function(RED) {
 
         this.invokeMethod = (incomingMsg = {}) => {
 
-            if (this.mopidyServer.readyState !== true) {
-                this.send({ error: { message: "The Mopidy Server isn't available" } });
-                return;
-            }
-
             if (typeof incomingMsg !== 'object') {
                 this.send({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
                 return;
@@ -76,21 +75,86 @@ module.exports = function(RED) {
                 }
             }
 
+            // Method and Params
             let method = incomingMsg.method || this.method;
             let params = this.params || '{}';
             params = JSON.parse(params);
             let incomingParams = incomingMsg.params || {};
             objectAssign(params, incomingParams);
 
-            this.mopidyServer.invokeMethod({ method, params})
-                .then((ret) => {
-                    this.send({ mopidy: ret });
-                })
-                .catch((err) => {
-                    this.send({ error: { message: err } });
-                    // todo, add error logging
+            // Host and Port
+            let host = '';
+            let port = '';
+            if (this.serverNode) {
+                host = this.mopidyServer.host;
+                port = this.mopidyServer.port;
+            }
+            if (incomingMsg.hasOwnProperty('host')) { host = incomingMsg.host; }
+            if (incomingMsg.hasOwnProperty('port')) { port = incomingMsg.port; }
+
+            if(!isURL(host, { require_tld: false, require_valid_protocol: false })) {
+                this.send({ error: { message: `'${host}' is not a host` } });
+                return;
+            }
+
+            if(!isInt(port, { min: 1, max: 65535 })) {
+                this.send({ error: { message: `'${port}' is not a valid port number` } });
+                return;
+            }
+
+            if(!isLength(method, 1, 100)) {
+                this.send({ error: { message: "No 'method' is supplied" } });
+                return;
+            }
+
+            const curServerId = this.servers.getId({ host, port });
+            let openNewServerConnection = true;
+
+            // Server connection already exist
+            if (curServerId) {
+                const curServer = this.servers.get({ id: curServerId });
+                // If server doesn't have a good readyState, then we continue and try to spawn a new server instead
+                if (curServer.readyState === true) {
+                    openNewServerConnection = false;
+                    curServer.invokeMethod({method, params})
+                        .then((ret) => {
+                            this.send({mopidy: ret});
+                        })
+                        .catch((err) => {
+                            this.send({error: {message: err}});
+                        });
+                }
+            }
+
+            // No server conneciton exists
+            if (openNewServerConnection) {
+                const curServer = this.servers.add({
+                    host,
+                    port,
+                    addWithUniqueId: true
                 });
+
+                let isCalled = false;
+                const listener = () => {
+                    isCalled = true;
+                    curServer.invokeMethod({method, params})
+                        .then((ret) => { this.send({mopidy: ret}); })
+                        .catch((err) => { this.send({error: {message: err}}); })
+                        .then(() => { this.servers.remove({ id: curServer.id }) });
+                };
+
+                setTimeout(() => {
+                    if (isCalled === false) {
+                        curServer.events.removeListener('ready:ready', listener);
+                        this.send({ error: { message: `Could not connect to server within ${config.fetch('mopidyConnectTimeout')} seconds` }});
+                        this.servers.remove({ id: curServer.id });
+                    }
+                }, (config.fetch('mopidyConnectTimeout') * 1000));
+
+                curServer.events.once('ready:ready', listener);
+            }
         };
+
 
         this.on('input', (incomingMsg) => {
             this.invokeMethod(incomingMsg);
@@ -101,13 +165,12 @@ module.exports = function(RED) {
 
             if (tempServerNode === undefined) {
                 res.status(404).json({
-                    message: 'Could not connect to Mopidy. If new connection - deploy configuration before continuing'
+                    message: 'Could not connect to Mopidy. If new connection - press deploy before continuing'
                 });
                 return;
             }
 
             let mopidyServer = this.servers.add({
-                name: tempServerNode.name,
                 host: tempServerNode.host,
                 port: tempServerNode.port,
                 addWithUniqueId: true

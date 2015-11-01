@@ -37,7 +37,11 @@
         color:'#fdf0c2',
         defaults: {
             name: {value:''},
-            server: {value:'', type:'mopidy-config'},
+            server: {
+                value: '',
+                type: 'mopidy-config',
+                required: false
+            },
             params: { value: ''},
             method: { value: ''}
         },

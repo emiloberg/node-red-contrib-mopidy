@@ -45,6 +45,7 @@
   "homepage": "https://github.com/emiloberg/node-red-contrib-advanced-mopidy",
   "dependencies": {
     "babel": "^5.8.23",
+    "deepmerge": "^0.2.10",
     "eyes": "^0.1.8",
     "object-assign": "^4.0.1",
     "promise": "^7.0.4",

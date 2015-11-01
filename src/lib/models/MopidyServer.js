@@ -6,10 +6,9 @@ import log from '../utils/log';
 import {snakeToCamel, convertToInt} from '../utils/utils';
 
 export default class MopidyServer {
-	constructor({ host, port, name, serverId }) {
+	constructor({ host, port, serverId }) {
 		this._host = host;
 		this._port = port;
-		this._name = name;
 		this._id = serverId;
 		this._mopidy = {};
 		this.events = new EventEmitter();
@@ -106,7 +105,6 @@ export default class MopidyServer {
 
 	get host() { return this._host; }
 	get port() { return this._port; }
-	get name() { return this._name; }
 	get readyState() {
 		if (this._mopidy.hasOwnProperty('_webSocket')) {
 			return this._mopidy._webSocket.readyState === 1;
