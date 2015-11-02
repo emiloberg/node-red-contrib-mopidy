@@ -32,6 +32,7 @@
   "node-red": {
     "nodes": {
       "mopidy-out": "mopidy/mopidy-out.js",
+      "mopidy-in": "mopidy/mopidy-in.js",
       "mopidy-config": "mopidy/mopidy-config.js"
     }
   },
