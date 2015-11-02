@@ -3,6 +3,7 @@ import config from './lib/utils/config';
 var objectAssign = require('object-assign');
 var objectPath = require('object-path');
 import {isURL, isInt, isLength} from 'validator';
+import events from './lib/utils/events';
 
 module.exports = function(RED) {
     'use strict';
@@ -34,20 +35,18 @@ module.exports = function(RED) {
             this.servers.remove({ id: this.mopidyServer.id });
         });
 
-        // TODO: Make sure an output node only can have 1 running server at any given moment
+		// TODO: Figure out why Node-RED says "Missing node modules: node-red-contrib-advanced-mopidy"
 
-        // TODO: Change this so that it shows connected/non-connected based on events
-        //setInterval(() => {
-        //    if('mopidyServer' in this) {
-        //        if (this.mopidyServer.readyState) {
-        //            this.status({fill: 'green', shape: 'ring', text: 'connected to ' + this.mopidyServer.name });
-        //        } else {
-        //            this.status({fill: 'red', shape: 'ring', text: 'not connected'});
-        //        }
-        //    } else {
-        //        this.status({fill: 'red', shape: 'ring', text: 'not connected'});
-        //    }
-        //}, 1000);
+		// TODO: Remove Listener before adding it to avoild memory leak.
+		events.ee.on('serverStatusChanged', () => { this.updateStatus(); });
+		this.updateStatus = () => {
+			if (objectPath.get(this, 'mopidyServer.readyState', false) === true) {
+					this.status({ fill: 'green', shape: 'dot', text: 'connected' });
+				} else {
+					this.status({ fill: 'grey', shape: 'dot', text: 'not connected' });
+				}
+		};
+		this.updateStatus();
 
         this.invokeMethod = (incomingMsg = {}) => {
 
@@ -89,6 +88,7 @@ module.exports = function(RED) {
                 host = this.mopidyServer.host;
                 port = this.mopidyServer.port;
             }
+			// TODO: If an incoming message has host/port, then pass it on to the positive outgoing message so that nodes can be chained.
             if (incomingMsg.hasOwnProperty('host')) { host = incomingMsg.host; }
             if (incomingMsg.hasOwnProperty('port')) { port = incomingMsg.port; }
 
@@ -117,12 +117,8 @@ module.exports = function(RED) {
                 if (curServer.readyState === true) {
                     openNewServerConnection = false;
                     curServer.invokeMethod({method, params})
-                        .then((ret) => {
-                            this.send({mopidy: ret});
-                        })
-                        .catch((err) => {
-                            this.send({error: {message: err}});
-                        });
+                        .then((ret) => { this.send({mopidy: ret}); })
+                        .catch((err) => { this.send({error: {message: err}}); });
                 }
             }
 
