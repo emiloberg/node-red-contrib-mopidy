@@ -5,6 +5,8 @@ var objectPath = require('object-path');
 import {isURL, isInt, isLength} from 'validator';
 import events from './lib/utils/events';
 
+// TODO: Figure out why Node-RED says "Missing node modules: node-red-contrib-advanced-mopidy"
+
 module.exports = function(RED) {
     'use strict';
     function mopidyOutNode(n) {
@@ -35,10 +37,6 @@ module.exports = function(RED) {
             this.servers.remove({ id: this.mopidyServer.id });
         });
 
-		// TODO: Figure out why Node-RED says "Missing node modules: node-red-contrib-advanced-mopidy"
-
-		// TODO: Remove Listener before adding it to avoild memory leak.
-		events.ee.on('serverStatusChanged', () => { this.updateStatus(); });
 		this.updateStatus = () => {
 			if (objectPath.get(this, 'mopidyServer.readyState', false) === true) {
 					this.status({ fill: 'green', shape: 'dot', text: 'connected' });
@@ -46,6 +44,8 @@ module.exports = function(RED) {
 					this.status({ fill: 'grey', shape: 'dot', text: 'not connected' });
 				}
 		};
+        events.ee.removeListener('serverStatusChanged', this.updateStatus);
+        events.ee.on('serverStatusChanged', this.updateStatus);
 		this.updateStatus();
 
         this.invokeMethod = (incomingMsg = {}) => {
