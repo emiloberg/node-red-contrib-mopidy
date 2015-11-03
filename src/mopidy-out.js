@@ -52,24 +52,20 @@ module.exports = function(RED) {
 
 
         this.invokeMethod = (incomingMsg = {}) => {
-
             if (typeof incomingMsg !== 'object') {
                 this.send({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
                 return;
             }
-
             if (incomingMsg.hasOwnProperty('error')) {
                 this.send({ error: { message: "Stopped. Incoming data has the property 'error'" } });
                 return;
             }
-
             if (incomingMsg.hasOwnProperty('method')) {
                 if (typeof incomingMsg.method !== 'string') {
                     this.send({ error: { message: "'method' must be a 'string'" } });
                     return;
                 }
             }
-
             if (incomingMsg.hasOwnProperty('params')) {
                 if (typeof incomingMsg.params !== 'object') {
                     this.send({ error: { message: "'params' must be an 'object'" } });
@@ -91,20 +87,25 @@ module.exports = function(RED) {
                 host = this.mopidyServer.host;
                 port = this.mopidyServer.port;
             }
-			// TODO: If an incoming message has host/port, then pass it on to the positive outgoing message so that nodes can be chained.
-            if (incomingMsg.hasOwnProperty('host')) { host = incomingMsg.host; }
-            if (incomingMsg.hasOwnProperty('port')) { port = incomingMsg.port; }
+
+            const carryOnHostPort = {};
+            if (incomingMsg.hasOwnProperty('host')) {
+                host = incomingMsg.host;
+                carryOnHostPort.host = incomingMsg.host;
+            }
+            if (incomingMsg.hasOwnProperty('port')) {
+                port = incomingMsg.port;
+                carryOnHostPort.port = incomingMsg.port;
+            }
 
             if(!isURL(host, { require_tld: false, require_valid_protocol: false })) {
                 this.send({ error: { message: `'${host}' is not a host` } });
                 return;
             }
-
             if(!isInt(port, { min: 1, max: 65535 })) {
                 this.send({ error: { message: `'${port}' is not a valid port number` } });
                 return;
             }
-
             if(!isLength(method, 1, 100)) {
                 this.send({ error: { message: "No 'method' is supplied" } });
                 return;
@@ -120,7 +121,7 @@ module.exports = function(RED) {
                 if (curServer.readyState === true) {
                     openNewServerConnection = false;
                     curServer.invokeMethod({method, params})
-                        .then((ret) => { this.send({mopidy: ret}); })
+                        .then((ret) => { this.send(objectAssign({mopidy: ret}, carryOnHostPort)); })
                         .catch((err) => { this.send({error: {message: err}}); });
                 }
             }
@@ -137,7 +138,7 @@ module.exports = function(RED) {
                 const listener = () => {
                     isCalled = true;
                     curServer.invokeMethod({method, params})
-                        .then((ret) => { this.send({mopidy: ret}); })
+                        .then((ret) => { this.send(objectAssign({mopidy: ret}, carryOnHostPort)); })
                         .catch((err) => { this.send({error: {message: err}}); })
                         .then(() => { this.servers.remove({ id: curServer.id }) });
                 };
@@ -145,6 +146,7 @@ module.exports = function(RED) {
                 setTimeout(() => {
                     if (isCalled === false) {
                         curServer.events.removeListener('ready:ready', listener);
+                        // Todo: attach host/port/name to error message for easier debugging.
                         this.send({ error: { message: `Could not connect to server within ${config.fetch('mopidyConnectTimeout')} seconds` }});
                         this.servers.remove({ id: curServer.id });
                     }

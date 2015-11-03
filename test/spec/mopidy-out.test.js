@@ -543,7 +543,7 @@ describe('mopidy-out', () => {
 				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.mixer.setMute', params: { mute: true } });
 				stubServersGetId.should.have.been.calledWithExactly({ host: '127.0.0.5', port: 1234 });
 				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
+				spySend.should.have.been.calledWithExactly({ mopidy: 'return value', host: '127.0.0.5', port: 1234 });
 				done();
 			}, 0);
 		});
@@ -556,7 +556,7 @@ describe('mopidy-out', () => {
 				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.test.method', params: { mute: true, one: 'param' } });
 				stubServersGetId.should.have.been.calledWithExactly({ host: '127.0.0.5', port: 1234 });
 				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
+				spySend.should.have.been.calledWithExactly({ mopidy: 'return value', host: '127.0.0.5', port: 1234 });
 				done();
 			}, 0);
 		});
@@ -767,7 +767,7 @@ describe('mopidy-out', () => {
 				spyInvokeMethod.should.have.callCount(1);
 				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.a.method', params: {} });
 				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
+				spySend.should.have.been.calledWithExactly({ mopidy: 'return value', host: '127.0.0.5', port: 12345 });
 				stubServersAdd.should.have.callCount(1);
 				stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
 				stubServersRemove.should.have.callCount(1);
@@ -837,7 +837,7 @@ describe('mopidy-out', () => {
 				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.a.method', params: { test: 'param' } });
 				stubServersGet.should.have.callCount(1);
 				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ mopidy: 'return value' });
+				spySend.should.have.been.calledWithExactly({ mopidy: 'return value', host: '127.0.0.5', port: 12345 });
 				stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
 				stubServersRemove.should.have.callCount(1);
 				done();
