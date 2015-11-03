@@ -7,11 +7,11 @@ import {snakeToCamel, convertToInt} from '../utils/utils';
 var objectPath = require('object-path');
 
 export default class MopidyServer {
-	constructor({ host, port, serverId }) {
+	constructor({ host, port, serverId, name = '' }) {
 		this._host = host;
 		this._port = port;
+		this._name = name;
 		this._id = serverId;
-		this._mopidy = {};
 		this.events = new EventEmitter();
 		this._mopidy = new Mopidy({
 			webSocketUrl:      `ws://${host}:${port}/mopidy/ws/`,
@@ -104,6 +104,7 @@ export default class MopidyServer {
 		this._MOPIDY_API = newApi;
 	}
 
+	get name() { return this._name; }
 	get host() { return this._host; }
 	get port() { return this._port; }
 	get readyState() {
