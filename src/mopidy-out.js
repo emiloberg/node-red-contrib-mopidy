@@ -36,7 +36,8 @@ module.exports = function(RED) {
         if (this.serverNode) {
             this.mopidyServer = this.servers.add({
                 host: this.serverNode.host,
-                port: this.serverNode.port
+                port: this.serverNode.port,
+                name: this.serverNode.name
             });
 
             this.mopidyServer.events.on('ready:ready', this.updateStatus);
@@ -83,12 +84,16 @@ module.exports = function(RED) {
             // Host and Port
             let host = '';
             let port = '';
+            let serverName = 'temporaryServerConnection';
             if (this.serverNode) {
                 host = this.mopidyServer.host;
                 port = this.mopidyServer.port;
+                serverName = this.mopidyServer.name;
             }
 
-            const carryOnHostPort = {};
+            const carryOnHostPort = {
+                serverName
+            };
             if (incomingMsg.hasOwnProperty('host')) {
                 host = incomingMsg.host;
                 carryOnHostPort.host = incomingMsg.host;
