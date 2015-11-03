@@ -228,7 +228,7 @@ describe('mopidy-out', () => {
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
 			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
-				'method': 'core.tracklist.shuffle',
+				'method': 'tracklist.shuffle',
 				'params': '{"start":"","end":""}'
 			}
 		];
@@ -243,7 +243,7 @@ describe('mopidy-out', () => {
 				currentNode.invokeMethod();
 
 				setTimeout(function(){
-					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.shuffle', params: { end: '', start: '' } });
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'tracklist.shuffle', params: { end: '', start: '' } });
 					spySend.should.have.callCount(1);
 					spySend.should.have.been.calledWithExactly({ payload: 'return value', serverName: 'test-server' });
 
@@ -265,7 +265,7 @@ describe('mopidy-out', () => {
 				currentNode.invokeMethod();
 
 				setTimeout(function(){
-					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.shuffle', params: { end: '', start: '' } });
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'tracklist.shuffle', params: { end: '', start: '' } });
 					spySend.should.have.callCount(1);
 					spySend.should.have.been.calledWithExactly({ error: { message: 'error value' } });
 
@@ -284,7 +284,7 @@ describe('mopidy-out', () => {
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
 			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
-				'method': 'core.tracklist.add',
+				'method': 'tracklist.add',
 				'params': ''
 			}
 		];
@@ -300,7 +300,7 @@ describe('mopidy-out', () => {
 
 				setTimeout(function(){
 					stubInvokeMethod.should.have.callCount(1);
-					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.add', params: { uri: 'http://http-live.sr.se/p1-mp3-128' } });
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'tracklist.add', params: { uri: 'http://http-live.sr.se/p1-mp3-128' } });
 					spySend.should.have.callCount(1);
 					spySend.should.have.been.calledWithExactly({ payload: 'return value', serverName: 'test-server' });
 
@@ -331,10 +331,10 @@ describe('mopidy-out', () => {
 				const spySend = sinon.spy(currentNode, 'send');
 				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
-				currentNode.invokeMethod({ method: 'core.mixer.setVolume'});
+				currentNode.invokeMethod({ method: 'mixer.setVolume'});
 
 				setTimeout(function(){
-					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.mixer.setVolume', params: { volume: 50 } });
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'mixer.setVolume', params: { volume: 50 } });
 					spySend.should.have.callCount(1);
 					spySend.should.have.been.calledWithExactly({ payload: 'return value', serverName: 'test-server' });
 
@@ -364,10 +364,10 @@ describe('mopidy-out', () => {
 				const spySend = sinon.spy(currentNode, 'send');
 				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
-				currentNode.invokeMethod({ method: 'core.tracklist.slice', params: { start: 1, end: 2 }});
+				currentNode.invokeMethod({ method: 'tracklist.slice', params: { start: 1, end: 2 }});
 
 				setTimeout(function(){
-					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'core.tracklist.slice', params: { start: 1, end: 2 }});
+					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'tracklist.slice', params: { start: 1, end: 2 }});
 					spySend.should.have.callCount(1);
 					spySend.should.have.been.calledWithExactly({ payload: 'return value', serverName: 'test-server' });
 
@@ -386,7 +386,7 @@ describe('mopidy-out', () => {
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
 			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
-				'method': 'core.mixer.setMute',
+				'method': 'mixer.setMute',
 				'params': '{"mute": true}'
 			}
 		];
@@ -398,10 +398,10 @@ describe('mopidy-out', () => {
 				const spySend = sinon.spy(currentNode, 'send');
 				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
-				currentNode.invokeMethod({ method: 'core.playlist.save', params: { playlist: 'myplaylist' }});
+				currentNode.invokeMethod({ method: 'playlist.save', params: { playlist: 'myplaylist' }});
 
 				setTimeout(function(){
-					stubInvokeMethod.should.have.been.calledWith(sinon.match({ method: 'core.playlist.save', params: { playlist: 'myplaylist' }}));
+					stubInvokeMethod.should.have.been.calledWith(sinon.match({ method: 'playlist.save', params: { playlist: 'myplaylist' }}));
 					spySend.should.have.callCount(1);
 					spySend.should.have.been.calledWithExactly({ payload: 'return value', serverName: 'test-server' });
 
@@ -420,7 +420,7 @@ describe('mopidy-out', () => {
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
 			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
-				'method': 'core.mixer.setMute',
+				'method': 'mixer.setMute',
 				'params': '{"mute": true}'
 			}
 		];
@@ -497,7 +497,7 @@ describe('mopidy-out', () => {
 	describe('Given a mopidy-out node with no configured server, but configured method/param and incoming message with host/port', () => {
 		const FLOW = [
 			{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out',
-				'method': 'core.mixer.setMute',
+				'method': 'mixer.setMute',
 				'params': '{"mute": true}'
 			}
 		];
@@ -540,7 +540,7 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyInvokeMethod.should.have.callCount(1);
-				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.mixer.setMute', params: { mute: true } });
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'mixer.setMute', params: { mute: true } });
 				stubServersGetId.should.have.been.calledWithExactly({ host: '127.0.0.5', port: 1234 });
 				spySend.should.have.callCount(1);
 				spySend.should.have.been.calledWithExactly({ payload: 'return value', host: '127.0.0.5', port: 1234, serverName: 'temporaryServerConnection' });
@@ -549,11 +549,11 @@ describe('mopidy-out', () => {
 		});
 
 		it('Should connect to the already existing server connection with the host/port specified in message and use params/method from message', function(done) {
-			const incomingMsg = { host: '127.0.0.5', port: 1234, method: 'core.test.method', params: { one: 'param' } };
+			const incomingMsg = { host: '127.0.0.5', port: 1234, method: 'test.method', params: { one: 'param' } };
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyInvokeMethod.should.have.callCount(1);
-				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.test.method', params: { mute: true, one: 'param' } });
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'test.method', params: { mute: true, one: 'param' } });
 				stubServersGetId.should.have.been.calledWithExactly({ host: '127.0.0.5', port: 1234 });
 				spySend.should.have.callCount(1);
 				spySend.should.have.been.calledWithExactly({ payload: 'return value', host: '127.0.0.5', port: 1234, serverName: 'temporaryServerConnection'  });
@@ -692,7 +692,7 @@ describe('mopidy-out', () => {
 		});
 
 		it("Should send an error message if a server connection can't be established within 5 seconds", function(done) {
-			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'core.a.method' };
+			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'a.method' };
 			const clock = sinon.useFakeTimers();
 			currentNode.invokeMethod(incomingMsg);
 			clock.tick(5000);
@@ -759,12 +759,12 @@ describe('mopidy-out', () => {
 
 
 		it('Should spawn a new server connection with the host/port specified in message', function(done) {
-			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'core.a.method' };
+			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'a.method' };
 			currentNode.invokeMethod(incomingMsg);
 
 			setTimeout(() => {
 				spyInvokeMethod.should.have.callCount(1);
-				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.a.method', params: {} });
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'a.method', params: {} });
 				spySend.should.have.callCount(1);
 				spySend.should.have.been.calledWithExactly({ payload: 'return value', host: '127.0.0.5', port: 12345, serverName: 'temporaryServerConnection' });
 				stubServersAdd.should.have.callCount(1);
@@ -828,12 +828,12 @@ describe('mopidy-out', () => {
 
 
 		it("Should spawn a new server if an server exists but doesn't have good readyState", function(done) {
-			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'core.a.method', params: { test: 'param' } };
+			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'a.method', params: { test: 'param' } };
 			currentNode.invokeMethod(incomingMsg);
 
 			setTimeout(() => {
 				spyInvokeMethod.should.have.callCount(1);
-				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.a.method', params: { test: 'param' } });
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'a.method', params: { test: 'param' } });
 				stubServersGet.should.have.callCount(1);
 				spySend.should.have.callCount(1);
 				spySend.should.have.been.calledWithExactly({ payload: 'return value', host: '127.0.0.5', port: 12345, serverName: 'temporaryServerConnection' });
@@ -897,12 +897,12 @@ describe('mopidy-out', () => {
 
 
 		it("Should spawn a new server if an server exists but doesn't have good readyState, and catch an error from Mopidy", function(done) {
-			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'core.a.method', params: { test: 'param' } };
+			const incomingMsg = { host: '127.0.0.5', port: 12345, method: 'a.method', params: { test: 'param' } };
 			currentNode.invokeMethod(incomingMsg);
 
 			setTimeout(() => {
 				spyInvokeMethod.should.have.callCount(1);
-				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'core.a.method', params: { test: 'param' } });
+				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'a.method', params: { test: 'param' } });
 				stubServersGet.should.have.callCount(1);
 				spySend.should.have.callCount(1);
 				spySend.should.have.been.calledWithExactly({ error: { message: 'an error' } });

@@ -78,7 +78,7 @@
             var defaultSelectedMethod = this.method || '';
             var defaultSelectedCategory = '';
             if (defaultSelectedMethod.indexOf('.') > 0) {
-                defaultSelectedCategory = defaultSelectedMethod.split('.')[1];
+                defaultSelectedCategory = defaultSelectedMethod.split('.')[0];
             }
             var defaultParams = this.params || '{}';
             defaultParams = JSON.parse(defaultParams);

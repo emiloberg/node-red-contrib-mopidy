@@ -1,4 +1,5 @@
 'use strict';
+require('string.prototype.startswith');
 
 export function serverPropsToName({ host, port }) {
 	return `${host}:${port}`;
@@ -20,4 +21,11 @@ export function isInt(value) {
 
 export function convertToInt(possibleInt) {
 	return isInt(possibleInt) ? parseInt(possibleInt, 10) : possibleInt;
+}
+
+export function cutCore(methodName) {
+	if (methodName.startsWith('core.')) {
+		return methodName.substring(5);
+	}
+	return methodName;
 }

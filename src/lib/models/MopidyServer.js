@@ -3,7 +3,7 @@ var Mopidy = require('mopidy');
 import {EventEmitter} from 'events';
 //import {inspect, saveFile} from '../utils/debug';
 import log from '../utils/log';
-import {snakeToCamel, convertToInt} from '../utils/utils';
+import {snakeToCamel, convertToInt, cutCore} from '../utils/utils';
 var objectPath = require('object-path');
 
 export default class MopidyServer {
@@ -38,9 +38,6 @@ export default class MopidyServer {
 		if (this.methodExist(method) === false) {
 			return Promise.reject(`Method '${method}' does not exist`);
 		}
-
-		// Remove 'core' from method namespace.
-		method = method.slice(method.indexOf('.') + 1);
 
 		// Remove empty params
 		var newParams = {};
@@ -82,7 +79,7 @@ export default class MopidyServer {
 
 		// Translate snake_method_names to camelCase
 		Object.keys(api).forEach(function(key) {
-			newApi[snakeToCamel({ name: key })] = api[key];
+			newApi[snakeToCamel({ name: cutCore(key) })] = api[key];
 		});
 
 		// Translate params default value to human readable
@@ -129,7 +126,7 @@ export default class MopidyServer {
 		return Object.keys(this._MOPIDY_API).map(key => {
 			return {
 				method: key,
-				category: key.split('.')[1],
+				category: key.split('.')[0],
 				description: this._MOPIDY_API[key].description,
 				params: this._MOPIDY_API[key].params
 			};

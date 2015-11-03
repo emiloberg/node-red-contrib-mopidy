@@ -117,9 +117,9 @@ describe('MopidyServer', () =>{
 			REWIRED_SERVER.close();
 		});
 
-		it('should invoke method core.tracklist.add', () => {
+		it('should invoke method tracklist.add', () => {
 			REWIRED_SERVER.invokeMethod({
-				method: 'core.tracklist.add',
+				method: 'tracklist.add',
 				params: {
 					uri: 'http://http-live.sr.se/p1-mp3-128'
 				}
@@ -132,9 +132,9 @@ describe('MopidyServer', () =>{
 			spy.reset();
 		});
 
-		it('should invoke method core.history.getLength', () => {
+		it('should invoke method history.getLength', () => {
 			REWIRED_SERVER.invokeMethod({
-				method: 'core.history.getLength'
+				method: 'history.getLength'
 			});
 
 			spy.should.have.callCount(1);
@@ -147,8 +147,8 @@ describe('MopidyServer', () =>{
 
 		it('should not invoke a method which does not exist', () => {
 			return REWIRED_SERVER.invokeMethod({
-				method: 'core.not.exist'
-			}).should.eventually.be.rejectedWith("Method 'core.not.exist' does not exist");
+				method: 'not.exist'
+			}).should.eventually.be.rejectedWith("Method 'not.exist' does not exist");
 		});
 
 		it('should not invoke a method if an empty method is supplied', () => {
