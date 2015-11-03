@@ -16,7 +16,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('mopidy-in',{
         category: 'advanced-input',
-        color:'#fdf0c2',
+        color:'#C6E8C0',
         defaults: {
             name: {value:''},
             server: {
@@ -27,16 +27,8 @@
         },
         inputs:0,
         outputs:1,
-        icon: 'white-globe.png',
-        label: function() {
-            return this.name || this.method || 'mopidy';
-        },
-        labelStyle: function() {
-            return this.name?'node_label_italic':'';
-        },
-
-        oneditprepare: function() {
-
-        }
+        icon: 'mopidy-icon.png',
+        label: function() { return this.name || 'mopidy events'; },
+        labelStyle: function() { return this.name?'node_label_italic':''; }
     });
 </script>
