@@ -13,7 +13,8 @@ describe('Servers', () =>{
 
 		const SERVER_ONE = {
 			host: 'localhost',
-			port: 6681
+			port: 6681,
+			name: 'sample-server'
 		};
 		let SERVER_ONE_ID = utils.serverPropsToName({ host: SERVER_ONE.host, port: SERVER_ONE.port });
 
@@ -49,6 +50,7 @@ describe('Servers', () =>{
 			server.should.be.an('object');
 			server.should.have.property('host', SERVER_ONE.host);
 			server.should.have.property('port', SERVER_ONE.port);
+			server.should.have.property('name', SERVER_ONE.name);
 			server.should.have.property('id', SERVER_ONE_ID);
 			server.should.have.property('mopidy');
 		});
