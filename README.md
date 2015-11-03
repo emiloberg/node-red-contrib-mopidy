@@ -135,6 +135,16 @@ You can configure the Mopidy-in node to listen to different types of events:
 * **Reconnect**: Events sent when Node-RED is trying to connect to a Mopidy server.
 * **All**: All of the above.
 
+## Advanced configuration
+
+By default, the Mopidy-out node tries to connect to a Mopidy server for 5 seconds before returning a "could not connect" message. If you want to change this, add the following to your [Node-RED configuraiton file](http://nodered.org/docs/configuration.html) (easiest found by looking at the console when starting Node-RED):
+
+```
+functionGlobalContext: {
+	mopidyConnectTimeout: 5
+}
+```
+
 ## Development
 This is coded in ES2015/ESNext. To make older node able to understand it, it has to be transpiled to ES5. This is done automagically on installation. To rebuild it yourself, please see the tasks below. The source lives in the `./src` folder and gets transpiled and copied to the `./mopidy` folder.
 
