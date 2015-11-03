@@ -3,7 +3,6 @@ import config from './lib/utils/config';
 var objectAssign = require('object-assign');
 var objectPath = require('object-path');
 import {isURL, isInt, isLength} from 'validator';
-import events from './lib/utils/events';
 
 // TODO: Figure out why Node-RED says "Missing node modules: node-red-contrib-advanced-mopidy"
 
@@ -26,27 +25,31 @@ module.exports = function(RED) {
 
         config.setup({ settings: objectPath.get(RED, 'settings.functionGlobalContext') });
 
+        this.updateStatus = () => {
+            if (objectPath.get(this, 'mopidyServer.readyState', false) === true) {
+                this.status({ fill: 'green', shape: 'dot', text: 'connected' });
+            } else {
+                this.status({ fill: 'grey', shape: 'dot', text: 'not connected' });
+            }
+        };
+
         if (this.serverNode) {
             this.mopidyServer = this.servers.add({
                 host: this.serverNode.host,
                 port: this.serverNode.port
             });
+
+            this.mopidyServer.events.on('ready:ready', this.updateStatus);
+            this.mopidyServer.mopidy.on('websocket:error', this.updateStatus);
         }
 
+        this.updateStatus();
+
         this.on('close', () => {
+            // TODO: Change this so that it only removes it if it's the only node using the server
             this.servers.remove({ id: this.mopidyServer.id });
         });
 
-		this.updateStatus = () => {
-			if (objectPath.get(this, 'mopidyServer.readyState', false) === true) {
-					this.status({ fill: 'green', shape: 'dot', text: 'connected' });
-				} else {
-					this.status({ fill: 'grey', shape: 'dot', text: 'not connected' });
-				}
-		};
-        events.ee.removeListener('serverStatusChanged', this.updateStatus);
-        events.ee.on('serverStatusChanged', this.updateStatus);
-		this.updateStatus();
 
         this.invokeMethod = (incomingMsg = {}) => {
 
@@ -122,7 +125,7 @@ module.exports = function(RED) {
                 }
             }
 
-            // No server conneciton exists
+            // No server connection exists
             if (openNewServerConnection) {
                 const curServer = this.servers.add({
                     host,

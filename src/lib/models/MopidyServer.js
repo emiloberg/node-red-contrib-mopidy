@@ -3,7 +3,6 @@ var Mopidy = require('mopidy');
 import {EventEmitter} from 'events';
 //import {inspect, saveFile} from '../utils/debug';
 import log from '../utils/log';
-import events from '../utils/events';
 import {snakeToCamel, convertToInt} from '../utils/utils';
 var objectPath = require('object-path');
 
@@ -22,16 +21,13 @@ export default class MopidyServer {
 			}
 		});
 
-		this._mopidy.on('websocket:error', () => {
-			events.ee.emit('serverStatusChanged');
-		});
+		this.events.setMaxListeners(0);
 
 		this._mopidy.on('state:online', () => {
 			this._mopidy._send({method: 'core.describe'})
 			.then(data => {
 				this.mopidyApi = data;
 				this.events.emit('ready:ready');
-				events.ee.emit('serverStatusChanged');
 			});
 		});
 
