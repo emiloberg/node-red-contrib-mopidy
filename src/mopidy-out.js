@@ -121,7 +121,7 @@ module.exports = function(RED) {
                 if (curServer.readyState === true) {
                     openNewServerConnection = false;
                     curServer.invokeMethod({method, params})
-                        .then((ret) => { this.send(objectAssign({mopidy: ret}, carryOnHostPort)); })
+                        .then((ret) => { this.send(objectAssign({payload: ret}, carryOnHostPort)); })
                         .catch((err) => { this.send({error: {message: err}}); });
                 }
             }
@@ -138,7 +138,7 @@ module.exports = function(RED) {
                 const listener = () => {
                     isCalled = true;
                     curServer.invokeMethod({method, params})
-                        .then((ret) => { this.send(objectAssign({mopidy: ret}, carryOnHostPort)); })
+                        .then((ret) => { this.send(objectAssign({payload: ret}, carryOnHostPort)); })
                         .catch((err) => { this.send({error: {message: err}}); })
                         .then(() => { this.servers.remove({ id: curServer.id }) });
                 };
