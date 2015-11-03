@@ -27,14 +27,12 @@ module.exports = function(RED) {
 
 		this.mopidyServer.mopidy.on((fullEventName, eventData) => {
 			if (fullEventName.substr(0, 6) === 'event:') {
+				eventData.event = fullEventName.substring(6, fullEventName.length);
 				this.send({
-					event: fullEventName.substring(6, fullEventName.length),
-					data: eventData,
-					server: {
-						name: this.serverNode.name,
-						host: this.serverNode.host,
-						port: this.serverNode.port
-					}
+					payload: eventData,
+					serverName: this.serverNode.name,
+					host: this.serverNode.host,
+					port: this.serverNode.port
 				});
 			}
 		});
