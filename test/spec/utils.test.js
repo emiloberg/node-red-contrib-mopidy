@@ -4,7 +4,7 @@ const should = chai.should();
 chai.use(require('chai-things'));
 
 
-import {serverPropsToName, snakeToCamel, uuid, convertToInt} from '../../src/lib/utils/utils';
+import {serverPropsToName, snakeToCamel, uuid, convertToInt, cutCore, validateHostPort} from '../../src/lib/utils/utils';
 
 describe('utils', () =>{
 
@@ -55,6 +55,30 @@ describe('utils', () =>{
 				should.equal(convertToInt(null), null);
 				should.equal(convertToInt(undefined), undefined);
 				should.equal(isNaN(convertToInt(NaN)), true);
+			});
+		});
+	});
+
+	describe('cutCore', () =>{
+		describe('When called', () =>{
+			it("should cut 'core.' from method name", () => {
+				cutCore('core.method.name').should.equal('method.name');
+				cutCore('not.core.method.name').should.equal('not.core.method.name');
+			});
+		});
+	});
+
+	describe('validateHostPort', () =>{
+		describe('When called', () =>{
+			it("should validate host/port", () => {
+				validateHostPort({ host: 'localhost', port: '6680' }).should.equal(true);
+				validateHostPort({ host: '127.0.0.1', port: 6680 }).should.equal(true);
+				validateHostPort({ host: 'raspberry-pi.local', port: '6680' }).should.equal(true);
+				validateHostPort({ host: 'http://www.example.com', port: '6680' }).should.equal(true);
+				validateHostPort({ host: 'localhost', port: 'ABCD' }).should.equal(false);
+				validateHostPort({ host: 'NOT A HOST', port: '6680' }).should.equal(false);
+				validateHostPort({ host: 'localhost' }).should.equal(false);
+				validateHostPort({ port: 6680 }).should.equal(false);
 			});
 		});
 	});

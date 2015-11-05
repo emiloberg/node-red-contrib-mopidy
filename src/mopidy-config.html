@@ -16,7 +16,9 @@
             port: {
                 value: 6680,
                 required: true,
-                validate: RED.validators.number()
+                validate: function(val) {
+                    return val !== '' && !isNaN(val) && val > 0 && val < 65536;
+                }
             }
         },
         label: function() {

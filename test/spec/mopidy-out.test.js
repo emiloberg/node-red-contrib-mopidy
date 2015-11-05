@@ -34,7 +34,7 @@ describe('mopidy-out', () => {
 		helper.unload();
 	});
 
-	describe('Given http call', () => {
+	describe('Given http call with configured Mopidy server', () => {
 
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
@@ -64,7 +64,7 @@ describe('mopidy-out', () => {
 
 	});
 
-	describe('Given node is loaded', () => {
+	describe('Given node is loaded with server configuration', () => {
 
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
@@ -125,6 +125,32 @@ describe('mopidy-out', () => {
 				spyStatus.should.have.been.calledWithExactly(404);
 				spyJson.should.have.callCount(1);
 				spyJson.should.have.been.calledWithExactly({ message: 'Could not connect to Mopidy. If new connection - press deploy before continuing' });
+
+				stubGetNode.restore();
+				spyJson.reset();
+				spyStatus.reset();
+
+				done();
+			});
+		});
+
+		it('should respond to http request for methods when server node is configured wrong', function(done) {
+			helper.load(NODES, FLOW, function() {
+				const currentNode = helper.getNode('mop-out');
+				const spyJson = sinon.spy();
+				const stubGetNode = sinon.stub(currentNode.RED.nodes, 'getNode', function() { return { host: 'NOT A VALID HOST', port: 'NOT A VALID PORT' }; });
+				const mockaedReq = { params: { nodeId: '12345' } };
+				const mockedRes = { status: function() { return { json: spyJson } } };
+				const spyStatus = sinon.spy(mockedRes, 'status');
+
+				currentNode.routeMethods(mockaedReq, mockedRes);
+
+				stubGetNode.should.have.callCount(1);
+				stubGetNode.should.have.been.calledWithExactly('12345');
+				spyStatus.should.have.callCount(1);
+				spyStatus.should.have.been.calledWithExactly(500);
+				spyJson.should.have.callCount(1);
+				spyJson.should.have.been.calledWithExactly({ message: 'No valid host/port is supplied' });
 
 				stubGetNode.restore();
 				spyJson.reset();
@@ -604,7 +630,7 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: "'' is not a host" } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'No valid host/port is supplied' } });
 				done();
 			}, 0);
 		});
@@ -614,7 +640,7 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: "'100000' is not a valid port number" } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'No valid host/port is supplied' } });
 				done();
 			}, 0);
 		});

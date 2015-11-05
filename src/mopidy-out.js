@@ -1,8 +1,10 @@
 import servers from './lib/models/servers';
 import config from './lib/utils/config';
+import {isLength} from 'validator';
+import {validateHostPort} from './lib/utils/utils';
+
 var objectAssign = require('object-assign');
 var objectPath = require('object-path');
-import {isURL, isInt, isLength} from 'validator';
 
 module.exports = function(RED) {
     'use strict';
@@ -32,14 +34,15 @@ module.exports = function(RED) {
         };
 
         if (this.serverNode) {
-            this.mopidyServer = this.servers.add({
-                host: this.serverNode.host,
-                port: this.serverNode.port,
-                name: this.serverNode.name
-            });
-
-            this.mopidyServer.events.on('ready:ready', this.updateStatus);
-            this.mopidyServer.mopidy.on('websocket:error', this.updateStatus);
+            if (validateHostPort({ host: this.serverNode.host, port: this.serverNode.port })) {
+                this.mopidyServer = this.servers.add({
+                    host: this.serverNode.host,
+                    port: this.serverNode.port,
+                    name: this.serverNode.name
+                });
+                this.mopidyServer.events.on('ready:ready', this.updateStatus);
+                this.mopidyServer.mopidy.on('websocket:error', this.updateStatus);
+            }
         }
 
         this.updateStatus();
@@ -101,14 +104,11 @@ module.exports = function(RED) {
                 carryOnHostPort.port = incomingMsg.port;
             }
 
-            if(!isURL(host, { require_tld: false, require_valid_protocol: false })) {
-                this.error({ error: { message: `'${host}' is not a host` } });
+            if (!validateHostPort({ host, port })) {
+                this.error({ error: { message: 'No valid host/port is supplied' } });
                 return;
             }
-            if(!isInt(port, { min: 1, max: 65535 })) {
-                this.error({ error: { message: `'${port}' is not a valid port number` } });
-                return;
-            }
+
             if(!isLength(method, 1, 100)) {
                 this.error({ error: { message: "No 'method' is supplied" } });
                 return;
@@ -171,6 +171,11 @@ module.exports = function(RED) {
                 res.status(404).json({
                     message: 'Could not connect to Mopidy. If new connection - press deploy before continuing'
                 });
+                return;
+            }
+
+            if (!validateHostPort({ host: tempServerNode.host, port: tempServerNode.port })) {
+                res.status(500).json({ message: 'No valid host/port is supplied' });
                 return;
             }
 
