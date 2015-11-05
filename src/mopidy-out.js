@@ -4,8 +4,6 @@ var objectAssign = require('object-assign');
 var objectPath = require('object-path');
 import {isURL, isInt, isLength} from 'validator';
 
-// TODO: Figure out why Node-RED says "Missing node modules: node-red-contrib-advanced-mopidy"
-
 module.exports = function(RED) {
     'use strict';
     function mopidyOutNode(n) {
@@ -54,22 +52,22 @@ module.exports = function(RED) {
 
         this.invokeMethod = (incomingMsg = {}) => {
             if (typeof incomingMsg !== 'object') {
-                this.send({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
+                this.error({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
                 return;
             }
             if (incomingMsg.hasOwnProperty('error')) {
-                this.send({ error: { message: "Stopped. Incoming data has the property 'error'" } });
+                this.error({ error: { message: "Stopped. Incoming data has the property 'error'" } });
                 return;
             }
             if (incomingMsg.hasOwnProperty('method')) {
                 if (typeof incomingMsg.method !== 'string') {
-                    this.send({ error: { message: "'method' must be a 'string'" } });
+                    this.error({ error: { message: "'method' must be a 'string'" } });
                     return;
                 }
             }
             if (incomingMsg.hasOwnProperty('params')) {
                 if (typeof incomingMsg.params !== 'object') {
-                    this.send({ error: { message: "'params' must be an 'object'" } });
+                    this.error({ error: { message: "'params' must be an 'object'" } });
                     return;
                 }
             }
@@ -104,15 +102,15 @@ module.exports = function(RED) {
             }
 
             if(!isURL(host, { require_tld: false, require_valid_protocol: false })) {
-                this.send({ error: { message: `'${host}' is not a host` } });
+                this.error({ error: { message: `'${host}' is not a host` } });
                 return;
             }
             if(!isInt(port, { min: 1, max: 65535 })) {
-                this.send({ error: { message: `'${port}' is not a valid port number` } });
+                this.error({ error: { message: `'${port}' is not a valid port number` } });
                 return;
             }
             if(!isLength(method, 1, 100)) {
-                this.send({ error: { message: "No 'method' is supplied" } });
+                this.error({ error: { message: "No 'method' is supplied" } });
                 return;
             }
 
@@ -127,7 +125,7 @@ module.exports = function(RED) {
                     openNewServerConnection = false;
                     curServer.invokeMethod({method, params})
                         .then((ret) => { this.send(objectAssign({payload: ret}, carryOnHostPort)); })
-                        .catch((err) => { this.send({error: {message: err}}); });
+                        .catch((err) => { this.error({error: {message: err}}); });
                 }
             }
 
@@ -144,7 +142,7 @@ module.exports = function(RED) {
                     isCalled = true;
                     curServer.invokeMethod({method, params})
                         .then((ret) => { this.send(objectAssign({payload: ret}, carryOnHostPort)); })
-                        .catch((err) => { this.send({error: {message: err}}); })
+                        .catch((err) => { this.error({error: {message: err}}); })
                         .then(() => { this.servers.remove({ id: curServer.id }) });
                 };
 
@@ -152,7 +150,7 @@ module.exports = function(RED) {
                     if (isCalled === false) {
                         curServer.events.removeListener('ready:ready', listener);
                         // Todo: attach host/port/name to error message for easier debugging.
-                        this.send({ error: { message: `Could not connect to server within ${config.fetch('mopidyConnectTimeout')} seconds` }});
+                        this.error({ error: { message: `Could not connect to server within ${config.fetch('mopidyConnectTimeout')} seconds` }});
                         this.servers.remove({ id: curServer.id });
                     }
                 }, (config.fetch('mopidyConnectTimeout') * 1000));

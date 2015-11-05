@@ -259,17 +259,17 @@ describe('mopidy-out', () => {
 			helper.load(NODES, FLOW, function() {
 				let currentNode = helper.getNode('mop-out');
 				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.reject('error value') });
-				const spySend = sinon.spy(currentNode, 'send');
+				const spyError = sinon.spy(currentNode, 'error');
 				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
 				currentNode.invokeMethod();
 
 				setTimeout(function(){
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'tracklist.shuffle', params: { end: '', start: '' } });
-					spySend.should.have.callCount(1);
-					spySend.should.have.been.calledWithExactly({ error: { message: 'error value' } });
+					spyError.should.have.callCount(1);
+					spyError.should.have.been.calledWithExactly({ error: { message: 'error value' } });
 
-					spySend.reset();
+					spyError.reset();
 					stubInvokeMethod.restore();
 					stubReadyState.restore();
 					done();
@@ -427,7 +427,7 @@ describe('mopidy-out', () => {
 
 		let currentNode;
 		let stubInvokeMethod;
-		let spySend;
+		let spyError;
 		let stubReadyState;
 
 		beforeEach(function(done) {
@@ -435,13 +435,13 @@ describe('mopidy-out', () => {
 				currentNode = helper.getNode('mop-out');
 				stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() {});
 				stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
-				spySend = sinon.spy(currentNode, 'send');
+				spyError = sinon.spy(currentNode, 'error');
 				done();
 			});
 		});
 
 		afterEach(function() {
-			spySend.reset();
+			spyError.reset();
 			stubInvokeMethod.restore();
 			stubReadyState.restore();
 			helper.unload();
@@ -452,8 +452,8 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
-				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
+				spyError.should.have.callCount(1);
+				spyError.should.have.been.calledWithExactly({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
 				done();
 			}, 0);
 		});
@@ -463,8 +463,8 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
-				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: { message: "Stopped. Incoming data has the property 'error'" } });
+				spyError.should.have.callCount(1);
+				spyError.should.have.been.calledWithExactly({ error: { message: "Stopped. Incoming data has the property 'error'" } });
 				done();
 			}, 0);
 		});
@@ -474,8 +474,8 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
-				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: { message: "'method' must be a 'string'" } });
+				spyError.should.have.callCount(1);
+				spyError.should.have.been.calledWithExactly({ error: { message: "'method' must be a 'string'" } });
 				done();
 			}, 0);
 		});
@@ -485,8 +485,8 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
-				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: { message: "'params' must be an 'object'" } });
+				spyError.should.have.callCount(1);
+				spyError.should.have.been.calledWithExactly({ error: { message: "'params' must be an 'object'" } });
 				done();
 			}, 0);
 		});
@@ -567,7 +567,7 @@ describe('mopidy-out', () => {
 		const FLOW = [{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out' }];
 
 		let currentNode;
-		let spySend;
+		let spyError;
 		let stubServersGetId;
 		let stubServersGet;
 		let spyInvokeMethod;
@@ -586,13 +586,13 @@ describe('mopidy-out', () => {
 						}
 					};
 				});
-				spySend = sinon.spy(currentNode, 'send');
+				spyError = sinon.spy(currentNode, 'error');
 				done();
 			});
 		});
 
 		afterEach(function() {
-			spySend.reset();
+			spyError.reset();
 			spyInvokeMethod.reset();
 			stubServersGetId.restore();
 			stubServersGet.restore();
@@ -603,8 +603,8 @@ describe('mopidy-out', () => {
 			const incomingMsg = {};
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
-				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: { message: "'' is not a host" } });
+				spyError.should.have.callCount(1);
+				spyError.should.have.been.calledWithExactly({ error: { message: "'' is not a host" } });
 				done();
 			}, 0);
 		});
@@ -613,8 +613,8 @@ describe('mopidy-out', () => {
 			const incomingMsg = { host: 'a.valid.host', port: 100000};
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
-				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: { message: "'100000' is not a valid port number" } });
+				spyError.should.have.callCount(1);
+				spyError.should.have.been.calledWithExactly({ error: { message: "'100000' is not a valid port number" } });
 				done();
 			}, 0);
 		});
@@ -623,8 +623,8 @@ describe('mopidy-out', () => {
 			const incomingMsg = { host: 'a.valid.host', port: 12345 };
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
-				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: { message: "No 'method' is supplied" } });
+				spyError.should.have.callCount(1);
+				spyError.should.have.been.calledWithExactly({ error: { message: "No 'method' is supplied" } });
 				done();
 			}, 0);
 		});
@@ -637,7 +637,7 @@ describe('mopidy-out', () => {
 		const FLOW = [{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out' }];
 
 		let currentNode;
-		let spySend;
+		let spyError;
 		let stubServersGetId;
 		let stubServersGet;
 		let spyInvokeMethod;
@@ -675,13 +675,13 @@ describe('mopidy-out', () => {
 				});
 
 
-				spySend = sinon.spy(currentNode, 'send');
+				spyError = sinon.spy(currentNode, 'error');
 				done();
 			});
 		});
 
 		afterEach(function() {
-			spySend.reset();
+			spyError.reset();
 			spyInvokeMethod.reset();
 			stubServersGetId.restore();
 			stubServersGet.restore();
@@ -697,9 +697,9 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			clock.tick(5000);
 			clock.restore();
-			spySend.should.have.callCount(1);
+			spyError.should.have.callCount(1);
+			spyError.should.have.been.calledWithExactly({ error: { message: 'Could not connect to server within 5 seconds' } });
 			stubServersAdd.should.have.callCount(1);
-			spySend.should.have.been.calledWithExactly({ error: { message: 'Could not connect to server within 5 seconds' } });
 			stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
 			spyRemoveListener.should.have.callCount(1);
 			spyRemoveListener.should.have.been.calledWith('ready:ready');
@@ -850,7 +850,7 @@ describe('mopidy-out', () => {
 		const FLOW = [{ id: 'mop-out', name: 'myname', server: '', type: 'mopidy-out' }];
 
 		let currentNode;
-		let spySend;
+		let spyError;
 		let stubServersGetId;
 		let spyInvokeMethod;
 		let stubServersAdd;
@@ -880,13 +880,13 @@ describe('mopidy-out', () => {
 					};
 				});
 
-				spySend = sinon.stub(currentNode, 'send', function() {});
+				spyError = sinon.stub(currentNode, 'error', function() {});
 				done();
 			});
 		});
 
 		afterEach(function() {
-			spySend.reset();
+			spyError.reset();
 			spyInvokeMethod.reset();
 			stubServersGetId.restore();
 			stubServersAdd.restore();
@@ -904,8 +904,8 @@ describe('mopidy-out', () => {
 				spyInvokeMethod.should.have.callCount(1);
 				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'a.method', params: { test: 'param' } });
 				stubServersGet.should.have.callCount(1);
-				spySend.should.have.callCount(1);
-				spySend.should.have.been.calledWithExactly({ error: { message: 'an error' } });
+				spyError.should.have.callCount(1);
+				spyError.should.have.been.calledWithExactly({ error: { message: 'an error' } });
 				stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
 				stubServersRemove.should.have.callCount(1);
 				done();
