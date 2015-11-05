@@ -29,12 +29,11 @@ describe('mopidy-out', () => {
 		helper.stopServer(done);
 	});
 
-
-	afterEach(function() {
-		helper.unload();
-	});
-
 	describe('Given http call with configured Mopidy server', () => {
+
+		afterEach(function() {
+			helper.unload();
+		});
 
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
@@ -65,6 +64,10 @@ describe('mopidy-out', () => {
 	});
 
 	describe('Given node is loaded with server configuration', () => {
+
+		afterEach(function() {
+			helper.unload();
+		});
 
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
@@ -251,6 +254,11 @@ describe('mopidy-out', () => {
 	});
 
 	describe('Given a mopidy-out node configured with method and params', () => {
+
+		afterEach(function() {
+			helper.unload();
+		});
+
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
 			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
@@ -307,6 +315,11 @@ describe('mopidy-out', () => {
 
 
 	describe('Given a mopidy-out node configured with method', () => {
+
+		afterEach(function() {
+			helper.unload();
+		});
+
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
 			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
@@ -342,6 +355,11 @@ describe('mopidy-out', () => {
 
 
 	describe('Given a mopidy-out node configured with params', () => {
+
+		afterEach(function() {
+			helper.unload();
+		});
+
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
 			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
@@ -375,6 +393,11 @@ describe('mopidy-out', () => {
 	});
 
 	describe('Given a mopidy-out node not configured with method or params', () => {
+
+		afterEach(function() {
+			helper.unload();
+		});
+
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
 			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
@@ -409,6 +432,11 @@ describe('mopidy-out', () => {
 
 
 	describe('Given a mopidy-out node configured with method or params and incoming message with method and params', () => {
+
+		afterEach(function() {
+			helper.unload();
+		});
+
 		const FLOW = [
 			{ host: 'localhost', id: 'mop-config', name: 'test-server', port: '6680', type: 'mopidy-config' },
 			{ id: 'mop-out', name: 'myname', server: 'mop-config', type: 'mopidy-out',
