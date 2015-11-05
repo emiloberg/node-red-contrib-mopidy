@@ -2,7 +2,6 @@
 
 import {serverPropsToName, uuid} from './../utils/utils';
 import MopidyServer from './MopidyServer'
-import {isInt, isLength} from 'validator';
 
 var SERVERS = {};
 
@@ -23,14 +22,6 @@ const servers = {
 	 * @returns {*}
 	 */
 	add: function({ host, port, name = '', addWithUniqueId = false }) {
-
-		if (
-			!isInt(port, { min: 1, max: 65535 }) ||
-			!isLength(host, 1, 100)
-		) {
-			throw new Error('Not valid host/port'); // Todo, should Return error instead (and print to front end)
-		}
-
 		let serverId = addWithUniqueId ? uuid() : serverPropsToName({ host, port });
 		if(servers.exists({ id: serverId })) {
 			return SERVERS[serverId]

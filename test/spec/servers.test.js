@@ -25,11 +25,6 @@ describe('Servers', () =>{
 		let SERVER_TWO_ID = utils.serverPropsToName({ host: SERVER_TWO.host, port: SERVER_TWO.port });
 		let SERVER_TWO_RETURNED_ID = '';
 
-		const SERVER_FAULTY = {
-			host: '192.168.1.125',
-			port: 0
-		};
-
 		const SERVER_THREE = {
 			host: 'localhost',
 			port: 6681,
@@ -68,10 +63,6 @@ describe('Servers', () =>{
 		it('should check that non existing server does not exists', () => {
 			const exist = servers.exists({ id: 'does.not.exist:1234' });
 			exist.should.equal(false);
-		});
-
-		it('should not add a server with wrong data', () => {
-			should.Throw(() => { servers.add(SERVER_FAULTY); });
 		});
 
 		it('should add a second server', () => {
