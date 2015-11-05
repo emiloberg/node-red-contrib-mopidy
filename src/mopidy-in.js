@@ -1,4 +1,5 @@
 import servers from './lib/models/servers';
+import {validateHostPort} from './lib/utils/utils';
 var objectPath = require('object-path');
 require('string.prototype.startswith');
 
@@ -8,6 +9,7 @@ module.exports = function(RED) {
 
         this.RED = RED;
         this.servers = servers;
+		this.objectPath = objectPath;
 
         this.RED.nodes.createNode(this,n);
         this.name = n.name;
@@ -22,12 +24,16 @@ module.exports = function(RED) {
 			return;
 		}
 
+		if (!validateHostPort({ host: this.serverNode.host, port: this.serverNode.port })) {
+			return;
+		}
+
 		this.mopidyServer = this.servers.add({
 			host: this.serverNode.host,
 			port: this.serverNode.port
 		});
 
-		this.mopidyServer.mopidy.on((fullEventName, eventData = {}) => {
+		this.getEvent = (fullEventName, eventData = {}) => {
 			if(fullEventName.startsWith(this.messageType) || this.messageType === 'all') {
 				eventData.event = fullEventName;
 				this.send({
@@ -37,10 +43,11 @@ module.exports = function(RED) {
 					port: this.serverNode.port
 				});
 			}
-		});
+		};
+		this.mopidyServer.mopidy.on(this.getEvent);
 
 		this.updateStatus = () => {
-			if (objectPath.get(this, 'mopidyServer.readyState', false) === true) {
+			if (this.objectPath.get(this, 'mopidyServer.readyState', false) === true) {
 				this.status({ fill: 'green', shape: 'dot', text: 'connected' });
 			} else {
 				this.status({ fill: 'grey', shape: 'dot', text: 'not connected' });
