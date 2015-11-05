@@ -12,6 +12,7 @@ module.exports = function(RED) {
 
         this.RED = RED;
         this.servers = servers;
+        this.objectPath = objectPath;
 
         this.RED.nodes.createNode(this,n);
         this.name = n.name;
@@ -23,10 +24,10 @@ module.exports = function(RED) {
             readyState: false
         };
 
-        config.setup({ settings: objectPath.get(RED, 'settings.functionGlobalContext') });
+        config.setup({ settings: this.objectPath.get(RED, 'settings.functionGlobalContext') });
 
         this.updateStatus = () => {
-            if (objectPath.get(this, 'mopidyServer.readyState', false) === true) {
+            if (this.objectPath.get(this, 'mopidyServer.readyState', false) === true) {
                 this.status({ fill: 'green', shape: 'dot', text: 'connected' });
             } else {
                 this.status({ fill: 'grey', shape: 'dot', text: 'not connected' });
@@ -48,7 +49,6 @@ module.exports = function(RED) {
         this.updateStatus();
 
         this.on('close', () => {
-            // TODO: Change this so that it only removes it if it's the only node using the server
             this.servers.remove({ id: this.mopidyServer.id });
         });
 
@@ -149,7 +149,6 @@ module.exports = function(RED) {
                 setTimeout(() => {
                     if (isCalled === false) {
                         curServer.events.removeListener('ready:ready', listener);
-                        // Todo: attach host/port/name to error message for easier debugging.
                         this.error({ error: { message: `Could not connect to server within ${config.fetch('mopidyConnectTimeout')} seconds` }});
                         this.servers.remove({ id: curServer.id });
                     }

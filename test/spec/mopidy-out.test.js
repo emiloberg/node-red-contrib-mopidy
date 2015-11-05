@@ -95,6 +95,40 @@ describe('mopidy-out', () => {
 			});
 		});
 
+		it('should set node status to "connected"', function (done) {
+			helper.load(NODES, FLOW, function () {
+				const currentNode = helper.getNode('mop-out');
+				const stubObjectPath = sinon.stub(currentNode.objectPath, 'get', function() { return true });
+				const stubStatus = sinon.stub(currentNode, 'status', function() {});
+
+				currentNode.updateStatus();
+
+				stubStatus.should.have.callCount(1);
+				stubStatus.should.have.been.calledWith({ fill: 'green', shape: 'dot', text: 'connected' });
+
+				stubObjectPath.restore();
+				stubStatus.restore();
+				done();
+			});
+		});
+
+		it('should set node status to "not connected"', function (done) {
+			helper.load(NODES, FLOW, function () {
+				const currentNode = helper.getNode('mop-out');
+				const stubObjectPath = sinon.stub(currentNode.objectPath, 'get', function() { return false });
+				const stubStatus = sinon.stub(currentNode, 'status', function() {});
+
+				currentNode.updateStatus();
+
+				stubStatus.should.have.callCount(1);
+				stubStatus.should.have.been.calledWith({ fill: 'grey', shape: 'dot', text: 'not connected' });
+
+				stubObjectPath.restore();
+				stubStatus.restore();
+				done();
+			});
+		});
+
 		it('should listen to input', function(done) {
 			helper.load(NODES, FLOW, function() {
 				const currentNode = helper.getNode('mop-out');
