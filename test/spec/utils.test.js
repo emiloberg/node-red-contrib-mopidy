@@ -70,7 +70,7 @@ describe('utils', () =>{
 
 	describe('validateHostPort', () =>{
 		describe('When called', () =>{
-			it("should validate host/port", () => {
+			it('should validate host/port', () => {
 				validateHostPort({ host: 'localhost', port: '6680' }).should.equal(true);
 				validateHostPort({ host: '127.0.0.1', port: 6680 }).should.equal(true);
 				validateHostPort({ host: 'raspberry-pi.local', port: '6680' }).should.equal(true);
