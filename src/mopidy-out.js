@@ -6,9 +6,7 @@ import {validateHostPort} from './lib/utils/utils';
 var objectAssign = require('object-assign');
 var objectPath = require('object-path');
 
-// TODO: Remove the check for error property as it's not needed now when we're sending this.error (which will stop the flow from continuing). Also change README.
-// TODO: Update locales for the GUI/HTML files. Also see https://github.com/node-red/node-red/wiki/Design%3A-i18n
-// TODO: Add GUI help (right bar in editor)
+// TODO: Add GUI help (right bar in editor) Also see https://github.com/node-red/node-red/wiki/Design%3A-i18n
 
 module.exports = function(RED) {
     'use strict';

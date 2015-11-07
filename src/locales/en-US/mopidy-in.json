@@ -3,6 +3,24 @@
         "status": {
             "connected": "connected",
             "not-connected": "not connected"
+        },
+        "editor": {
+            "server": "Server",
+            "listen-to": "Listen to",
+            "event-type": {
+                "event": "Mopidy",
+                "websocket": "WebSocket",
+                "state": "State",
+                "reconnect": "Reconnect",
+                "all": "All"
+            },
+            "tip": {
+                "event": "(Default) Everything which has to do with the music. E.g. play started, ended, stream title changed, volume changed, etc.",
+                "websocket": "Peek into the WebSocket traffic between Node-RED and the Mopidy server.",
+                "state": "The state of a Mopidy server changes, eg a server goes offline/online.",
+                "reconnect": "Events sent when Node-RED is trying to connect to a Mopidy server.",
+                "all": "All of the above."
+            }
         }
     }
 }

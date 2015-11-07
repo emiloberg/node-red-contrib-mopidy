@@ -1,22 +1,22 @@
 <script type="text/x-red" data-template-name="mopidy-out">
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-server"><i class="fa fa-globe"></i> Server</label>
+        <label for="node-input-server"><i class="fa fa-globe"></i> <span data-i18n="mopidy-out.editor.server"></span></label>
         <input type="text" id="node-input-server">
     </div>
     <div class="form-row jq-mopidy-show-when-loaded" style="display: none;">
-        <label for="mopidy-methods-categories"><i class="fa fa-list"></i> Category</label>
+        <label for="mopidy-methods-categories"><i class="fa fa-list"></i> <span data-i18n="mopidy-out.editor.category"></span></label>
         <select id="mopidy-methods-categories"></select>
     </div>
     <div class="form-row jq-mopidy-show-when-loaded" style="display: none;">
-        <label for="mopidy-methods-methods"><i class="fa fa-list"></i> Method</label>
+        <label for="mopidy-methods-methods"><i class="fa fa-list"></i> <span data-i18n="mopidy-out.editor.method"></span></label>
         <select id="mopidy-methods-methods"></select>
     </div>
 
-    <div class="js-mopidy-waiting" style="display: none; text-align: center;"><i class="fa fa-spinner fa-pulse fa-5x"></i><br><br>Connecting to Mopidy server</div>
+    <div class="js-mopidy-waiting" style="display: none; text-align: center;"><i class="fa fa-spinner fa-pulse fa-5x"></i><br><br><span data-i18n="mopidy-out.editor.msg.connecting-to-server"></span></div>
 
     <div id="mopidy-param-placeholder" class="form-row" style="display: none;">
         <label for="mopidy-param-placeholder-id"><i class="fa fa-tag"></i> Placeholder</label>

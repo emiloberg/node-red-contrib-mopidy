@@ -1,0 +1,8 @@
+{
+    "mopidy-config": {
+        "editor": {
+            "host": "Host",
+            "port": "Port"
+        }
+    }
+}

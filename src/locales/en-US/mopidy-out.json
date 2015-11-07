@@ -16,6 +16,14 @@
             "could-not-connect-to-server-within-time": "Could not connect to server within __seconds__ seconds",
             "route-methods-undefined-server": "Could not connect to Mopidy. If new connection - press deploy before continuing",
             "method-does-not-exist": "Method '__method__' does not exist"
+        },
+        "editor": {
+            "server": "Server",
+            "category": "Category",
+            "method": "Method",
+            "msg": {
+                "connecting-to-server": "Connecting to Mopidy server"
+            }
         }
     }
 }
