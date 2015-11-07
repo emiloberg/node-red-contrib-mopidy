@@ -161,7 +161,7 @@ module.exports = function(RED) {
         this.routeMethods = (req, res) => {
             let tempServerNode = this.RED.nodes.getNode(req.params.nodeId);
 
-            if (tempServerNode === undefined) {
+            if (tempServerNode === undefined || tempServerNode === null) {
                 res.status(404).json({
                     // TODO, Catch this 404 and display a friendly "Please deploy before configuring this node."
                     message: this.RED._('mopidy-out.errors.route-methods-undefined-server')

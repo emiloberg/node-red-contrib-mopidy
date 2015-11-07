@@ -14,7 +14,7 @@
         "errors": {
             "could-not-connect-to-server": "Could not connect to Mopidy Server, incorrect host/port?",
             "could-not-connect-to-server-within-time": "Could not connect to server within __seconds__ seconds",
-            "route-methods-undefined-server": "Could not connect to Mopidy. If new connection - press deploy before continuing",
+            "route-methods-undefined-server": "Press \"Ok\" and \"Deploy\" before configuring this node with a new server",
             "method-does-not-exist": "Method '__method__' does not exist"
         },
         "editor": {

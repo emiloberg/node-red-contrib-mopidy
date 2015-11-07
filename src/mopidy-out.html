@@ -17,6 +17,8 @@
     </div>
 
     <div class="js-mopidy-waiting" style="display: none; text-align: center;"><i class="fa fa-spinner fa-pulse fa-5x"></i><br><br><span data-i18n="mopidy-out.editor.msg.connecting-to-server"></span></div>
+    
+    <div class="js-mopidy-error-box error-box" style="display: none; text-align: center;"></div>
 
     <div id="mopidy-param-placeholder" class="form-row" style="display: none;">
         <label for="mopidy-param-placeholder-id"><i class="fa fa-tag"></i> Placeholder</label>
@@ -25,6 +27,16 @@
 
     <input type="hidden" id="node-input-method" />
     <input type="hidden" id="node-input-params" />
+
+    <style>
+        .error-box {
+            background-color: #D8EDF8;
+            color: #307291;
+            padding: 1em;
+            border-color: #BBE8F2;
+            border-radius: 4px;
+        }
+    </style>
 </script>
 
 <script type="text/javascript">
@@ -57,6 +69,7 @@
             var jqMopidyMethodsMethods = $('#mopidy-methods-methods');
             var jqNodeInputMethod = $('#node-input-method');
             var jqNodeInputParams = $('#node-input-params');
+            var jqErrorBox = $('.js-mopidy-error-box');
 
 
             /**
@@ -189,6 +202,8 @@
                 allMethods = [];
                 populateCategories([]);
 
+                jqErrorBox.hide();
+
                 var serverNodeId = $('#node-input-server').val();
                 if (serverNodeId === '_ADD_') {
                     return;
@@ -213,10 +228,14 @@
 
 
                 jqXHR.fail(function(err) {
-                    if (err.responseJSON.message) {
-                        RED.notify(err.responseJSON.message, 'error');
+                    if (err.status === 404) {
+                        jqErrorBox.show().text(err.responseJSON.message);
                     } else {
-                        RED.notify('Could not connect to Mopidy. Unknown error!', 'error');
+                        if (err.responseJSON.hasOwnProperty('message')) {
+                            jqErrorBox.show().text(err.responseJSON.message);
+                        } else {
+                            jqErrorBox.show().text('Could not connect to Mopidy. (Error: ' + JSON.stringify(err.responseJSON) + ')' );
+                        }
                     }
                 });
             }, 100);
