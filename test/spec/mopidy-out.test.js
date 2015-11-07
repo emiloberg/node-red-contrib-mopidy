@@ -335,7 +335,7 @@ describe('mopidy-out', () => {
 				setTimeout(function(){
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'tracklist.shuffle', params: { end: '', start: '' } });
 					spyError.should.have.callCount(1);
-					spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.errors.method-does-not-exist' } });
+					spyError.should.have.been.calledWithExactly('mopidy-out.errors.method-does-not-exist');
 
 					spyError.reset();
 					stubInvokeMethod.restore();
@@ -541,7 +541,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.data-must-be-object' } });
+				spyError.should.have.been.calledWithExactly('mopidy-out.validation.data-must-be-object');
 				done();
 			}, 0);
 		});
@@ -552,7 +552,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.incoming-data-has-error-property' } });
+				spyError.should.have.been.calledWithExactly('mopidy-out.validation.incoming-data-has-error-property');
 				done();
 			}, 0);
 		});
@@ -563,7 +563,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.method-must-be-string' } });
+				spyError.should.have.been.calledWithExactly('mopidy-out.validation.method-must-be-string');
 				done();
 			}, 0);
 		});
@@ -574,7 +574,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.params-must-be-object' } });
+				spyError.should.have.been.calledWithExactly('mopidy-out.validation.params-must-be-object');
 				done();
 			}, 0);
 		});
@@ -692,7 +692,7 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.no-valid-host-port' } });
+				spyError.should.have.been.calledWithExactly('mopidy-out.validation.no-valid-host-port');
 				done();
 			}, 0);
 		});
@@ -702,7 +702,7 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.no-valid-host-port' } });
+				spyError.should.have.been.calledWithExactly('mopidy-out.validation.no-valid-host-port');
 				done();
 			}, 0);
 		});
@@ -712,7 +712,7 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.no-method' } });
+				spyError.should.have.been.calledWithExactly('mopidy-out.validation.no-method');
 				done();
 			}, 0);
 		});
@@ -786,7 +786,7 @@ describe('mopidy-out', () => {
 			clock.tick(5000);
 			clock.restore();
 			spyError.should.have.callCount(1);
-			spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.errors.could-not-connect-to-server-within-time' } });
+			spyError.should.have.been.calledWithExactly('mopidy-out.errors.could-not-connect-to-server-within-time');
 			stubServersAdd.should.have.callCount(1);
 			stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
 			spyRemoveListener.should.have.callCount(1);
@@ -993,7 +993,7 @@ describe('mopidy-out', () => {
 				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'a.method', params: { test: 'param' } });
 				stubServersGet.should.have.callCount(1);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.errors.method-does-not-exist' } });
+				spyError.should.have.been.calledWithExactly('mopidy-out.errors.method-does-not-exist');
 				stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
 				stubServersRemove.should.have.callCount(1);
 				done();

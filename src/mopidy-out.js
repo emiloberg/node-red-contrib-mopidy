@@ -60,22 +60,22 @@ module.exports = function(RED) {
 
         this.invokeMethod = (incomingMsg = {}) => {
             if (typeof incomingMsg !== 'object') {
-                this.error({ error: { message: this.RED._('mopidy-out.validation.data-must-be-object') } });
+                this.error(this.RED._('mopidy-out.validation.data-must-be-object'));
                 return;
             }
             if (incomingMsg.hasOwnProperty('error')) {
-                this.error({ error: { message: this.RED._('mopidy-out.validation.incoming-data-has-error-property') } });
+                this.error(this.RED._('mopidy-out.validation.incoming-data-has-error-property'));
                 return;
             }
             if (incomingMsg.hasOwnProperty('method')) {
                 if (typeof incomingMsg.method !== 'string') {
-                    this.error({ error: { message: this.RED._('mopidy-out.validation.method-must-be-string') } });
+                    this.error(this.RED._('mopidy-out.validation.method-must-be-string'));
                     return;
                 }
             }
             if (incomingMsg.hasOwnProperty('params')) {
                 if (typeof incomingMsg.params !== 'object') {
-                    this.error({ error: { message: this.RED._('mopidy-out.validation.params-must-be-object') } });
+                    this.error(this.RED._('mopidy-out.validation.params-must-be-object'));
                     return;
                 }
             }
@@ -110,12 +110,12 @@ module.exports = function(RED) {
             }
 
             if (!validateHostPort({ host, port })) {
-                this.error({ error: { message: this.RED._('mopidy-out.validation.no-valid-host-port') } });
+                this.error(this.RED._('mopidy-out.validation.no-valid-host-port'));
                 return;
             }
 
             if(!isLength(method, 1, 100)) {
-                this.error({ error: { message: this.RED._('mopidy-out.validation.no-method') } });
+                this.error(this.RED._('mopidy-out.validation.no-method'));
                 return;
             }
 
@@ -130,7 +130,7 @@ module.exports = function(RED) {
                     openNewServerConnection = false;
                     curServer.invokeMethod({method, params})
                         .then((ret) => { this.send(objectAssign({payload: ret}, carryOnHostPort)); })
-                        .catch((err) => { this.error({error: { message: this.RED._(err.msg, err.params) }}); });
+                        .catch((err) => { this.error(this.RED._(err.msg, err.params)); });
                 }
             }
 
@@ -147,14 +147,14 @@ module.exports = function(RED) {
                     isCalled = true;
                     curServer.invokeMethod({method, params})
                         .then((ret) => { this.send(objectAssign({payload: ret}, carryOnHostPort)); })
-						.catch(() => { this.error({error: { message: this.RED._('mopidy-out.errors.method-does-not-exist', { method }) }}); })
+						.catch(() => { this.error(this.RED._('mopidy-out.errors.method-does-not-exist', { method }) ); })
                         .then(() => { this.servers.remove({ id: curServer.id }) });
                 };
 
                 setTimeout(() => {
                     if (isCalled === false) {
                         curServer.events.removeListener('ready:ready', listener);
-                        this.error({ error: { message: this.RED._('mopidy-out.errors.could-not-connect-to-server-within-time', { seconds: config.fetch('mopidyConnectTimeout') }) }});
+                        this.error(this.RED._('mopidy-out.errors.could-not-connect-to-server-within-time', { seconds: config.fetch('mopidyConnectTimeout') }) );
                         this.servers.remove({ id: curServer.id });
                     }
                 }, (config.fetch('mopidyConnectTimeout') * 1000));
