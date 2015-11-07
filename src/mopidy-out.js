@@ -6,8 +6,6 @@ import {validateHostPort} from './lib/utils/utils';
 var objectAssign = require('object-assign');
 var objectPath = require('object-path');
 
-// TODO: Add GUI help (right bar in editor) Also see https://github.com/node-red/node-red/wiki/Design%3A-i18n
-
 module.exports = function(RED) {
     'use strict';
     function mopidyOutNode(n) {

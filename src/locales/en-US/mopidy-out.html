@@ -1,0 +1,29 @@
+<script type="text/x-red" data-help-name="mopidy-out">
+    <p>Send commands ("play this", "add that", "mute", "create a new playlist", etc) to a Mopidy server.</p>
+
+    <p>
+        There are 3 ways of passing data to an out node:
+    </p>
+
+    <ul>
+        <li>Configure the server, method (e.g. "play this") and possible parameters (e.g. the URL to a stream to play), on the output node itself.</li>
+        <li>Send the data in the message sent to the out node.
+            <code>msg</code> object sent into this node may contain any/all of the following parameters:
+            <code>
+<pre>
+{
+  host: '192.168.0.200',
+  port: 6680,
+  method: 'mixer.setVolume',
+  params: {
+    volume: 100
+  }
+}
+</pre>
+            </code>
+        </li>
+        <li>A combination of above. E.g set the server to "Kitchen Mopidy" in the configuration dialog but send <code>method: "playback.play"</code> in the msg to the out node. Whatever is sent in the msg will always override the settings set in the node.</li>
+    </ul>
+
+    <p>See the <a href="https://github.com/emiloberg/node-red-contrib-advanced-mopidy#mopidy-out" target="_blank">online documentation</a> for more help.</p>
+</script>
