@@ -125,6 +125,39 @@ You can configure the Mopidy-in node to listen to different types of events:
 * **Reconnect**: Events sent when Node-RED is trying to connect to a Mopidy server.
 * **All**: All of the above.
 
+### Message
+The message outputed from the mopidy-in node will differ depending on the event. However, they'll all have the property `event` which is identifying what kind of event it is.
+
+Example message when playback has been stopped:
+
+```
+{
+	"event": "event:playbackStateChanged"
+	"old_state": "stopped",
+	"new_state": "playing",
+}
+```
+
+Example message when the playback of a stream has been started:
+
+```
+{
+    "event": "event:trackPlaybackStarted",
+    "tl_track": {
+        "__model__": "TlTrack",
+        "tlid": 1,
+        "track": {
+            "__model__": "Track",
+            "bitrate": 128000,
+            "comment": "p1-mp3-128",
+            "name": "Sveriges Radio P1",
+            "uri": "http://http-live.sr.se/p1-mp3-128"
+        }
+    }
+}
+```
+
+
 ## Advanced configuration
 
 By default, the Mopidy-out node tries to connect to a Mopidy server for 5 seconds before returning a "could not connect" message. If you want to change this, add the following to your [Node-RED configuraiton file](http://nodered.org/docs/configuration.html) (easiest found by looking at the console when starting Node-RED):
