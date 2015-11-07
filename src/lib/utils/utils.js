@@ -1,4 +1,5 @@
 'use strict';
+
 require('string.prototype.startswith');
 import {isURL, isInt} from 'validator';
 
@@ -33,4 +34,3 @@ export function cutCore(methodName) {
 export function validateHostPort({ host, port }) {
 	return isURL(host, { require_tld: false, require_valid_protocol: false }) && isInt(port, { min: 1, max: 65535 });
 }
-

@@ -154,7 +154,6 @@ module.exports = function(RED) {
             }
         };
 
-
         this.on('input', (incomingMsg) => {
             this.invokeMethod(incomingMsg);
         });

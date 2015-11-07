@@ -1,11 +1,11 @@
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 const winston = require('winston');
 winston.emitErrs = true;
 
 const logDir = path.join(__dirname, '../../../logs');
-
-
 
 function createLogFolder() {
 	if ( !fs.existsSync(logDir) ) {
@@ -35,12 +35,6 @@ var log = new winston.Logger({
 			maxFiles: 5,
 			colorize: false
 		})
-		//new winston.transports.Console({
-		//	level: 'debug',
-		//	handleExceptions: true,
-		//	json: false,
-		//	colorize: true
-		//})
 	],
 	exitOnError: false
 });

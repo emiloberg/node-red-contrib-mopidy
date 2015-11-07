@@ -5,13 +5,6 @@ import MopidyServer from './MopidyServer'
 
 var SERVERS = {};
 
-//setInterval(function () {
-//	Object.keys(SERVERS).forEach((serverKey) => {
-//		console.log(SERVERS[serverKey].name);
-//	});
-//	console.log('------------');
-//}, 1000);
-
 const servers = {
 	/**
 	 *

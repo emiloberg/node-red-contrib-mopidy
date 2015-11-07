@@ -1,7 +1,8 @@
+'use strict';
+
 var Promise = require('promise');
 var Mopidy = require('mopidy');
 import {EventEmitter} from 'events';
-//import {inspect, saveFile} from '../utils/debug';
 import log from '../utils/log';
 import {snakeToCamel, convertToInt, cutCore} from '../utils/utils';
 var objectPath = require('object-path');
