@@ -111,16 +111,6 @@ If a host and/or port is sent in to a Mopidy-out node, the same host/port is sen
 }
 ```
 
-If something went wrong, the output will have the property `error` (which will have the property `message`). If a Mopidy-out node detects an `error` property on the incoming message, it will not do what's asked of it. This way you can be safe when chaining nodes together.
-
-```
-{
-	"error": {
-		"message: "Could not connect to server within 5 seconds"
-	}
-}
-```
-
 ## Mopidy-in
 
 ![Screenshot: Mopidy-in node](https://raw.githubusercontent.com/emiloberg/node-red-contrib-advanced-mopidy/master/docs/in-serial.png)

@@ -6,7 +6,6 @@
         },
         "validation": {
             "data-must-be-object": "If you send data to a Mopidy node, that data must an 'object'",
-            "incoming-data-has-error-property": "Stopped. Incoming data has the property 'error'",
             "method-must-be-string": "'method' must be a 'string'",
             "params-must-be-object": "'params' must be an 'object'",
             "no-valid-host-port": "No valid host/port is supplied",

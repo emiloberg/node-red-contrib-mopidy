@@ -546,17 +546,6 @@ describe('mopidy-out', () => {
 			}, 0);
 		});
 
-		it("should send an error when incoming msg contains the property 'error'", function(done) {
-			const incomingMsg = { error: 'Has an error from previous node' };
-			currentNode.invokeMethod(incomingMsg);
-			setTimeout(function(){
-				stubInvokeMethod.should.have.callCount(0);
-				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly('mopidy-out.validation.incoming-data-has-error-property');
-				done();
-			}, 0);
-		});
-
 		it("should send an error when incoming msg's method isn't a string", function(done) {
 			const incomingMsg = { method: { an: 'object' } };
 			currentNode.invokeMethod(incomingMsg);

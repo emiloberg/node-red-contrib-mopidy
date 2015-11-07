@@ -6,7 +6,6 @@ import {validateHostPort} from './lib/utils/utils';
 var objectAssign = require('object-assign');
 var objectPath = require('object-path');
 
-// TODO: Change all send.error to plain strings as they will not continue the flow anyways
 // TODO: Remove the check for error property as it's not needed now when we're sending this.error (which will stop the flow from continuing). Also change README.
 // TODO: Update locales for the GUI/HTML files. Also see https://github.com/node-red/node-red/wiki/Design%3A-i18n
 // TODO: Add GUI help (right bar in editor)
@@ -61,10 +60,6 @@ module.exports = function(RED) {
         this.invokeMethod = (incomingMsg = {}) => {
             if (typeof incomingMsg !== 'object') {
                 this.error(this.RED._('mopidy-out.validation.data-must-be-object'));
-                return;
-            }
-            if (incomingMsg.hasOwnProperty('error')) {
-                this.error(this.RED._('mopidy-out.validation.incoming-data-has-error-property'));
                 return;
             }
             if (incomingMsg.hasOwnProperty('method')) {
