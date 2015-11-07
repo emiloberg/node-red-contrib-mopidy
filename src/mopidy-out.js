@@ -6,6 +6,11 @@ import {validateHostPort} from './lib/utils/utils';
 var objectAssign = require('object-assign');
 var objectPath = require('object-path');
 
+// TODO: Change all send.error to plain strings as they will not continue the flow anyways
+// TODO: Remove the check for error property as it's not needed now when we're sending this.error (which will stop the flow from continuing). Also change README.
+// TODO: Update locales for the GUI/HTML files. Also see https://github.com/node-red/node-red/wiki/Design%3A-i18n
+// TODO: Add GUI help (right bar in editor)
+
 module.exports = function(RED) {
     'use strict';
     function mopidyOutNode(n) {
@@ -28,9 +33,9 @@ module.exports = function(RED) {
 
         this.updateStatus = () => {
             if (this.objectPath.get(this, 'mopidyServer.readyState', false) === true) {
-                this.status({ fill: 'green', shape: 'dot', text: 'connected' });
+                this.status({ fill: 'green', shape: 'dot', text: this.RED._('mopidy-out.status.connected') });
             } else {
-                this.status({ fill: 'grey', shape: 'dot', text: 'not connected' });
+                this.status({ fill: 'grey', shape: 'dot', text: this.RED._('mopidy-out.status.not-connected') });
             }
         };
 
@@ -55,22 +60,22 @@ module.exports = function(RED) {
 
         this.invokeMethod = (incomingMsg = {}) => {
             if (typeof incomingMsg !== 'object') {
-                this.error({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
+                this.error({ error: { message: this.RED._('mopidy-out.validation.data-must-be-object') } });
                 return;
             }
             if (incomingMsg.hasOwnProperty('error')) {
-                this.error({ error: { message: "Stopped. Incoming data has the property 'error'" } });
+                this.error({ error: { message: this.RED._('mopidy-out.validation.incoming-data-has-error-property') } });
                 return;
             }
             if (incomingMsg.hasOwnProperty('method')) {
                 if (typeof incomingMsg.method !== 'string') {
-                    this.error({ error: { message: "'method' must be a 'string'" } });
+                    this.error({ error: { message: this.RED._('mopidy-out.validation.method-must-be-string') } });
                     return;
                 }
             }
             if (incomingMsg.hasOwnProperty('params')) {
                 if (typeof incomingMsg.params !== 'object') {
-                    this.error({ error: { message: "'params' must be an 'object'" } });
+                    this.error({ error: { message: this.RED._('mopidy-out.validation.params-must-be-object') } });
                     return;
                 }
             }
@@ -105,12 +110,12 @@ module.exports = function(RED) {
             }
 
             if (!validateHostPort({ host, port })) {
-                this.error({ error: { message: 'No valid host/port is supplied' } });
+                this.error({ error: { message: this.RED._('mopidy-out.validation.no-valid-host-port') } });
                 return;
             }
 
             if(!isLength(method, 1, 100)) {
-                this.error({ error: { message: "No 'method' is supplied" } });
+                this.error({ error: { message: this.RED._('mopidy-out.validation.no-method') } });
                 return;
             }
 
@@ -125,7 +130,7 @@ module.exports = function(RED) {
                     openNewServerConnection = false;
                     curServer.invokeMethod({method, params})
                         .then((ret) => { this.send(objectAssign({payload: ret}, carryOnHostPort)); })
-                        .catch((err) => { this.error({error: {message: err}}); });
+                        .catch((err) => { this.error({error: { message: this.RED._(err.msg, err.params) }}); });
                 }
             }
 
@@ -142,14 +147,14 @@ module.exports = function(RED) {
                     isCalled = true;
                     curServer.invokeMethod({method, params})
                         .then((ret) => { this.send(objectAssign({payload: ret}, carryOnHostPort)); })
-                        .catch((err) => { this.error({error: {message: err}}); })
+						.catch(() => { this.error({error: { message: this.RED._('mopidy-out.errors.method-does-not-exist', { method }) }}); })
                         .then(() => { this.servers.remove({ id: curServer.id }) });
                 };
 
                 setTimeout(() => {
                     if (isCalled === false) {
                         curServer.events.removeListener('ready:ready', listener);
-                        this.error({ error: { message: `Could not connect to server within ${config.fetch('mopidyConnectTimeout')} seconds` }});
+                        this.error({ error: { message: this.RED._('mopidy-out.errors.could-not-connect-to-server-within-time', { seconds: config.fetch('mopidyConnectTimeout') }) }});
                         this.servers.remove({ id: curServer.id });
                     }
                 }, (config.fetch('mopidyConnectTimeout') * 1000));
@@ -168,13 +173,14 @@ module.exports = function(RED) {
 
             if (tempServerNode === undefined) {
                 res.status(404).json({
-                    message: 'Could not connect to Mopidy. If new connection - press deploy before continuing'
+                    // TODO, Catch this 404 and display a friendly "Please deploy before configuring this node."
+                    message: this.RED._('mopidy-out.errors.route-methods-undefined-server')
                 });
                 return;
             }
 
             if (!validateHostPort({ host: tempServerNode.host, port: tempServerNode.port })) {
-                res.status(500).json({ message: 'No valid host/port is supplied' });
+                res.status(500).json({ message: this.RED._('mopidy-out.validation.no-valid-host-port') });
                 return;
             }
 
@@ -190,7 +196,7 @@ module.exports = function(RED) {
                 })
                 .catch(err => {
                     res.status(500).json({
-                        message: err.message
+                        message: this.RED._(err.msg)
                     });
                 })
                 .then(() => {

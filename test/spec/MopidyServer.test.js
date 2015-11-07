@@ -148,13 +148,13 @@ describe('MopidyServer', () =>{
 		it('should not invoke a method which does not exist', () => {
 			return REWIRED_SERVER.invokeMethod({
 				method: 'not.exist'
-			}).should.eventually.be.rejectedWith("Method 'not.exist' does not exist");
+			}).should.eventually.be.rejectedWith({ msg: 'mopidy-out.errors.method-does-not-exist', params: { method: 'not.exist' } });
 		});
 
 		it('should not invoke a method if an empty method is supplied', () => {
 			return REWIRED_SERVER.invokeMethod({
 				method: ''
-			}).should.eventually.be.rejectedWith("Method '' does not exist");
+			}).should.eventually.be.rejectedWith({ msg: 'mopidy-out.errors.method-does-not-exist', params: { method: '' } });
 		});
 
 	});

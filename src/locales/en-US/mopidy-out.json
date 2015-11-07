@@ -1,0 +1,22 @@
+{
+    "mopidy-out": {
+        "status": {
+            "connected": "connected",
+            "not-connected": "not connected"
+        },
+        "validation": {
+            "data-must-be-object": "If you send data to a Mopidy node, that data must an 'object'",
+            "incoming-data-has-error-property": "Stopped. Incoming data has the property 'error'",
+            "method-must-be-string": "'method' must be a 'string'",
+            "params-must-be-object": "'params' must be an 'object'",
+            "no-valid-host-port": "No valid host/port is supplied",
+            "no-method": "No 'method' is supplied"
+        },
+        "errors": {
+            "could-not-connect-to-server": "Could not connect to Mopidy Server, incorrect host/port?",
+            "could-not-connect-to-server-within-time": "Could not connect to server within __seconds__ seconds",
+            "route-methods-undefined-server": "Could not connect to Mopidy. If new connection - press deploy before continuing",
+            "method-does-not-exist": "Method '__method__' does not exist"
+        }
+    }
+}

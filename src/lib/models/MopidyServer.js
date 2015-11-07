@@ -36,7 +36,7 @@ export default class MopidyServer {
 	invokeMethod({ method, params = {} }) {
 
 		if (this.methodExist(method) === false) {
-			return Promise.reject(`Method '${method}' does not exist`);
+			return Promise.reject({ msg: 'mopidy-out.errors.method-does-not-exist', params: { method } });
 		}
 
 		// Remove empty params
@@ -139,7 +139,7 @@ export default class MopidyServer {
 				resolve(this._getMethods());
 			} else {
 				setTimeout(() => {
-					reject({ message: 'Could not connect to Mopidy Server, incorrect host/port?' })
+					reject({ msg: 'mopidy-out.errors.could-not-connect-to-server' });
 				}, 5000);
 
 				this.events.once('ready:ready', () => {

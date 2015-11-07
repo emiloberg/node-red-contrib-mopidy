@@ -104,7 +104,7 @@ describe('mopidy-out', () => {
 				currentNode.updateStatus();
 
 				stubStatus.should.have.callCount(1);
-				stubStatus.should.have.been.calledWith({ fill: 'green', shape: 'dot', text: 'connected' });
+				stubStatus.should.have.been.calledWith({ fill: 'green', shape: 'dot', text: 'mopidy-out.status.connected' });
 
 				stubObjectPath.restore();
 				stubStatus.restore();
@@ -121,7 +121,7 @@ describe('mopidy-out', () => {
 				currentNode.updateStatus();
 
 				stubStatus.should.have.callCount(1);
-				stubStatus.should.have.been.calledWith({ fill: 'grey', shape: 'dot', text: 'not connected' });
+				stubStatus.should.have.been.calledWith({ fill: 'grey', shape: 'dot', text: 'mopidy-out.status.not-connected' });
 
 				stubObjectPath.restore();
 				stubStatus.restore();
@@ -161,7 +161,7 @@ describe('mopidy-out', () => {
 				spyStatus.should.have.callCount(1);
 				spyStatus.should.have.been.calledWithExactly(404);
 				spyJson.should.have.callCount(1);
-				spyJson.should.have.been.calledWithExactly({ message: 'Could not connect to Mopidy. If new connection - press deploy before continuing' });
+				spyJson.should.have.been.calledWithExactly({ message: 'mopidy-out.errors.route-methods-undefined-server' });
 
 				stubGetNode.restore();
 				spyJson.reset();
@@ -187,7 +187,7 @@ describe('mopidy-out', () => {
 				spyStatus.should.have.callCount(1);
 				spyStatus.should.have.been.calledWithExactly(500);
 				spyJson.should.have.callCount(1);
-				spyJson.should.have.been.calledWithExactly({ message: 'No valid host/port is supplied' });
+				spyJson.should.have.been.calledWithExactly({ message: 'mopidy-out.validation.no-valid-host-port' });
 
 				stubGetNode.restore();
 				spyJson.reset();
@@ -257,7 +257,7 @@ describe('mopidy-out', () => {
 					add: function() {
 						return {
 							getMethods: function () {
-								return new Promise.reject({ message: 'Something went wrong' });
+								return new Promise.reject({ msg: 'mopidy-out.errors.could-not-connect-to-server' });
 							},
 							id: 'thisServerId2'
 						}
@@ -273,7 +273,7 @@ describe('mopidy-out', () => {
 					spyStatus.should.have.callCount(1);
 					spyStatus.should.have.been.calledWithExactly(500);
 					spyJson.should.have.callCount(1);
-					spyJson.should.have.been.calledWithExactly({ message: 'Something went wrong' });
+					spyJson.should.have.been.calledWithExactly({ message: 'mopidy-out.errors.could-not-connect-to-server' });
 					spyRemove.should.have.callCount(1);
 					spyRemove.should.have.been.calledWithExactly({ id: 'thisServerId2' });
 
@@ -326,7 +326,7 @@ describe('mopidy-out', () => {
 		it('should invoke the mopidy method when called with a non-existing method, and return with error', function(done) {
 			helper.load(NODES, FLOW, function() {
 				let currentNode = helper.getNode('mop-out');
-				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return new Promise.reject('error value') });
+				const stubInvokeMethod = sinon.stub(currentNode.mopidyServer, 'invokeMethod', function() { return Promise.reject({ msg: 'mopidy-out.errors.method-does-not-exist', params: { method: 'something' } }); });
 				const spyError = sinon.spy(currentNode, 'error');
 				const stubReadyState = sinon.stub(currentNode.mopidyServer, 'readyState', { get: function () { return true }});
 
@@ -335,7 +335,7 @@ describe('mopidy-out', () => {
 				setTimeout(function(){
 					stubInvokeMethod.should.have.been.calledWithExactly({ method: 'tracklist.shuffle', params: { end: '', start: '' } });
 					spyError.should.have.callCount(1);
-					spyError.should.have.been.calledWithExactly({ error: { message: 'error value' } });
+					spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.errors.method-does-not-exist' } });
 
 					spyError.reset();
 					stubInvokeMethod.restore();
@@ -541,7 +541,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: "If you send data to a Mopidy node, that data must an 'object'" } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.data-must-be-object' } });
 				done();
 			}, 0);
 		});
@@ -552,7 +552,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: "Stopped. Incoming data has the property 'error'" } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.incoming-data-has-error-property' } });
 				done();
 			}, 0);
 		});
@@ -563,7 +563,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: "'method' must be a 'string'" } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.method-must-be-string' } });
 				done();
 			}, 0);
 		});
@@ -574,7 +574,7 @@ describe('mopidy-out', () => {
 			setTimeout(function(){
 				stubInvokeMethod.should.have.callCount(0);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: "'params' must be an 'object'" } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.params-must-be-object' } });
 				done();
 			}, 0);
 		});
@@ -692,7 +692,7 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'No valid host/port is supplied' } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.no-valid-host-port' } });
 				done();
 			}, 0);
 		});
@@ -702,7 +702,7 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'No valid host/port is supplied' } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.no-valid-host-port' } });
 				done();
 			}, 0);
 		});
@@ -712,7 +712,7 @@ describe('mopidy-out', () => {
 			currentNode.invokeMethod(incomingMsg);
 			setTimeout(function(){
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: "No 'method' is supplied" } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.validation.no-method' } });
 				done();
 			}, 0);
 		});
@@ -786,7 +786,7 @@ describe('mopidy-out', () => {
 			clock.tick(5000);
 			clock.restore();
 			spyError.should.have.callCount(1);
-			spyError.should.have.been.calledWithExactly({ error: { message: 'Could not connect to server within 5 seconds' } });
+			spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.errors.could-not-connect-to-server-within-time' } });
 			stubServersAdd.should.have.callCount(1);
 			stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
 			spyRemoveListener.should.have.callCount(1);
@@ -993,7 +993,7 @@ describe('mopidy-out', () => {
 				spyInvokeMethod.should.have.been.calledWithExactly({ method: 'a.method', params: { test: 'param' } });
 				stubServersGet.should.have.callCount(1);
 				spyError.should.have.callCount(1);
-				spyError.should.have.been.calledWithExactly({ error: { message: 'an error' } });
+				spyError.should.have.been.calledWithExactly({ error: { message: 'mopidy-out.errors.method-does-not-exist' } });
 				stubServersAdd.should.have.been.calledWithExactly({ addWithUniqueId: true, host: '127.0.0.5', port: 12345 });
 				stubServersRemove.should.have.callCount(1);
 				done();

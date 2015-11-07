@@ -1,0 +1,8 @@
+{
+    "mopidy-in": {
+        "status": {
+            "connected": "connected",
+            "not-connected": "not connected"
+        }
+    }
+}

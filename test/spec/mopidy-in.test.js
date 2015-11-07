@@ -150,7 +150,7 @@ describe('mopidy-in', () => {
 				currentNode.updateStatus();
 
 				stubStatus.should.have.callCount(1);
-				stubStatus.should.have.been.calledWith({ fill: 'green', shape: 'dot', text: 'connected' });
+				stubStatus.should.have.been.calledWith({ fill: 'green', shape: 'dot', text: 'mopidy-in.status.connected' });
 
 				stubObjectPath.restore();
 				stubStatus.restore();
@@ -172,7 +172,7 @@ describe('mopidy-in', () => {
 				currentNode.updateStatus();
 
 				stubStatus.should.have.callCount(1);
-				stubStatus.should.have.been.calledWith({ fill: 'grey', shape: 'dot', text: 'not connected' });
+				stubStatus.should.have.been.calledWith({ fill: 'grey', shape: 'dot', text: 'mopidy-in.status.not-connected' });
 
 				stubObjectPath.restore();
 				stubStatus.restore();

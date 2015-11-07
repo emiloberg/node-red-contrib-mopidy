@@ -48,9 +48,9 @@ module.exports = function(RED) {
 
 		this.updateStatus = () => {
 			if (this.objectPath.get(this, 'mopidyServer.readyState', false) === true) {
-				this.status({ fill: 'green', shape: 'dot', text: 'connected' });
+				this.status({ fill: 'green', shape: 'dot', text: this.RED._('mopidy-in.status.connected') });
 			} else {
-				this.status({ fill: 'grey', shape: 'dot', text: 'not connected' });
+				this.status({ fill: 'grey', shape: 'dot', text: this.RED._('mopidy-in.status.not-connected') });
 			}
 		};
 		this.mopidyServer.events.on('ready:ready', this.updateStatus);
