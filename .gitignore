@@ -1,7 +1,5 @@
 start-dev.sh
 mopidy/
 logs/
-test/_resources/*.backup
-test/_resources/node-red-user-dir/.*
 coverage/
 plato-report/
