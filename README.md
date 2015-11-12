@@ -1,16 +1,16 @@
-# node-red-contrib-advanced-mopidy
+# node-red-contrib-mopidy
 
 Control your Mopidy Servers from Node-RED
 
-[![Build Status](https://travis-ci.org/emiloberg/node-red-contrib-advanced-mopidy.svg?branch=master)](https://travis-ci.org/emiloberg/node-red-contrib-advanced-mopidy)
-[![Dependency Status](https://gemnasium.com/emiloberg/node-red-contrib-advanced-mopidy.svg)](https://gemnasium.com/emiloberg/node-red-contrib-advanced-mopidy)
-[![Test Coverage](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy/badges/coverage.svg)](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy/coverage)
-[![Code Climate](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy/badges/gpa.svg)](https://codeclimate.com/github/emiloberg/node-red-contrib-advanced-mopidy)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/emiloberg/node-red-contrib-advanced-mopidy.svg)](http://isitmaintained.com/project/emiloberg/node-red-contrib-advanced-mopidy "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/emiloberg/node-red-contrib-advanced-mopidy.svg)](http://isitmaintained.com/project/emiloberg/node-red-contrib-advanced-mopidy "Percentage of issues still open")
+[![Build Status](https://travis-ci.org/emiloberg/node-red-contrib-mopidy.svg?branch=master)](https://travis-ci.org/emiloberg/node-red-contrib-mopidy)
+[![Dependency Status](https://gemnasium.com/emiloberg/node-red-contrib-mopidy.svg)](https://gemnasium.com/emiloberg/node-red-contrib-mopidy)
+[![Test Coverage](https://codeclimate.com/github/emiloberg/node-red-contrib-mopidy/badges/coverage.svg)](https://codeclimate.com/github/emiloberg/node-red-contrib-mopidy/coverage)
+[![Code Climate](https://codeclimate.com/github/emiloberg/node-red-contrib-mopidy/badges/gpa.svg)](https://codeclimate.com/github/emiloberg/node-red-contrib-mopidy)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/emiloberg/node-red-contrib-mopidy.svg)](http://isitmaintained.com/project/emiloberg/node-red-contrib-mopidy "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/emiloberg/node-red-contrib-mopidy.svg)](http://isitmaintained.com/project/emiloberg/node-red-contrib-mopidy "Percentage of issues still open")
 
 ## What is this?
-![Screenshot: Play Spotify Playlist "Lounge" in Kitchen](https://raw.githubusercontent.com/emiloberg/node-red-contrib-advanced-mopidy/master/docs/play_kitchen.png)
+![Screenshot: Play Spotify Playlist "Lounge" in Kitchen](https://raw.githubusercontent.com/emiloberg/node-red-contrib-mopidy/master/docs/play_kitchen.png)
 
 This module enables you to control your [Mopidy](https://www.mopidy.com/) servers from [Node-RED](http://nodered.org/). This means that you - from Node-RED - can play all kinds of music, be it files on disk or streamed from Spotify, SoundCloud, Google Play Music or others.
 
@@ -26,8 +26,12 @@ Possible use cases:
 
 ```
 cd $HOME/.node-red
-npm install node-red-contrib-advanced-mopidy
+npm install node-red-contrib-mopidy
 ```
+
+## Version 2
+
+With version 2.0.0, this module was _completely_ rebuilt, based on the idea of the v0.9.0 proof of concept. [Laurence](https://github.com/helgrind) gracefully transfered the npm namespace `node-red-contrib-mopidy` to this new module. See the [CHANGELOG](https://github.com/emiloberg/node-red-contrib-mopidy/blob/master/CHANGELOG.md) for access to older versions.
     
 ## Nodes
 There are 2 nodes included in this package; _mopidy-out_ and _mopidy-in_. The _out_ node allows you to send a message to a Mopidy server (like "_Run playlist: Afternoon tea_"). The _in_ node allows you to listen to changes on a Mopidy server (like "_Stream Title Changed_").
@@ -35,11 +39,11 @@ There are 2 nodes included in this package; _mopidy-out_ and _mopidy-in_. The _o
 ## Mopidy-out
 The Mopidy-out node is your way of sending commands ("play this", "add that", "mute", "create a new playlist", etc) to a Mopidy server. When configuring a Mopidy-out node you can browse all possible actions:
 
-![Screenshot: Configure Mopidy-out node](https://raw.githubusercontent.com/emiloberg/node-red-contrib-advanced-mopidy/master/docs/out_setvolume.png)
+![Screenshot: Configure Mopidy-out node](https://raw.githubusercontent.com/emiloberg/node-red-contrib-mopidy/master/docs/out_setvolume.png)
 
 A Mopidy-out node will run on any input. As the Mopidy-out node always send an output, this means that you can chain nodes. The example below will first clear all tracks in the tracklist, then add a track (in this case a URL to a Swedish web radio), and finally press play.
 
-![Screenshot: Chained Mopidy-out commands](https://raw.githubusercontent.com/emiloberg/node-red-contrib-advanced-mopidy/master/docs/inject-clear-add-play.png)
+![Screenshot: Chained Mopidy-out commands](https://raw.githubusercontent.com/emiloberg/node-red-contrib-mopidy/master/docs/inject-clear-add-play.png)
 
 ```
 [{"id":"891849ea.76e7b8","type":"mopidy-config","name":"My Local Server","host":"localhost","port":"6680"},{"id":"b7a1752c.485e88","type":"mopidy-out","name":"","server":"891849ea.76e7b8","params":"{}","method":"tracklist.clear","x":581,"y":253,"z":"6e174afa.91e8b4","wires":[["69fdd828.960228"]]},{"id":"205ce862.dfa318","type":"inject","name":"Play","topic":"","payload":"","payloadType":"date","repeat":"","crontab":"","once":false,"x":431,"y":253,"z":"6e174afa.91e8b4","wires":[["b7a1752c.485e88"]]},{"id":"69fdd828.960228","type":"mopidy-out","name":"","server":"891849ea.76e7b8","params":"{\"tracks\":\"\",\"at_position\":\"\",\"uri\":\"http://http-live.sr.se/p1-mp3-128\",\"uris\":\"\"}","method":"tracklist.add","x":744,"y":253,"z":"6e174afa.91e8b4","wires":[["1f1c6aa0.e0e395"]]},{"id":"1f1c6aa0.e0e395","type":"mopidy-out","name":"","server":"891849ea.76e7b8","params":"{\"tl_track\":\"\",\"tlid\":\"\"}","method":"playback.play","x":905,"y":253,"z":"6e174afa.91e8b4","wires":[[]]}]
@@ -66,11 +70,11 @@ Typically you will set the server host/port, the method (e.g. `setVolume`) and p
 #### Example:
 Here's a flow which will listen to a http request on `/<serverId>/play` and when that URL is requested it will translate the serverId to data sent into the Mopidy-out node which will play the music.
 
-![Screenshot: HTTP Function with Mopidy](https://raw.githubusercontent.com/emiloberg/node-red-contrib-advanced-mopidy/master/docs/http-function-mopidy.png)
+![Screenshot: HTTP Function with Mopidy](https://raw.githubusercontent.com/emiloberg/node-red-contrib-mopidy/master/docs/http-function-mopidy.png)
 
 The (orange) function looks like this:
 
-![Screenshot: HTTP Function with Mopidy - Function](https://raw.githubusercontent.com/emiloberg/node-red-contrib-advanced-mopidy/master/docs/http-function-mopidy_function.png)
+![Screenshot: HTTP Function with Mopidy - Function](https://raw.githubusercontent.com/emiloberg/node-red-contrib-mopidy/master/docs/http-function-mopidy_function.png)
 
 Flow:
 
@@ -113,7 +117,7 @@ If a host and/or port is sent in to a Mopidy-out node, the same host/port is sen
 
 ## Mopidy-in
 
-![Screenshot: Mopidy-in node](https://raw.githubusercontent.com/emiloberg/node-red-contrib-advanced-mopidy/master/docs/in-serial.png)
+![Screenshot: Mopidy-in node](https://raw.githubusercontent.com/emiloberg/node-red-contrib-mopidy/master/docs/in-serial.png)
 
 The Mopidy-**in** node will listen to event sent by a Mopidy server and relay them to Node-RED. This way you can do stuff like update a LED screen when the track changes.
 
