@@ -1,5 +1,7 @@
 # node-red-contrib-mopidy changelog
 
+## 2.0.1
+Fixed bug where mopidy-out couldn't find methods if Node-RED was configured to show the admin interface anywhere else then on the root of the server (`httpAdminRoot` was set in Node-RED's `settings.js`).
 
 ## 2.0.0
 Based on the idea of the v0.9.0 proof of concept but completely rebuilt to a full-fledged configurable module. Version number bumped to 2.x (and not 1.x) to denote that this is a complete rebuild and not a stable version of the 0.9.0 release.

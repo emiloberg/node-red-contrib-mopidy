@@ -212,7 +212,7 @@
                 $('.js-mopidy-waiting').show();
                 $('.jq-mopidy-show-when-loaded').hide();
 
-                var jqXHR = $.ajax('/mopidy/' + serverNodeId + '/methods', {
+                var jqXHR = $.ajax('mopidy/' + serverNodeId + '/methods', {
                     type: 'GET'
                 });
 
