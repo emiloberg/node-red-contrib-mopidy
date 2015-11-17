@@ -20,6 +20,10 @@ module.exports = function(RED) {
 			readyState: false
 		};
 
+		this.on('close', () => {
+			this.servers.remove({ id: this.mopidyServer.id });
+		});
+
 		if (!this.serverNode) {
 			return;
 		}
